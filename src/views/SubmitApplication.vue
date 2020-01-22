@@ -56,13 +56,17 @@ export default {
     ...mapState(['application', 'recommendations', 'attachments']),
 
     errorsAndWarnings() {
-      return this.rules.map(r => r()).filter(r => (r.error));
+      const someErrors = this.commonRules.map(r => r()).filter(r => (r.error));
+
+      if (this.application.juniorCounselor) return someErrors;
+
+      return someErrors.concat(this.rules.map(r => r()).filter(r => (r.error)));
     },
   },
 
   data() {
     return {
-      rules: [
+      commonRules: [
 	() => !!this.application.firstName || { error: 'A first name is required.', to: '/apply/background' },
 	() => (this.application.firstName && this.application.firstName.match(/[A-z]/)) || { error: 'Your first name must include letters.', to: '/apply/background' },
 	() => !!this.application.lastName || { error: 'A last name is required.', to: '/apply/background' },
@@ -81,12 +85,15 @@ export default {
 
 	() => (this.application.nativeEnglish || (Object.values(this.attachments).filter(x => x.label === 'toefl').length > 0)) || { error: 'If your native language is not English, you should submit TOEFL documentation.', severity: 'warning', to: '/apply/background' },
 
-
 	() => !!this.application.parentName || { error: 'The name of a parent or guardian is required.', to: '/apply/parent' },
 	() => !!this.application.parentPhone || { error: 'A phone number for a parent or guardian is required.', to: '/apply/parent' },
 	() => !!this.application.parentEmail || { error: 'An email address for a parent or guardian is required.', to: '/apply/parent' },
 	() => !!this.application.parentAddress || { error: 'You have not included a residential address for a parent or guardian.', to: '/apply/parent', severity: 'warning' },
 
+	() => (Object.values(this.attachments).filter(x => x.label === 'transcript').length > 0) || { error: 'You did not submit a high school transcript.', to: '/apply/transcript' },
+      ],
+
+      rules: [
 	() => !!this.application.personalStatement || { error: 'You have not included a personal statement.', to: '/apply/statement' },
 
 	() => !!this.application.interestingProblem || { error: 'You did not describe an interesting problem you have worked on.', severity: 'warning', to: '/apply/essays' },
@@ -101,11 +108,8 @@ export default {
 
 	() => (this.application.personalStatement && this.application.personalStatement.length > 250) || { error: 'Your personal statement is short.', to: '/apply/statement', severity: 'warning' },
 
-	() => (this.recommendations && (Object.keys(this.recommendations).length > 0)) || { error: 'You have not requested a recommendation.', to: '/apply/recommendation' },
-
 	() => (this.recommendations && (Object.values(this.recommendations).some(r => (r.submittedAt)))) || { error: 'A recommendation letter has not yet been received.', severity: 'warning', to: '/apply/recommendation' },
-
-	() => (Object.values(this.attachments).filter(x => x.label === 'transcript').length > 0) || { error: 'You did not submit a high school transcript.', to: '/apply/transcript' },
+	() => (this.recommendations && (Object.keys(this.recommendations).length > 0)) || { error: 'You have not requested a recommendation.', to: '/apply/recommendation' },
 
 	() => (Object.values(this.attachments).filter(x => x.label === 'solution1').length > 0) || { error: 'You did not submit a solution to Problem 1.', severity: 'warning', to: '/apply/solutions' },
 	() => (Object.values(this.attachments).filter(x => x.label === 'solution2').length > 0) || { error: 'You did not submit a solution to Problem 2.', severity: 'warning', to: '/apply/solutions' },

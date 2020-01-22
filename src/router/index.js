@@ -5,6 +5,7 @@ import Signup from '../views/Signup.vue';
 import Apply from '../views/Apply.vue';
 import Background from '../views/Background.vue';
 import Essays from '../views/Essays.vue';
+import JCEssays from '../views/JCEssays.vue';
 import Login from '../views/Login.vue';
 import ParentInformation from '../views/ParentInformation.vue';
 import PersonalStatement from '../views/PersonalStatement.vue';
@@ -41,6 +42,11 @@ const routes = [
     path: '/apply/essays',
     name: 'essays',
     component: Essays,
+  },
+  {
+    path: '/apply/jc-essays',
+    name: 'jc-essays',
+    component: JCEssays,
   },
   {
     path: '/apply/background',

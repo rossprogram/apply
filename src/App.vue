@@ -70,7 +70,7 @@
         nav
       >
         <v-list-item
-          v-for="item in items"
+          v-for="item in (application.juniorCounselor ? jcItems : items)"
           :key="item.title"
 	  :to="item.to"
           link
@@ -105,61 +105,94 @@ export default {
 name: 'App',
   computed: {
     ...mapState(['profile']),
+    ...mapState(['application']),
   },
 
   components: {
     Snackbar,
   },
   data() {
-return {
-drawer: true,
-items: [
-{
- title: 'Background',
-icon: 'person',
-to: '/apply/background',
-},
-{
- title: 'Parent Information',
-icon: 'supervisor_account',
-to: '/apply/parent',
-},
-{
- title: 'Personal Statement',
-icon: 'face',
-to: '/apply/statement',
-},
-{
- title: 'Short Essays',
-icon: 'message',
-to: '/apply/essays',
-},
-{
- title: 'Solutions',
-icon: 'assignment',
-to: '/apply/solutions',
-},
-{
- title: 'Transcript',
-icon: 'school',
-to: '/apply/transcript',
-},
-{
- title: 'Recommendation',
-icon: 'mail',
-to: '/apply/recommendation',
-},
-{
- title: 'Attachments',
-icon: 'attachment',
-to: '/apply/attachments',
-},
-{
- title: 'Submit',
-icon: 'done',
-to: '/apply/submit',
-},
-],
+    return {
+      drawer: true,
+      jcItems: [
+	{
+	  title: 'Background',
+	  icon: 'person',
+	  to: '/apply/background',
+	},
+	{
+	  title: 'Parent Information',
+	  icon: 'supervisor_account',
+	  to: '/apply/parent',
+	},
+	{
+	  title: 'Transcript',
+	  icon: 'school',
+	  to: '/apply/transcript',
+	},
+	{
+	  title: 'JC Essays',
+	  icon: 'message',
+	  to: '/apply/jc-essays',
+	},
+	{
+	  title: 'Attachments',
+	  icon: 'attachment',
+	  to: '/apply/attachments',
+	},
+	{
+	  title: 'Submit',
+	  icon: 'done',
+	  to: '/apply/submit',
+	},
+      ],
+      items: [
+	{
+	  title: 'Background',
+	  icon: 'person',
+	  to: '/apply/background',
+	},
+	{
+	  title: 'Parent Information',
+	  icon: 'supervisor_account',
+	  to: '/apply/parent',
+	},
+	{
+	  title: 'Personal Statement',
+	  icon: 'face',
+	  to: '/apply/statement',
+	},
+	{
+	  title: 'Short Essays',
+	  icon: 'message',
+	  to: '/apply/essays',
+	},
+	{
+	  title: 'Solutions',
+	  icon: 'assignment',
+	  to: '/apply/solutions',
+	},
+	{
+	  title: 'Transcript',
+	  icon: 'school',
+	  to: '/apply/transcript',
+	},
+	{
+	  title: 'Recommendation',
+	  icon: 'mail',
+	  to: '/apply/recommendation',
+	},
+	{
+	  title: 'Attachments',
+	  icon: 'attachment',
+	  to: '/apply/attachments',
+	},
+	{
+	  title: 'Submit',
+	  icon: 'done',
+	  to: '/apply/submit',
+	},
+      ],
       publicPath: process.env.BASE_URL,
     };
   },
