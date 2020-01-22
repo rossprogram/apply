@@ -167,6 +167,33 @@
 		    ></v-select>
 		</v-flex>
 	    </v-layout>
+
+	    <v-divider class="mr-4 mt-6"/>
+
+	    <v-layout  wrap>
+	      <v-flex xs12 md12>
+		<v-checkbox
+		  v-model="juniorCounselor"
+		  label="As a returning student, I wish to be considered to be a Junior Counselor"
+		  ></v-checkbox>
+	      </v-flex>
+	    </v-layout>
+
+	    <v-layout  wrap v-if="updatedApplication.juniorCounselor || juniorCounselor">
+	      <v-flex xs12 md12>
+		  <v-select
+		    v-model="previousParticipationYears"
+		    hint="Previous years in which I attended the Ross Program"
+		    :items="recentYears"
+		    label="Previous attendance years"
+		    multiple
+		    prepend-icon="history"
+		    single-line
+		    persistent-hint
+		    ></v-select>
+		</v-flex>
+	    </v-layout>
+
 	  </v-card-text>
     </v-card></v-col></v-row>
 
@@ -432,9 +459,17 @@ export default {
       get() { return this.application.nativeEnglish; },
       set(v) { this.$set(this.updatedApplication, 'nativeEnglish', v); },
     },
+    juniorCounselor: {
+      get() { return this.application.juniorCounselor; },
+      set(v) { this.$set(this.updatedApplication, 'juniorCounselor', v); },
+    },
     previousApplicationYears: {
       get() { return this.application.previousApplicationYears; },
       set(v) { this.$set(this.updatedApplication, 'previousApplicationYears', v.sort()); },
+    },
+    previousParticipationYears: {
+      get() { return this.application.previousParticipationYears; },
+      set(v) { this.$set(this.updatedApplication, 'previousParticipationYears', v.sort()); },
     },
     citizenship: {
       get() { return this.application.citizenship; },
