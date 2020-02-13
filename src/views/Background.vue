@@ -95,7 +95,7 @@
   </v-menu>
   <v-select
     v-model="graduationYear"
-    hint="The year in which I expect to earn a high school diploma"
+    hint="The year in which I have earned or expect to earn a high school diploma"
     :items="upcomingYears"
     label="High school graduation year"
     single-line
@@ -485,7 +485,7 @@ export default {
       birthdayMenu: null,
       updatedApplication: {},
 key: 1,
-upcomingYears: ([...Array(20).keys()].map(x => (x + new Date().getFullYear()))),
+upcomingYears: ([...Array(25).keys()].map(x => (x + new Date().getFullYear() - 5))),
 recentYears: ([...Array(10).keys()].map(x => (new Date().getFullYear() - x - 1))),
 countries:
 [
