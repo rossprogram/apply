@@ -21,7 +21,7 @@
   </v-card></v-col></v-row>
   <v-row v-if="errorsAndWarnings.filter( r => (r.severity !== 'warning') ).length == 0"><v-col><v-card>
 	<v-card-title>Submit your application</v-card-title>
-	<v-card-subtitle>When you have submitted all the material you would like the Admissions Committee to evaluate, you may submit your application below.  You do <strong>not</strong> have to wait for your recommendation letter to be received before you submit your application.</v-card-subtitle>
+	<v-card-subtitle>When you have submitted all the material you would like the Admissions Committee to evaluate, you may submit your application below.  You do <strong>not</strong> have to wait for your recommendation letter to be received before you submit your application.  After you submit your application, you may view your submitted materials using the menu on the left.</v-card-subtitle>
 	<v-card-text v-if="!application.submitted">
 	  <v-btn @click="submitApplication" color="primary">Submit your application</v-btn>
 	</v-card-text>
@@ -33,7 +33,7 @@
 
   <v-row v-if="application.submitted"><v-col><v-card>
 	<v-card-title>Withdraw your application</v-card-title>
-	<v-card-subtitle>If you wish to change your application, you must first withdraw it from consideration.  <strong>This will not erase your application.</strong> Once you have made any desired changes, you may submit your application again.</v-card-subtitle>
+	<v-card-subtitle>If you wish to change your application, you must first withdraw it from consideration.  <strong>This will not erase any part of your application.</strong> Once you have made any desired changes, you may re-submit your application.</v-card-subtitle>
 	<v-card-text>
 	  <v-btn color="error" @click="withdrawApplication">Withdraw your application</v-btn>
 	</v-card-text>
