@@ -113,14 +113,14 @@
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-model="applyingToUSA"
-		  label="I want my application to be considered for Ross/USA"
+		  label="I want my application to be considered for Ross/Ohio"
 		  ></v-checkbox>
 	      </v-flex>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-if="updatedApplication.applyingToUSA || applyingToUSA"
 		  v-model="arriveAtStartUSA"
-		  label="I will be able to arrive at Ross/USA on June 21, 2020"
+		  label="I will be able to arrive at Ross/Ohio on June 21, 2020"
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
@@ -128,14 +128,14 @@
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-model="applyingToAsia"
-		  label="I want my application to be considered for Ross/Asia"
+		  label="I want my application to be considered for Ross/Indiana"
 		  ></v-checkbox>
 	      </v-flex>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-if="updatedApplication.applyingToAsia || applyingToAsia"
 		  v-model="arriveAtStartAsia"
-		  label="I will be able to arrive at Ross/Asia on July 5, 2020"
+		  label="I will be able to arrive at Ross/Indiana on June 28, 2020"
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
@@ -144,7 +144,7 @@
 		  <v-select
 		    v-model="preferredLocation"
 		    hint="If admitted to both programs, the location I would prefer"
-		    :items="['Ross/USA', 'Ross/Asia', 'No preference']"
+		    :items="['Ohio', 'Indiana', 'No preference']"
 		    label="Location preference"
 		    prepend-icon="label_important"
 		    single-line
