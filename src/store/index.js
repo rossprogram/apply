@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     version,
     profile: null,
     application: {},
+    offer: {},
     recommendations: {},
     attachments: {},
     snackbar: { snack: '' },
@@ -34,6 +35,10 @@ const store = new Vuex.Store({
 
     setProfile(state, user) {
       state.profile = user;
+    },
+
+    setOffer(state, data) {
+      state.offer = data;
     },
 
     setApplication(state, data) {
@@ -113,6 +118,33 @@ const store = new Vuex.Store({
             dispatch('alertError', error, { root: true });
           },
         );
+    },
+
+    getOffer({ dispatch, commit }) {
+      userService.getOffer().then(
+        (response) => {
+          if (response.status === 200) {
+            commit('setOffer', response.data);
+          }
+        },
+        (error) => {
+          dispatch('alertError', error, { root: true });
+        },
+      );
+    },
+
+    updateOffer({ dispatch, commit }, data) {
+      userService.putOffer(data).then(
+        (response) => {
+          if (response.status === 200) {
+            commit('setOffer', response.data);
+            dispatch('alertSuccess', 'Response provided.');
+          }
+        },
+        (error) => {
+          dispatch('alertError', error, { root: true });
+        },
+      );
     },
 
     getApplication({ dispatch, commit }) {

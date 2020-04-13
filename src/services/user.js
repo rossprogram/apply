@@ -19,6 +19,14 @@ export default {
     });
   },
 
+  async getOffer() {
+    return axios.get(`/users/me/application/${new Date().getFullYear()}/offer`);
+  },
+
+  async putOffer(data) {
+    return axios.put(`/users/me/application/${new Date().getFullYear()}/offer`, data);
+  },
+
   async putApplication(id, data) {
     return axios.put(`/users/${id}/application/${new Date().getFullYear()}`, data);
   },
