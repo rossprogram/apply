@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Signup from '../views/Signup.vue';
 import Apply from '../views/Apply.vue';
+import Status from '../views/Status.vue';
 import Background from '../views/Background.vue';
 import Essays from '../views/Essays.vue';
 import JCEssays from '../views/JCEssays.vue';
@@ -37,6 +38,11 @@ const routes = [
     path: '/apply',
     name: 'apply',
     component: Apply,
+  },
+  {
+    path: '/status',
+    name: 'status',
+    component: Status,
   },
   {
     path: '/apply/essays',
