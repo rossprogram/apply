@@ -74,13 +74,14 @@
 <h3>Plans for the 2020 Ross Program</h3>
 
 <h4>Ross Number Theory Course</h4>
-<p>During those six weeks, you will be part of a Ross “family” of 4 or 5 students and a junior-counselor, led by a counselor. Before each family meeting, you will view a pre-recorded lecture about some aspect of Number Theory, and then work on an associated set of problems. Your family will then have a live session for an hour, using an audio connection and a common virtual whiteboard. During that meeting, you will discuss the math problems with family members, occasionally writing or typing your thoughts on the whiteboard. After the session ends, you will work on solving the problems on that set, writing up solutions, and emailing the resulting PDF to your counselor. Your counselor will read your work and provide corrections, comments, and suggestions.</p>
+<p>During those six weeks, you will be part of a Ross “family” of 4 or 5 students and a junior-counselor, led by a counselor. Before each family meeting, you will view a pre-recorded lecture about some aspect of Number Theory, and then work on an associated set of problems. Your family will then have a live session for an hour, using an audio connection and a common virtual whiteboard. During that meeting, you will discuss the math problems with family members, occasionally writing or typing your thoughts on the whiteboard. After the session ends, you will work on solving the problems on that set, writing up solutions, and sharing your solutions with your counselor. Your counselor will read your work and provide corrections, comments, and suggestions.</p>
 
 <h4>Responses to FAQs</h4>
 <ul>
     <li>Each Ross counselor is an undergraduate math major or a math graduate student with experience in abstract algebra and number theory. Math faculty members will occasionally join your family meetings.</li>
     <li>We avoid video connections for family discussions because of latency issues. With some family members in Asia and others are in North America, the time delays involved with videos would be difficult to manage.</li>
     <li>To join these discussions, you will need a good internet connection and a computer running Windows, MacOS, or Linux. You may type on the whiteboard in text (or LaTeX) to clarify your spoken words. If you connect with a tablet and stylus, you should be able to write by hand on the whiteboard.</li>
+    <li>You will submit daily homework by typing your solutions in LaTeX.  If you are not already familiar with LaTeX, we will provide training.  The collaborative editor will make it easy.</li>
     <li>Your computer needs a microphone and speakers. Standard laptop computers have those built in, but external mics and earphones might provide better quality communication. Conneccting only with a phone might not make sense.</li>
     <li>All discussions will be in English.</li>
 </ul>
@@ -130,7 +131,8 @@ related fields.</p>
   <div v-if="! this.offer">
     <p>Unfortunately, the Admissions Committee is still evaluating applications.  We expect to have more information by April 20.</p>
   </div>
-  <p>If you have questions about the admissions process, please contact
+  <p>Please make sure you "log in" to access this page.  (You may need to log out first.)</p>
+  <p>If you have questions about the admissions process or any trouble using this page, please contact
 <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a>.</p>
 </v-form>
 </template>
