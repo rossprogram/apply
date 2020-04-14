@@ -65,7 +65,9 @@
 
 <p>Please let us know whether you accept a spot in the online 2020 Ross Program.</p>
 
-<p>Your acceptance indicates that you will be available for daily online meetings at specified times, you have a suitable computer and internet connection, and you agree to pay the program fee. Further details are provided below.</p>
+<p>Your acceptance indicates that you will be available for daily online meetings at specified times, you have a suitable computer and internet connection, and you agree to pay the program fee. Further details are provided below.  A cell phone is not sufficient; you must have a computer running Windows, MacOS, or Linux to participate.</p>
+
+<p>An email will be sent in early May requesting additional information, a parental approval form, instructions for payment and scholarship requests.</p>
 
 <hr/>
 
@@ -104,19 +106,19 @@
   <div v-if="this.offer && (this.offer.offer === 'waitlist' || this.offer.offer === 'reject')">
 <p>Thanks for applying to the Ross Mathematics Program.</p>
 <p>The Ross Program application process is highly competitive, and our
-Admissions Committee has to make difficult choices.  They decided that
+Admissions Committee has to make difficult choices.  They decided that
 we are not able to accept you to the Ross Program this year.</p>
 
 <p>These are hard decisions to make and it is painful to me to write
-negative messages like this, to talented and eager applicants.  You
+negative messages like this, to talented and eager applicants.  You
 clearly spent some effort working on this application, with good
-solutions to some of the application problem.  However, many students
+solutions to some of the application problem.  However, many students
 submitted strong applications and we do not have enough room to accept
   them all.</p>
 
   <div v-if="this.offer.offer === 'waitlist'">
 <p>Since your application has positive aspects, we have put your name on
-the <strong>Waiting List</strong> for the  Ross Program.  If some spots are still
+the <strong>Waiting List</strong> for the  Ross Program.  If some spots are still
 available by the end of the season, we will contact you
 again to ask whether you are still interested.</p></div>
 
@@ -125,7 +127,7 @@ related fields.</p>
 
   </div>
 
-  <div v-else>
+  <div v-if="! this.offer">
     <p>Unfortunately, the Admissions Committee is still evaluating applications.  We expect to have more information by April 20.</p>
   </div>
   <p>If you have questions about the admissions process, please contact
