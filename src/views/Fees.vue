@@ -150,8 +150,6 @@ export default {
       userService.postPayment(details)
 	.then((response) => {
 	  const { clientSecret } = response.data;
-	  console.log(this.source);
-
 	  stripe.confirmCardPayment(clientSecret, {
 	    payment_method: {
 	      card: { token: this.source.id },
@@ -178,8 +176,6 @@ export default {
 	.catch((error) => {
 	  this.processing = false;
 	  this.message = 'Error processing payment.';
-	  // handle error
-	  console.log(error);
 	});
     },
   },
