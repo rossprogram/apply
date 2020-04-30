@@ -173,7 +173,7 @@ export default {
 
 	  this.getPayments();
 	})
-	.catch((error) => {
+	.catch(() => {
 	  this.processing = false;
 	  this.message = 'Error processing payment.';
 	});
