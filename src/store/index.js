@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     offer: {},
     recommendations: {},
     attachments: {},
+    payments: [],
     snackbar: { snack: '' },
   },
 
@@ -39,6 +40,10 @@ const store = new Vuex.Store({
 
     setOffer(state, data) {
       state.offer = data;
+    },
+
+    setPayments(state, data) {
+      state.payments = data;
     },
 
     setApplication(state, data) {
@@ -119,6 +124,20 @@ const store = new Vuex.Store({
           },
         );
     },
+
+    getPayments({ dispatch, commit }) {
+      userService.getPayments().then(
+        (response) => {
+          if (response.status === 200) {
+            commit('setPayments', response.data);
+          }
+        },
+        (error) => {
+          dispatch('alertError', error, { root: true });
+        },
+      );
+    },
+
 
     getOffer({ dispatch, commit }) {
       userService.getOffer().then(

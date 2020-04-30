@@ -11824,6 +11824,16 @@ uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
 
+v-currency-field@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/v-currency-field/-/v-currency-field-3.0.7.tgz#18d5b37a4c9659e17a33662d9cabdc378fa4ede5"
+  integrity sha512-fFAv77DxqAeDYkCC5XQYE+gpPTbWoOe5DGGkuCX7yACWGRJ7gsEV0DwkXJKXWgTKLP3ruEHvJhaEJJyFmDlcEw==
+
+v-stripe-elements@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/v-stripe-elements/-/v-stripe-elements-1.2.0.tgz#328b4191c77543ad7835c0947b67160130f69537"
+  integrity sha512-bRiL2z4zq9vH4VxX9tRu29eRZgYHgAH/NCXO/ldCOvjkRJViP3g1CvNf8cC9lDsHuHeEtFBCPNIhYh3k5ny0Rg==
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"

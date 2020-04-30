@@ -19,6 +19,14 @@ export default {
     });
   },
 
+  async getPayments() {
+    return axios.get('/users/me/payments');
+  },
+
+  async postPayment(data) {
+    return axios.post('/users/me/payments', data);
+  },
+
   async getOffer() {
     return axios.get(`/users/me/application/${new Date().getFullYear()}/offer`);
   },

@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Signup from '../views/Signup.vue';
 import Apply from '../views/Apply.vue';
 import Status from '../views/Status.vue';
+import Fees from '../views/Fees.vue';
 import Background from '../views/Background.vue';
 import Essays from '../views/Essays.vue';
 import JCEssays from '../views/JCEssays.vue';
@@ -43,6 +44,11 @@ const routes = [
     path: '/status',
     name: 'status',
     component: Status,
+  },
+  {
+    path: '/fees',
+    name: 'fees',
+    component: Fees,
   },
   {
     path: '/apply/essays',
