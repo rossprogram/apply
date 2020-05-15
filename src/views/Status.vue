@@ -1246,7 +1246,6 @@ export default {
     ]),
 
     saveOffer() {
-      console.log(this.updatedOffer);
       return this.updateOffer(this.updatedOffer);
     },
 
