@@ -24,7 +24,7 @@ export default {
   },
 
   async postPayment(data) {
-    return axios.post('/users/me/payments', data);
+    return axios.post(`/users/me/payments/${data.amount}`);
   },
 
   async getOffer() {
