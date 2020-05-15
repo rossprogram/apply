@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row><v-col><v-card>
 	    <v-card-title>Make credit card payment</v-card-title>
-	    <v-card-subtitle>You may pay the Program Fees or make a donation to the Ross Mathematics Foundation.</v-card-subtitle>
+	    <v-card-subtitle>You may pay the Program Fees to the Ross Mathematics Foundation.  Your remaining balance is ${{ ( (100000 - this.totalPaid) / 100).toFixed(2) }}.</v-card-subtitle>
 	    <v-card-text>
 	      <v-layout wrap>
 	      <v-layout wrap>
@@ -72,10 +72,11 @@
 		</v-list-item-icon>
 		<v-list-item-content>
 		  <v-list-item-title>
-		    <span v-if="payment.succeeded === true">Paid</span>
+		    <span v-if="payment.scholarship === true">Scholarship awarded totaling</span>
+		    <span v-else-if="payment.succeeded === true">Paid</span>
 		    <span v-else-if="payment.processing">Payment in progress for</span>
 		    <span v-else-if="payment.succeeded === false">Canceled payment for</span>
-		    <span v-else>Canceled payment for</span>
+		    <span v-else>Pending payment for</span>
 		    ${{ (payment.amount / 100).toFixed(2) }} on {{ payment.createdAt | moment("MM-DD-YYYY") }}</v-list-item-title>
 		</v-list-item-content>
 	      </v-list-item>
