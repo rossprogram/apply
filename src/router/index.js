@@ -16,6 +16,7 @@ import Attachments from '../views/Attachments.vue';
 import Solutions from '../views/Solutions.vue';
 import Transcript from '../views/Transcript.vue';
 import SubmitApplication from '../views/SubmitApplication.vue';
+import store from '../store';
 
 Vue.use(VueRouter);
 
@@ -44,11 +45,17 @@ const routes = [
     path: '/status',
     name: 'status',
     component: Status,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/fees',
     name: 'fees',
     component: Fees,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/apply/essays',
@@ -106,6 +113,18 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.state.profile) {
+      next();
+      return;
+    }
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 export default router;
