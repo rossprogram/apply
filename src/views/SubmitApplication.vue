@@ -17,11 +17,19 @@
 	</v-list-item>
 	<v-card-text v-if="errorsAndWarnings.filter( r => (r.severity !== 'warning') ).length > 0">
 	  <p>Before you can submit your application, you must fix the errors listed above.</p>
-	</v-card-text>
+	  <p>These errors have prevented you from being able to submit your application. A comment will state what required information is missing. Warnings are suggestions for improving your application, but will not block the submission.</p>
+	  <p>You do <strong>not</strong> have to wait for your recommendation letter to be received before you submit your application.</p>
+	  </v-card-text>
   </v-card></v-col></v-row>
   <v-row v-if="errorsAndWarnings.filter( r => (r.severity !== 'warning') ).length == 0"><v-col><v-card>
 	<v-card-title>Submit your application</v-card-title>
-	<v-card-subtitle>When you have submitted all the material you would like the Admissions Committee to evaluate, you may submit your application below.  You do <strong>not</strong> have to wait for your recommendation letter to be received before you submit your application.  After you submit your application, you may view your submitted materials using the menu on the left.</v-card-subtitle>
+	<v-card-subtitle><p>When you have submitted all the material you would like the Admissions Committee to evaluate, you may submit your application below.</p>
+	  <p>You do <strong>not</strong> have to wait for your recommendation letter to be received before you submit your application.</p>
+	  <p>After you click the blue &ldquo;Submit your Application&rdquo; button, the system might respond with a list of Errors and Warnings. Errors will stop your submission. A comment will state what required information is missing. Warnings are suggestions for improving your application, but will not block the submission.</p>
+	  <p>After your application has been submitted successfully, you may view (but not change) your submitted materials using the menu on the left.</p>
+	  <p>The red &ldquo;Withdraw your Application&rdquo; button allows you to undo your submission.  All materials you typed and uploaded will remain, allowing you to edit those materials as you choose. Then you may click &ldquo;Submit your Application&rdquo; as before.</p>
+	  <p><strong>Note:</strong>  Applications that are submitted in late March (close to the deadline) may not be reviewed as carefully as those submitted earlier.  So it is better to avoid the Withdraw and Re-submit process at that time, unless you are making significant changes.  If you do make late changes in your file, please alert the Committee with an email to <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a>.</p>
+</v-card-subtitle>
 	<v-card-text v-if="!application.submitted">
 	  <v-btn @click="submitApplication" color="primary">Submit your application</v-btn>
 	</v-card-text>
@@ -94,19 +102,18 @@ export default {
       ],
 
       rules: [
-	() => !!this.application.personalStatement || { error: 'You have not included a personal statement.', to: '/apply/statement' },
+	() => !!this.application.personalStatement || (Object.values(this.attachments).filter(x => x.label === 'statement').length > 0) || { error: 'You have not included a personal statement.', to: '/apply/statement' },
 
-	() => !!this.application.interestingProblem || { error: 'You did not describe an interesting problem you have worked on.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.interestingProjects || { error: 'You did not describe an interesting project you have worked on.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.competitions || { error: 'You did not describe your experience with mathematical competitions.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.otherPrograms || { error: 'You did not describe your participation in any other programs.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.books || { error: 'You did not describe your favorite books and websites.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.intendedMajor || { error: 'You did not describe your intended major and career.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.collaboration || { error: 'You did not describe your experiences with collaboration.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.otherCourses || { error: 'You did not describe your prior coursework in mathematics.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.eager || { error: 'You did not share your thoughts about being away from home.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.interestingProblem || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe an interesting problem you have worked on.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.interestingProjects || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe an interesting project you have worked on.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.otherPrograms || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your participation in any other programs.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.books || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your favorite books and websites.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.intendedMajor || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your intended major and career.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.collaboration || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your experiences with collaboration.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.otherCourses || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your prior coursework in mathematics.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.eager || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not share your thoughts about being away from home.', severity: 'warning', to: '/apply/essays' },
 
-	() => (this.application.personalStatement && this.application.personalStatement.length > 250) || { error: 'Your personal statement is short.', to: '/apply/statement', severity: 'warning' },
+	() => (Object.values(this.attachments).filter(x => x.label === 'statement').length > 0) || (this.application.personalStatement && this.application.personalStatement.length > 250) || { error: 'Your personal statement is short.', to: '/apply/statement', severity: 'warning' },
 
 	() => (this.recommendations && (Object.values(this.recommendations).some(r => (r.submittedAt)))) || { error: 'A recommendation letter has not yet been received.', severity: 'warning', to: '/apply/recommendation' },
 	() => (this.recommendations && (Object.keys(this.recommendations).length > 0)) || { error: 'You have not requested a recommendation.', to: '/apply/recommendation' },

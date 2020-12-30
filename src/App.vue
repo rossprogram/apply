@@ -73,6 +73,7 @@
           v-for="item in (application.juniorCounselor ? jcItems : items)"
           :key="item.title"
 	  :to="item.to"
+	  :exact="true"
           link
         >
           <v-list-item-icon>
@@ -116,6 +117,11 @@ name: 'App',
       drawer: true,
       jcItems: [
 	{
+	  title: 'Instructions',
+	  icon: 'grading',
+	  to: '/apply/',
+	},
+	{
 	  title: 'Background',
 	  icon: 'person',
 	  to: '/apply/background',
@@ -147,6 +153,11 @@ name: 'App',
 	},
       ],
       items: [
+	{
+	  title: 'Instructions',
+	  icon: 'grading',
+	  to: '/apply/',
+	},
 	{
 	  title: 'Background',
 	  icon: 'person',
