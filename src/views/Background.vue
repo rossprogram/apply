@@ -106,25 +106,25 @@
     </v-card></v-col></v-row>
 
     <v-row><v-col><v-card>
-	  <v-card-title>Programs</v-card-title>
-	  <v-card-subtitle>Which Program are you applying to?  You may apply to one or both programs.</v-card-subtitle>
+	  <v-card-title>Online Program</v-card-title>
+	  <v-card-subtitle>Because of COVID-19, the Ross Program will again be held online.</v-card-subtitle>
 	  <v-card-text>
 	    <v-layout wrap>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-model="applyingToUSA"
-		  label="I want my application to be considered for Ross/Ohio"
+		  label="I want my application to be considered for the online program."
 		  ></v-checkbox>
 	      </v-flex>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-if="updatedApplication.applyingToUSA || applyingToUSA"
 		  v-model="arriveAtStartUSA"
-		  label="I will be able to arrive at Ross/Ohio on June 21, 2020"
+		  label="I will be able to attend all online sessions of the Ross Program, starting on Sunday, June 27, 2021."
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
-	    <v-layout  wrap>
+	    <!-- <v-layout  wrap>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-model="applyingToAsia"
@@ -151,7 +151,7 @@
 		    persistent-hint
 		    ></v-select>
 		</v-flex>
-	    </v-layout>
+	    </v-layout> -->
 
 	    <v-layout  wrap>
 	      <v-flex xs12 md12>
@@ -170,14 +170,6 @@
 
 	    <v-divider class="mr-4 mt-6"/>
 
-	    <v-layout  wrap>
-	      <v-flex xs12 md12>
-		<v-checkbox
-		  v-model="juniorCounselor"
-		  label="As a returning student, I wish to be considered to be a Junior Counselor"
-		  ></v-checkbox>
-	      </v-flex>
-	    </v-layout>
 
 	    <v-layout  wrap v-if="updatedApplication.juniorCounselor || juniorCounselor">
 	      <v-flex xs12 md12>
@@ -224,10 +216,10 @@
 		>
 		<v-textarea
 		  outlined
-		  label="Your current home address"
+		  label="Your current address"
 		  v-model="address"
 		  prepend-icon="home"
-		  hint="A residential address where you can receive mail"
+		  hint="The address where you are living during the academic year"
 		  ></v-textarea>
 	    </v-flex></v-layout>
 	    <v-divider class="mr-4"/>
@@ -251,10 +243,10 @@
 		>
 		<v-textarea
 		  outlined
-		  label="School address"
+		  label="Full school address"
 		  v-model="schoolAddress"
 		  prepend-icon="directions"
-		  hint="The location of the school you are presently attending.  Be sure to include the city."
+		  hint="The full mailing address of the school you are presently attending.  Be sure to include the city, state, country, etc."
 		  ></v-textarea>
 	    </v-flex></v-layout>
 	  </v-card-text>
@@ -293,6 +285,14 @@
 		  </v-btn>
 		</v-list-item-action>
 	      </v-list-item>
+
+	      <v-layout wrap v-if="!(updatedApplication.nativeEnglish || nativeEnglish)">
+	      	      <v-flex
+		xs12
+		md12
+			>
+			<p>Applicants who are not native speakers of English must provide evidence that they are fluent in English (speaking English, understanding spoken English, and writing in English).  Such evidence is usually provided with a standardized test score.</p>
+	      </v-flex></v-layout>
 
 	      <v-list-item two-line>
 		<v-list-item-content>
@@ -458,10 +458,6 @@ export default {
     nativeEnglish: {
       get() { return this.application.nativeEnglish; },
       set(v) { this.$set(this.updatedApplication, 'nativeEnglish', v); },
-    },
-    juniorCounselor: {
-      get() { return this.application.juniorCounselor; },
-      set(v) { this.$set(this.updatedApplication, 'juniorCounselor', v); },
     },
     previousApplicationYears: {
       get() { return this.application.previousApplicationYears; },

@@ -4,30 +4,43 @@
 
     <p>Please respond to each of the prompts below.  There is no prescribed word count limit.</p>
 
-    <p>For your resposes below, if you wish to use mathematical formatting not available here, you may include your response as a PDF file and upload it using the Attachments option in the menu on the left. If you do this, please type &ldquo;See Attachments&rdquo; in the text boxes below.</p>
-
-    <v-row><v-col><v-card>
-    <v-card-title>Problems</v-card-title>
-    <v-card-subtitle><strong>What is an interesting mathematical problem you have worked on?</strong> Recall a problem that you spent some time thinking about. Carefully state the problem. Describe the work you have done on it.</v-card-subtitle>
+      <v-row><v-col><v-card>
+    <v-card-title>Optional PDF</v-card-title>
+    <v-card-subtitle>For your resposes below, if you wish to use mathematical formatting not available here, you may include your response to all prompts below as a single PDF file.</v-card-subtitle>
     <v-card-text class="py-0">
-      <v-textarea
-	outlined
-	label="Your response"
-	v-model="interestingProblem"
-	>
-      </v-textarea>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-	text
-	@click="saveApplication"
-	color="primary"
-        :disabled="Object.keys(this.updatedApplication).length == 0"
-	>
-	Save
-      </v-btn>
-    </v-card-actions>
-  </v-card></v-col></v-row>
+	      <v-list-item two-line v-for="attachment in essayAttachments"
+			   :href="attachment.url"
+			   :key="attachment.id">
+		<v-list-item-icon>
+		  <v-icon>mdi-file</v-icon>
+		</v-list-item-icon>
+		<v-list-item-content>
+		  <v-list-item-title>{{ attachment.name }}</v-list-item-title>
+		  <v-list-item-subtitle v-if="attachment.createdAt">Uploaded {{ attachment.createdAt | moment("from", "now") }}</v-list-item-subtitle>
+		</v-list-item-content>
+		<v-list-item-action @click.prevent="remove(attachment.id)">
+		  <v-btn icon>
+		    <v-icon color="grey lighten-1">mdi-delete</v-icon>
+		  </v-btn>
+		</v-list-item-action>
+	      </v-list-item>
+
+	      <v-list-item two-line>
+		<v-list-item-content>
+		  <v-list-item-title>
+		    <v-file-input v-model="file" label="Upload your essay responses" hint="Optionally, instead of entering your responses below, you may upload your responses as a PDF." persistent-hint/>
+		  </v-list-item-title>
+		  <v-list-item-subtitle></v-list-item-subtitle>
+		</v-list-item-content>
+		<v-list-item-action @click="upload">
+		  <v-btn color="primary">
+		    Upload
+		    <v-icon right>mdi-upload</v-icon>
+		  </v-btn>
+		</v-list-item-action>
+	      </v-list-item>
+	      </v-card-text>
+      </v-card></v-col></v-row>
 
   <v-row><v-col><v-card>
     <v-card-title>Projects</v-card-title>
@@ -54,7 +67,7 @@
 
   <v-row><v-col><v-card>
     <v-card-title>Competitions</v-card-title>
-    <v-card-subtitle><strong>Have you recently participated in some math competitions?</strong> Which ones? Did you do well on them? How do your math contest experiences (both preparing for and participating in contests), compare with math courses you have taken in high school or in other venues?</v-card-subtitle>
+    <v-card-subtitle><strong>Have you recently participated in some math competitions?</strong> Which ones? Did you do well on them? Do you feel that the process of preparing for math competitions to be more interesting and worthwhile than the math courses you have taken in high school or in other venues?</v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
@@ -236,7 +249,15 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-...mapState(['application']),
+    ...mapState(['application']),
+    ...mapState(['attachments']),
+
+    essayAttachments: {
+      get() {
+	if (this.attachments) return Object.values(this.attachments).filter(a => a.label === 'essay');
+	return [];
+      },
+    },
 
   interestingProblem: {
       get() { return this.application.interestingProblem; },
@@ -288,7 +309,18 @@ export default {
     ...mapActions([
       'getApplication',
       'updateApplication',
+      'getAttachments',
+      'removeAttachment',
+      'addAttachment',
     ]),
+
+    upload() {
+      this.addAttachment({ file: this.file, label: 'essay' });
+    },
+
+    remove(id) {
+      this.removeAttachment(id);
+    },
 
     saveApplication() {
       this.saved = true;

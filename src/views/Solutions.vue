@@ -3,7 +3,14 @@
   <v-container fluid>
     <v-row><v-col><v-card>
 	  <v-card-title>Solutions</v-card-title>
-	  <v-card-subtitle>Upload your carefully written solutions to the <a href="https://rossprogram.org/students/application-problems.pdf">Application Problems</a> which you can find at <a href="https://rossprogram.org/students/application-problems.pdf">https://rossprogram.org/students/application-problems.pdf</a>. Solutions to each problem must be uploaded as a separate PDF.  The Admissions Committee is not looking for quick answers written in minimal space,  but rather for readable mathematical expositions that includes evidence of your explorations, conjectures, and proofs.</v-card-subtitle>
+	  <v-card-subtitle>Work on the Application Problems which you can find at <a href="https://rossprogram.org/students/application-problems.pdf">https://rossprogram.org/students/application-problems.pdf</a>. Upload your carefully written solutions to those problems.
+	    <ul>
+	      <li>The solution to each problem must be uploaded as a separate PDF.</li>
+	      <li>Use the PDF file format. If your solution file is in some other fomat, please transform it to a PDF, check that the converted file is readable, and then upload that PDF.</li>
+	      <li>We welcome solutions that have been prepared with LaTeX or some similar typesetting program that produces PDFs. It is OK to type up your work using a word processor (like Microsoft Word), and then converting that file to a PDF. Please verify that the mathematical symbols you use are readable.</li>
+	      <li>You are allowed to write up your solutions by hand, provided you use black ink or <strong>very dark</strong> pencil. Scan (or photograph) each page, combine the pages for one problem into a single PDF, check that the file is readable, and then upload that file. Please be sure to reduce the file size to be less than five megabytes. The Ross system cannot accept any files of larger size.</li>
+	    </ul>
+	    <p>The Admissions Committee is not looking for quick answers written in minimal space,  but rather for readable mathematical expositions that includes evidence of your explorations, conjectures, and proofs.</p></v-card-subtitle>
 
 	  <v-list-item two-line v-for="attachment in solutionAttachments"
 		       :href="attachment.url"

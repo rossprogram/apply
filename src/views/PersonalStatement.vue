@@ -20,6 +20,40 @@
 	      label="Your personal statement"
 	      v-model="personalStatement"
 	      ></v-textarea>
+
+	      <v-list-item two-line v-for="attachment in statementAttachments"
+			   :href="attachment.url"
+			   :key="attachment.id">
+		<v-list-item-icon>
+		  <v-icon>mdi-file</v-icon>
+		</v-list-item-icon>
+		<v-list-item-content>
+		  <v-list-item-title>{{ attachment.name }}</v-list-item-title>
+		  <v-list-item-subtitle v-if="attachment.createdAt">Uploaded {{ attachment.createdAt | moment("from", "now") }}</v-list-item-subtitle>
+		</v-list-item-content>
+		<v-list-item-action @click.prevent="remove(attachment.id)">
+		  <v-btn icon>
+		    <v-icon color="grey lighten-1">mdi-delete</v-icon>
+		  </v-btn>
+		</v-list-item-action>
+	      </v-list-item>
+
+	      <v-list-item two-line>
+		<v-list-item-content>
+		  <v-list-item-title>
+		    <v-file-input v-model="file" label="Upload your personal statement" hint="Optionally, instead of entering your statement above, you may upload your personal statement as a PDF." persistent-hint/>
+		  </v-list-item-title>
+		  <v-list-item-subtitle></v-list-item-subtitle>
+		</v-list-item-content>
+		<v-list-item-action @click="upload">
+		  <v-btn color="primary">
+		    Upload
+		    <v-icon right>mdi-upload</v-icon>
+		  </v-btn>
+		</v-list-item-action>
+	      </v-list-item>
+
+
 	  </v-card-text>
     </v-card></v-col></v-row>
   </v-container>
@@ -46,7 +80,15 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-...mapState(['application']),
+    ...mapState(['application']),
+    ...mapState(['attachments']),
+
+    statementAttachments: {
+      get() {
+	if (this.attachments) return Object.values(this.attachments).filter(a => a.label === 'statement');
+	return [];
+      },
+    },
 
     personalStatement: {
       get() { return this.application.personalStatement; },
@@ -56,24 +98,34 @@ export default {
   },
 
   data() {
-return {
-  updatedApplication: {},
-  saved: false,
-key: 1,
+    return {
+      updatedApplication: {},
+      saved: false,
+      key: 1,
     };
   },
+
   methods: {
     ...mapActions([
       'getApplication',
       'updateApplication',
+      'getAttachments',
+      'removeAttachment',
+      'addAttachment',
     ]),
+
+    upload() {
+      this.addAttachment({ file: this.file, label: 'statement' });
+    },
+
+    remove(id) {
+      this.removeAttachment(id);
+    },
 
     saveApplication() {
       this.saved = true;
       return this.updateApplication(this.updatedApplication);
     },
-
-
   },
 
   beforeRouteLeave(to, from, next) {
@@ -90,6 +142,7 @@ key: 1,
   },
 
   mounted() {
+    this.getAttachments();
     return this.getApplication();
   },
 };
