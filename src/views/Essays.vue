@@ -6,7 +6,7 @@
 
       <v-row><v-col><v-card>
     <v-card-title>Optional PDF</v-card-title>
-    <v-card-subtitle>For your resposes below, if you wish to use mathematical formatting not available here, you may include your response to all prompts below as a single PDF file.</v-card-subtitle>
+    <v-card-subtitle>For your response below, if you wish to use mathematical formatting not available here, you may include your response to all prompts below as a single PDF file.</v-card-subtitle>
     <v-card-text class="py-0">
 	      <v-list-item two-line v-for="attachment in essayAttachments"
 			   :href="attachment.url"
