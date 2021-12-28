@@ -19,7 +19,7 @@ your application before the end of March.</b></p>
   <v-flex xs12 md12>
     <v-checkbox
       v-model="juniorCounselor"
-      label="As a returning student, I wish to be considered to be a Junior Counselor"
+      label="I have attended the Ross Program in a previous summer"
       ></v-checkbox>
   </v-flex>
 </v-layout>
