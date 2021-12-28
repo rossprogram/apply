@@ -205,7 +205,7 @@
 
   <v-row><v-col><v-card>
     <v-card-title>Being away from home</v-card-title>
-    <v-card-subtitle><strong>Are you eager to spend five or six weeks away from home, with no distractions from computers or video games or smart phones, focusing all of your energies on one narrow area of mathematics?</strong> Ross students live in a college dormitory, with no access to televisions, computers, or electronic games. Most of their waking hours are spent working on challenging math problems. Does this intensity and focus appeal to you?</v-card-subtitle>
+    <v-card-subtitle><strong>Are you eager to spend six weeks away from home, with no distractions from computers or video games or phones, focusing all of your energies on one narrow area of mathematics?</strong> Ross students live in a college dormitory, with no access to televisions, computers, or electronic games. Most of their waking hours are spent working on challenging math problems. Does this intensity and focus appeal to you?</v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
