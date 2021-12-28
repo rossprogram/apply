@@ -90,7 +90,7 @@
 
   <v-row><v-col><v-card>
     <v-card-title>Other programs</v-card-title>
-    <v-card-subtitle><strong>Have you participated in academic programs outside of school?</strong> This might include another summer math camp, a local Math Club, or a Math Circle at some nearby college.  What sorts of activities were involved? Did you enjoy those experiences?</v-card-subtitle>
+    <v-card-subtitle><strong>Have you participated in academic programs outside of school?</strong> This might include another summer math camp, a local Math Club, or a Math Circle at some nearby college.  What sorts of activities were involved? Did you enjoy those experiences?  Were the programs online or were they in-person?</v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
