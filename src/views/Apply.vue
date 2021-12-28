@@ -3,8 +3,16 @@
 <p>We invite you to submit your application to be a student at the
   Ross Mathematics Program.</p>
 
-<!-- There are two locations for the Ross
-Programs, and this single application is used for both.-->
+<v-layout  wrap>
+  <v-flex xs12 md12>
+    <v-checkbox
+      v-model="juniorCounselor"
+      label="I have attended the Ross Program in a previous summer"
+      ></v-checkbox>
+  </v-flex>
+</v-layout>
+
+<p>There are two locations for the Ross Program, and this single application is used for both.</p>
 
 <p>To enter or upload your application information, click on the menu items to the left.  Files are saved according to the email address you enter when setting up the account.  Please use an email that will remain valid at least through August {{ (new Date()).getFullYear() }}.  </p>
 
@@ -14,15 +22,6 @@ Programs, and this single application is used for both.-->
 your application before the end of March.</b></p>
 <p>If you have questions about the admissions process, please contact
   <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a>.</p>
-
-<v-layout  wrap>
-  <v-flex xs12 md12>
-    <v-checkbox
-      v-model="juniorCounselor"
-      label="I have attended the Ross Program in a previous summer"
-      ></v-checkbox>
-  </v-flex>
-</v-layout>
 
   <v-flex
     xs12
