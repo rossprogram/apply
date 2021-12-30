@@ -32,7 +32,7 @@ Have you done any work on those problems since then?
     <v-row><v-col><v-card>
 	  <v-card-title>Most interesting parts of Ross</v-card-title>
 	  <v-card-subtitle><strong>What parts of the Ross Program did you find most interesting or useful?</strong>
-	    Number Theory lecture? Problem seminar? Working on the sets? Discussing math with counselor or JC?
+	    Number Theory lecture? Family meetings? Collaboration room? Working on the sets? Discussing math with counselor or JC?
 	    Talking about math with your friends? Etc.
 	  </v-card-subtitle>
 	  <v-card-text class="py-0">
