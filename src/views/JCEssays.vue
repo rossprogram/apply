@@ -6,7 +6,7 @@
 
     <v-row><v-col><v-card>
 	  <v-card-title>Previous experience</v-card-title>
-	  <v-card-subtitle><strong>Think back to your previous experience in the Ross Program.</strong> When did you attend the Ross Program, and at which location? Who was your counselor? How far did you progress through the Ross Number Theory problem sets?
+	  <v-card-subtitle><strong>Think back to your previous experience in the Ross Program.</strong> When did you attend the Ross Program? Who was your counselor? How far did you progress through the Ross Number Theory problem sets?
 Have you done any work on those problems since then?
 	  </v-card-subtitle>
 	  <v-card-text class="py-0">
