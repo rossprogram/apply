@@ -9,7 +9,7 @@ module.exports = {
       awsProfile: 'default',
       region: 'us-east-2',
       bucket: 'apply.rossprogram.org',
-      createBucket: false,
+      createBucket: true,
       staticHosting: true,
       staticIndexPage: 'index.html',
       staticErrorPage: 'index.html',
