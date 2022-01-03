@@ -3,7 +3,7 @@
   <v-container fluid>
     <v-row><v-col><v-card>
 	  <v-card-title>Recommendation Letter</v-card-title>
-	  <v-card-subtitle>Arrange for a mathematics teacher who knows you well to provide a recommendation letter. After you share your teacher's email with us, instructions will be sent to that address, asking your teacher to submit the letter directly to us. You may return to this page later to check the status of your letter. Applicants are allowed to submit more than one letter of recommendation, if different information will be provided in those additional letters. <strong>Instructions:.</strong> Enter and email address then click &ldquo;Plus Sign&rdquo. The system will then email your recommender with an automated message to the provided address.</v-card-subtitle>
+	  <v-card-subtitle>Arrange for a mathematics teacher who knows you well to provide a recommendation letter. After you share your teacher's email with us, instructions will be sent to that address, asking your teacher to submit the letter directly to us. You may return to this page later to check the status of your letter. Applicants are allowed to submit more than one letter of recommendation, if different information will be provided in those additional letters. <strong>Instructions:.</strong> Enter the recommender's email address, then click the &ldquo;Plus Sign&rdquo; at the right.  The Ross system will then send an automated message to that address.</v-card-subtitle>
     <v-list-item two-line v-for="recommendation in recommendations"
 		 :key="recommendation.email">
       <v-list-item-icon>

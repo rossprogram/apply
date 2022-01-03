@@ -14,12 +14,11 @@
 
 <p>There are two locations for the Ross Program, and this single application is used for both.</p>
 
-<p>To enter or upload your application information, click on the menu items to the left.  Files are saved according to the email address you enter when setting up the account.  Please use an email that will remain valid at least through August {{ (new Date()).getFullYear() }}.  </p>
+<p>To enter or upload your application information, click on the menu items to the left.  Files are saved according to the email address you entered when setting up the account.  Please use an email that will remain valid at least through August {{ (new Date()).getFullYear() }}.  </p>
 
 <p>As you finish each section, please click "Save" or "Save Application."  Later when you  log in again, the information will remain and you may continue working on your application.   After you submit a completed application you may withdraw it, edit your entries, and then submit again.</p>
 
-<p class="my-4">The Admission Committee will make admissions decisions on April 1, {{ (new Date()).getFullYear() }}.  Therefore, for adequate consideration of your application, <b>you must complete and submit
-your application before the end of March.</b></p>
+<p class="my-4">The Admissions Committee will begin reading applications on April 1, {{ (new Date()).getFullYear() }}. <b>Complete and submit your application before the end of March.</b>The Admissions Committee might not read applications received after April 1.  Admission decisions will be made later in April, and will be emailed to applicants who submitted complete applications.</p>
 <p>If you have questions about the admissions process, please contact
   <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a>.</p>
 
