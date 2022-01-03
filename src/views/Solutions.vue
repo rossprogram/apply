@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       problem: null,
-      problemCount: 4,
+      problemCount: 3,
       key: 1,
       file: null,
     };

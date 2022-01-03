@@ -121,7 +121,6 @@ export default {
 	() => (Object.values(this.attachments).filter(x => x.label === 'solution1').length > 0) || { error: 'You did not submit a solution to Problem 1.', severity: 'warning', to: '/apply/solutions' },
 	() => (Object.values(this.attachments).filter(x => x.label === 'solution2').length > 0) || { error: 'You did not submit a solution to Problem 2.', severity: 'warning', to: '/apply/solutions' },
 	() => (Object.values(this.attachments).filter(x => x.label === 'solution3').length > 0) || { error: 'You did not submit a solution to Problem 3.', severity: 'warning', to: '/apply/solutions' },
-	() => (Object.values(this.attachments).filter(x => x.label === 'solution4').length > 0) || { error: 'You did not submit a solution to Problem 4.', severity: 'warning', to: '/apply/solutions' },
 
 
       ],

@@ -106,25 +106,25 @@
     </v-card></v-col></v-row>
 
     <v-row><v-col><v-card>
-	  <v-card-title>Online Program</v-card-title>
-	  <v-card-subtitle>Because of COVID-19, the Ross Program will again be held online.</v-card-subtitle>
+	  <v-card-title>Locations</v-card-title>
+	  <v-card-subtitle>The Ross Program is planning two in-person sites for 2022.</v-card-subtitle>
 	  <v-card-text>
 	    <v-layout wrap>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-model="applyingToUSA"
-		  label="I want my application to be considered for the online program."
+		  label="I want my application to be considered for Ross/Ohio."
 		  ></v-checkbox>
 	      </v-flex>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-if="updatedApplication.applyingToUSA || applyingToUSA"
 		  v-model="arriveAtStartUSA"
-		  label="I will be able to attend all online sessions of the Ross Program, starting on Sunday, June 27, 2021."
+		  label="I will be able to attend the Columbus, Ohio session of the Ross Program starting on Wednesday, June 15, 2022."
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
-	    <!-- <v-layout  wrap>
+	    <v-layout  wrap>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-model="applyingToAsia"
@@ -135,7 +135,7 @@
 		<v-checkbox
 		  v-if="updatedApplication.applyingToAsia || applyingToAsia"
 		  v-model="arriveAtStartAsia"
-		  label="I will be able to arrive at Ross/Indiana on June 28, 2020"
+		  label="I will be able to attend the Terre Haute, Indiana session of the Ross Program starting on June 19, 2022."
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
@@ -151,7 +151,7 @@
 		    persistent-hint
 		    ></v-select>
 		</v-flex>
-	    </v-layout> -->
+	    </v-layout>
 
 	    <v-layout  wrap>
 	      <v-flex xs12 md12>
@@ -316,7 +316,7 @@
 		xs12
 		md12
 			>
-			<p>The English language test score report may be waived for applicants who have other ways to establish their fluency in English.</p>
+			<p>The English language test score report may be waived for applicants who have other ways to establish their fluency in English.  For example, COVID-19 may have made it difficult to take a standardized test of English proficiency.</p>
 	      <v-textarea
 		outlined
 		label="To request such a waiver, please explain here."
