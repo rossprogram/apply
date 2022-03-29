@@ -104,7 +104,6 @@ export default {
       rules: [
 	() => !!this.application.personalStatement || (Object.values(this.attachments).filter(x => x.label === 'statement').length > 0) || { error: 'You have not included a personal statement.', to: '/apply/statement' },
 
-	() => !!this.application.interestingProblem || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe an interesting problem you have worked on.', severity: 'warning', to: '/apply/essays' },
 	() => !!this.application.interestingProjects || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe an interesting project you have worked on.', severity: 'warning', to: '/apply/essays' },
 	() => !!this.application.otherPrograms || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your participation in any other programs.', severity: 'warning', to: '/apply/essays' },
 	() => !!this.application.books || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your favorite books and websites.', severity: 'warning', to: '/apply/essays' },
