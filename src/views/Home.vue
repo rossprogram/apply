@@ -11,6 +11,9 @@
 <p v-if="profile">After you have created an account, you can begin to <router-link to="/apply">work on your application</router-link>.</p>
 
 <p><v-btn v-if="profile" to="/apply" color="primary">Work on your application</v-btn></p>
+
+You will be able to check your application status in mid-April.
+
 <!-- <p><v-btn v-if="profile" to="/status" color="primary">Check application status</v-btn></p> -->
 <!-- <p><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p> -->
 
