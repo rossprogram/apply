@@ -8,13 +8,11 @@
 <p v-if="!profile">The first step is to <router-link to="/signup">sign up for an account</router-link> by providing your email address; a password will be emailed to you.</p>
 	    <v-btn v-if="!profile" to="/signup" color="primary">Create a Ross account</v-btn>
 
-<p v-if="profile">After you have created an account, you can begin to <router-link to="/apply">work on your application</router-link>.</p>
+<!-- <p v-if="profile">After you have created an account, you can begin to <router-link to="/apply">work on your application</router-link>.</p>
 
-<p><v-btn v-if="profile" to="/apply" color="primary">Work on your application</v-btn></p>
+<p><v-btn v-if="profile" to="/apply" color="primary">Work on your application</v-btn></p> -->
 
-You will be able to check your application status in mid-April.
-
-<!-- <p><v-btn v-if="profile" to="/status" color="primary">Check application status</v-btn></p> -->
+<p><v-btn v-if="profile" to="/status" color="primary">Check application status</v-btn></p>
 <!-- <p><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p> -->
 
 </v-flex>

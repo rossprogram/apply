@@ -78,7 +78,7 @@
   <p>Congratulations! You have been accepted as a participant in the 2022 Ross Mathematics Program.</p>
 </div>
 
-<p>Please let us know whether you accept a spot in the in-person 2022 Ross Program. An email will be sent in early May requesting additional information, a parental approval form, instructions for payment and scholarship requests.</p>
+<p>Please let us know whether you accept a spot in the in-person 2022 Ross Program. An email will be sent in early May requesting additional information, a parental approval form, instructions for payment and for scholarship requests.</p>
 
 <hr/>
 
