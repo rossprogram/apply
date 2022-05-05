@@ -13,7 +13,7 @@
 <p><v-btn v-if="profile" to="/apply" color="primary">Work on your application</v-btn></p> -->
 
 <p><v-btn v-if="profile" to="/status" color="primary">Check application status</v-btn></p>
-<!-- <p><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p> -->
+<p><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p>
 
 </v-flex>
 </v-container>
