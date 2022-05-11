@@ -12,19 +12,29 @@
 
 <p><v-btn v-if="profile" to="/apply" color="primary">Work on your application</v-btn></p> -->
 
-<p><v-btn v-if="profile" to="/status" color="primary">Check application status</v-btn></p>
-<p><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p>
+
+<p v-if="offer && offer.offer == 'accept'"><v-btn v-if="profile" to="/status" color="primary">Provide travel information</v-btn></p>
+<p v-else><v-btn v-if="profile" to="/status" color="primary">View status</v-btn></p>
+<p v-if="offer && offer.offer == 'accept'"><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p>
 
 </v-flex>
 </v-container>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
 computed: {
-...mapState(['profile']),
+...mapState(['profile', 'offer']),
 },
+  methods: {
+    ...mapActions([
+      'getOffer',
+    ]),
+  },
+  mounted() {
+    return this.getOffer();
+  },
 };
 </script>
