@@ -49,6 +49,100 @@
 		</v-menu>
 	      </v-layout>
 
+	      <v-layout wrap v-if="(this.offer.decision === 'yes') || (this.updatedOffer.decision === 'yes')">
+		  <v-select sm4
+		    v-model="travelMethod"
+		    hint="How will you travel to Ross?"
+		    :items="['', 'driving', 'flying']"
+		    label="Travel method"
+		    prepend-icon="mdi-train-car"
+		    single-line
+		    persistent-hint
+		    ></v-select>
+		<v-menu sm4
+		  ref="arrivalDateMenu"
+		  v-model="arrivalDateMenu"
+		  :close-on-content-click="false"
+		  transition="scale-transition"
+		  offset-y
+		  full-width
+		  min-width="290px"
+		  >
+		  <template v-slot:activator="{ on }">
+		    <v-text-field
+		      class="mr-4"
+		      :value="updatedOffer.arrivalDate || arrivalDate"
+		      label="Scheduled arrival date"
+		      prepend-icon="event"
+		      readonly
+		      persistent-hint
+		      v-on="on"
+		      ></v-text-field>
+		  </template>
+		  <v-date-picker
+		    ref="picker"
+		    v-model="arrivalDate"
+		    :min="new Date().toISOString().substr(0, 10)"
+		    @change="saveArrivalDate"
+		    ></v-date-picker>
+		</v-menu>
+		<v-menu sm4
+		  ref="arrivalTimeMenu"
+		  v-model="arrivalTimeMenu"
+		  :close-on-content-click="false"
+		  transition="scale-transition"
+		  offset-y
+		  full-width
+		  min-width="290px"
+		  >
+		  <template v-slot:activator="{ on }">
+		    <v-text-field
+		      class="mr-4"
+		      :value="updatedOffer.arrivalTime || arrivalTime"
+		      label='Arrival time'
+		      readonly
+		      persistent-hint
+		      v-on="on"
+		      ></v-text-field>
+		  </template>
+		  <v-time-picker
+		    ref="picker"
+		    v-model="arrivalTime"
+		    @change="saveArrivalTime"
+		    ></v-time-picker>
+		</v-menu>
+	      </v-layout>
+
+	        <v-layout wrap v-if="(this.offer.travelMethod === 'flying') || (this.updatedOffer.travelMethod === 'flying')">
+		<v-flex xs6>
+		  <v-select
+		    prepend-icon="mdi-airplane-landing"
+		    v-model="flightCarrier"
+		    :items="airlines"
+		    item-text="name"
+		    item-value="iata"
+		    label="Airline"
+		    persistent-hint
+		    single-line
+		    ></v-select>
+		  </v-flex>
+		<v-flex xs6>
+		  <v-text-field
+		    class="mr-4"
+		    :label="'Flight number of flight landing at ' + ((this.offer.location === 'ohio')?'CMH':'IND')"
+		    v-model="flightNumber"
+		    >
+		  </v-flex>
+	        </v-layout>
+
+	        <v-layout wrap v-if="(this.offer.travelMethod === 'flying') || (this.updatedOffer.travelMethod === 'flying')">
+		        <v-textarea
+        outlined
+        label="Your complete travel plans, including connecting flight information and your contact information"
+        v-model="travelPlan"
+        >
+      </v-textarea>
+	        </v-layout>
 
 	  </v-card-text>
     <v-card-actions>
@@ -67,12 +161,14 @@
 
 <div v-if="this.offer.location === 'ohio'">
   <p>Congratulations! You have been accepted as a participant in the 2022 Ross Mathematics Program
-  at Ohio Dominican University in Columbus, Ohio.  This location will run from June 15 (Wednesday) through  July 27, 2022.</p>
+    at Ohio Dominican University in Columbus, Ohio.  This location will run from June 15 (Wednesday) through  July 27, 2022.</p>
+  <p>You should plan to arrive at the Columbus airport (CMH) on Tuesday June 14 in the afternoon.  There will be an orientation meeting that night at 7 PM.</p>
 </div>
 <div v-else-if="this.offer.location === 'indiana'">
   <p>Congratulations! You have been accepted as a participant in the 2022 Ross Mathematics Program
     at Rose-Hulman Institute of Technology in Terre Haute, Indiana.  This location will run from
     June 19 (Sunday) through July 29, 2022.</p>
+  <p>You should plan to arrive at the Indianapolis airport (IND) on Sunday June 19 in the afternoon. There will be an orientation meeting that night at 7 PM.</p>
 </div>
 <div v-else>
   <p>Congratulations! You have been accepted as a participant in the 2022 Ross Mathematics Program.</p>
@@ -139,6 +235,30 @@ export default {
       get() { return this.updatedOffer.decisionDate || this.offer.decisionDate; },
       set(v) { this.$set(this.updatedOffer, 'decisionDate', v); },
     },
+    arrivalDate: {
+      get() { return this.updatedOffer.arrivalDate || this.offer.arrivalDate; },
+      set(v) { this.$set(this.updatedOffer, 'arrivalDate', v); },
+    },
+    arrivalTime: {
+      get() { return this.updatedOffer.arrivalTime || this.offer.arrivalTime; },
+      set(v) { this.$set(this.updatedOffer, 'arrivalTime', v); },
+    },
+    flightCarrier: {
+      get() { return this.updatedOffer.flightCarrier || this.offer.flightCarrier; },
+      set(v) { this.$set(this.updatedOffer, 'flightCarrier', v); },
+    },
+    flightNumber: {
+      get() { return this.updatedOffer.flightNumber || this.offer.flightNumber; },
+      set(v) { this.$set(this.updatedOffer, 'flightNumber', v); },
+    },
+    travelMethod: {
+      get() { return this.updatedOffer.travelMethod || this.offer.travelMethod; },
+      set(v) { this.$set(this.updatedOffer, 'travelMethod', v); },
+    },
+    travelPlan: {
+      get() { return this.updatedOffer.travelPlan || this.offer.travelPlan; },
+      set(v) { this.$set(this.updatedOffer, 'travelPlan', v); },
+    },
 
     timezone: {
       get() { return this.updatedOffer.timezone || this.offer.timezone; },
@@ -171,7 +291,438 @@ export default {
       key: 1,
       updatedOffer: {},
       decisionDateMenu: null,
+      arrivalDateMenu: null,
+      arrivalTimeMenu: null,
       possibleTimes: [],
+      airlines:
+      [
+     {
+ id: '10', name: '40-Mile Air', alias: '\\N', iata: 'Q5', icao: 'MLA', callsign: 'MILE-AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '22', name: 'Aloha Airlines', alias: '\\N', iata: 'AQ', icao: 'AAH', callsign: 'ALOHA', country: 'United States', active: 'Y',
+},
+{
+ id: '24', name: 'American Airlines', alias: '\\N', iata: 'AA', icao: 'AAL', callsign: 'AMERICAN', country: 'United States', active: 'Y',
+},
+{
+ id: '35', name: 'Allegiant Air', alias: '\\N', iata: 'G4', icao: 'AAY', callsign: 'ALLEGIANT', country: 'United States', active: 'Y',
+},
+{
+ id: '109', name: 'Alaska Central Express', alias: '\\N', iata: 'KO', icao: 'AER', callsign: 'ACE AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '149', name: 'Air Cargo Carriers', alias: '\\N', iata: '2Q', icao: 'SNC', callsign: 'NIGHT CARGO', country: 'United States', active: 'Y',
+},
+{
+ id: '210', name: 'Airlift International', alias: '\\N', iata: '', icao: 'AIR', callsign: 'AIRLIFT', country: 'United States', active: 'Y',
+},
+{
+ id: '281', name: 'America West Airlines', alias: '\\N', iata: 'HP', icao: 'AWE', callsign: 'CACTUS', country: 'United States', active: 'Y',
+},
+{
+ id: '282', name: 'Air Wisconsin', alias: '\\N', iata: 'ZW', icao: 'AWI', callsign: 'AIR WISCONSIN', country: 'United States', active: 'Y',
+},
+{
+ id: '287', name: 'Allegheny Commuter Airlines', alias: '\\N', iata: '', icao: 'ALO', callsign: 'ALLEGHENY', country: 'United States', active: 'Y',
+},
+{
+ id: '295', name: 'Air Sunshine', alias: '\\N', iata: '', icao: 'RSI', callsign: 'AIR SUNSHINE', country: 'United States', active: 'Y',
+},
+{
+ id: '315', name: 'ATA Airlines', alias: '\\N', iata: '', icao: 'AMT', callsign: 'AMTRAN', country: 'United States', active: 'Y',
+},
+{
+ id: '397', name: 'Arrow Air', alias: '\\N', iata: 'JW', icao: 'APW', callsign: 'BIG A', country: 'United States', active: 'Y',
+},
+{
+ id: '452', name: 'Atlantic Southeast Airlines', alias: '\\N', iata: 'EV', icao: 'ASQ', callsign: 'ACEY', country: 'United States', active: 'Y',
+},
+{
+ id: '659', name: 'American Eagle Airlines', alias: '\\N', iata: 'MQ', icao: 'EGF', callsign: 'EAGLE FLIGHT', country: 'United States', active: 'Y',
+},
+{
+ id: '792', name: 'Access Air', alias: '\\N', iata: 'ZA', icao: 'CYD', callsign: 'CYCLONE', country: 'United States', active: 'Y',
+},
+{
+ id: '882', name: 'Air Florida', alias: '\\N', iata: 'QH', icao: 'FLZ', callsign: 'AIR FLORIDA', country: 'United States', active: 'Y',
+},
+{
+ id: '928', name: 'Atlas Air', alias: '\\N', iata: '5Y', icao: 'GTI', callsign: 'GIANT', country: 'United States', active: 'Y',
+},
+{
+ id: '1316', name: 'AirTran Airways', alias: '\\N', iata: 'FL', icao: 'TRS', callsign: 'CITRUS', country: 'United States', active: 'Y',
+},
+{
+ id: '1442', name: 'Bemidji Airlines', alias: '\\N', iata: 'CH', icao: 'BMJ', callsign: 'BEMIDJI', country: 'United States', active: 'Y',
+},
+{
+ id: '1472', name: 'Bering Air', alias: '\\N', iata: '8E', icao: 'BRG', callsign: 'BERING AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '1629', name: 'Cape Air', alias: '\\N', iata: '9K', icao: 'KAP', callsign: 'CAIR', country: 'United States', active: 'Y',
+},
+{
+ id: '1739', name: 'Chautauqua Airlines', alias: '\\N', iata: 'RP', icao: 'CHQ', callsign: 'CHAUTAUQUA', country: 'United States', active: 'Y',
+},
+{
+ id: '1814', name: 'Coastal Air', alias: '\\N', iata: 'DQ', icao: '', callsign: 'U.S. Virgin Islands', country: 'United States', active: 'Y',
+},
+{
+ id: '1821', name: 'Colgan Air', alias: '\\N', iata: '9L', icao: 'CJC', callsign: 'COLGAN', country: 'United States', active: 'Y',
+},
+{
+ id: '1828', name: 'Comair', alias: '\\N', iata: 'OH', icao: 'COM', callsign: 'COMAIR', country: 'United States', active: 'Y',
+},
+{
+ id: '1843', name: 'CommutAir', alias: '\\N', iata: 'C5', icao: 'UCA', callsign: 'COMMUTAIR', country: 'United States', active: 'Y',
+},
+{
+ id: '1860', name: 'Compass Airlines', alias: '\\N', iata: 'CP', icao: 'CPZ', callsign: 'Compass Rose', country: 'United States', active: 'Y',
+},
+{
+ id: '1881', name: 'Continental Airlines', alias: '\\N', iata: 'CO', icao: 'COA', callsign: 'CONTINENTAL', country: 'United States', active: 'Y',
+},
+{
+ id: '1883', name: 'Continental Express', alias: '\\N', iata: 'CO', icao: '', callsign: 'JETLINK', country: 'United States', active: 'Y',
+},
+{
+ id: '1884', name: 'Continental Micronesia', alias: '\\N', iata: 'CS', icao: 'CMI', callsign: 'AIR MIKE', country: 'United States', active: 'Y',
+},
+{
+ id: '1931', name: 'Crown Airways', alias: '\\N', iata: '', icao: 'CRO', callsign: 'CROWN AIRWAYS', country: 'United States', active: 'Y',
+},
+{
+ id: '2009', name: 'Delta Air Lines', alias: '\\N', iata: 'DL', icao: 'DAL', callsign: 'DELTA', country: 'United States', active: 'Y',
+},
+{
+ id: '2261', name: 'Evergreen International Airlines', alias: '\\N', iata: 'EZ', icao: 'EIA', callsign: 'EVERGREEN', country: 'United States', active: 'Y',
+},
+{
+ id: '2293', name: 'Express One International', alias: '\\N', iata: 'EO', icao: 'LHN', callsign: 'LONGHORN', country: 'United States', active: 'Y',
+},
+{
+ id: '2295', name: 'ExpressJet', alias: '\\N', iata: 'XE', icao: 'BTA', callsign: 'JET LINK', country: 'United States', active: 'Y',
+},
+{
+ id: '2404', name: 'Florida West International Airways', alias: '\\N', iata: 'RF', icao: 'FWL', callsign: 'FLO WEST', country: 'United States', active: 'Y',
+},
+{
+ id: '2454', name: 'Freedom Air', alias: '\\N', iata: 'FP', icao: 'FRE', callsign: 'FREEDOM', country: 'United States', active: 'Y',
+},
+{
+ id: '2456', name: 'Freedom Airlines', alias: '\\N', iata: '', icao: 'FRL', callsign: 'FREEDOM AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '2468', name: 'Frontier Airlines', alias: '\\N', iata: 'F9', icao: 'FFT', callsign: 'FRONTIER FLIGHT', country: 'United States', active: 'Y',
+},
+{
+ id: '2470', name: 'Frontier Flying Service', alias: '\\N', iata: '2F', icao: 'FTA', callsign: 'FRONTIER-AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '2577', name: 'GoJet Airlines', alias: '\\N', iata: 'G7', icao: 'GJS', callsign: 'GATEWAY', country: 'United States', active: 'Y',
+},
+{
+ id: '2607', name: 'Great Lakes Airlines', alias: '\\N', iata: 'ZK', icao: 'GLA', callsign: 'LAKES AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '2645', name: 'Gulfstream International Airlines', alias: '\\N', iata: '', icao: 'GFT', callsign: 'GULF FLIGHT', country: 'United States', active: 'Y',
+},
+{
+ id: '2657', name: 'Hageland Aviation Services', alias: '\\N', iata: 'H6', icao: 'HAG', callsign: 'HAGELAND', country: 'United States', active: 'Y',
+},
+{
+ id: '2688', name: 'Hawaiian Airlines', alias: '\\N', iata: 'HA', icao: 'HAL', callsign: 'HAWAIIAN', country: 'United States', active: 'Y',
+},
+{
+ id: '2778', name: 'Horizon Air', alias: 'Horizon Airlines', iata: 'QX', icao: 'QXE', callsign: 'HORIZON AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '2855', name: 'Indigo', alias: '\\N', iata: 'I9', icao: 'IBU', callsign: 'INDIGO BLUE', country: 'United States', active: 'Y',
+},
+{
+ id: '2937', name: 'Island Airlines', alias: '\\N', iata: 'IS', icao: '', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '3001', name: 'Jet Airways', alias: '\\N', iata: 'QJ', icao: '', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '3029', name: 'JetBlue Airways', alias: '\\N', iata: 'B6', icao: 'JBU', callsign: 'JETBLUE', country: 'United States', active: 'Y',
+},
+{
+ id: '3123', name: 'Kenmore Air', alias: '\\N', iata: 'M5', icao: 'KEN', callsign: 'KENMORE', country: 'United States', active: 'Y',
+},
+{
+ id: '3466', name: 'Mesa Airlines', alias: '\\N', iata: 'YV', icao: 'ASH', callsign: 'AIR SHUTTLE', country: 'United States', active: 'Y',
+},
+{
+ id: '3467', name: 'Mesaba Airlines', alias: '\\N', iata: 'XJ', icao: 'MES', callsign: 'MESABA', country: 'United States', active: 'Y',
+},
+{
+ id: '3494', name: 'Midway Airlines', alias: '\\N', iata: 'JI', icao: 'MDW', callsign: 'MIDWAY', country: 'United States', active: 'Y',
+},
+{
+ id: '3497', name: 'Midwest Airlines', alias: '\\N', iata: 'YX', icao: 'MEP', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '3641', name: 'NetJets', alias: '\\N', iata: '1I', icao: 'EJA', callsign: 'EXECJET', country: 'United States', active: 'Y',
+},
+{
+ id: '3644', name: 'New England Airlines', alias: '\\N', iata: 'EJ', icao: 'NEA', callsign: 'NEW ENGLAND', country: 'United States', active: 'Y',
+},
+{
+ id: '3731', name: 'Northwest Airlines', alias: '\\N', iata: 'NW', icao: 'NWA', callsign: 'NORTHWEST', country: 'United States', active: 'Y',
+},
+{
+ id: '3781', name: 'Omni Air International', alias: '\\N', iata: 'OY', icao: 'OAE', callsign: 'OMNI-EXPRESS', country: 'United States', active: 'Y',
+},
+{
+ id: '3860', name: 'Pacific Island Aviation', alias: '\\N', iata: '', icao: 'PSA', callsign: 'PACIFIC ISLE', country: 'United States', active: 'Y',
+},
+{
+ id: '3865', name: 'Pacific Wings', alias: '\\N', iata: 'LW', icao: 'NMI', callsign: 'TSUNAMI', country: 'United States', active: 'Y',
+},
+{
+ id: '3935', name: 'Peninsula Airways', alias: '\\N', iata: 'KS', icao: 'PEN', callsign: 'PENINSULA', country: 'United States', active: 'Y',
+},
+{
+ id: '3969', name: 'Piedmont Airlines (1948-1989)', alias: '\\N', iata: 'PI', icao: 'PDT', callsign: 'PIEDMONT', country: 'United States', active: 'Y',
+},
+{
+ id: '3976', name: 'Pinnacle Airlines', alias: '\\N', iata: '9E', icao: 'FLG', callsign: 'FLAGSHIP', country: 'United States', active: 'Y',
+},
+{
+ id: '4026', name: 'Potomac Air', alias: '\\N', iata: 'BK', icao: 'PDC', callsign: 'DISTRICT', country: 'United States', active: 'Y',
+},
+{
+ id: '4187', name: 'Republic Airlines', alias: '\\N', iata: 'RW', icao: 'RPA', callsign: 'BRICKYARD', country: 'United States', active: 'Y',
+},
+{
+ id: '4294', name: 'Ryan Air Services', alias: '\\N', iata: '', icao: 'RYA', callsign: 'RYAN AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '4295', name: 'Ryan International Airlines', alias: '\\N', iata: 'RD', icao: 'RYN', callsign: 'RYAN INTERNATIONAL', country: 'United States', active: 'Y',
+},
+{
+ id: '4335', name: 'Seaborne Airlines', alias: '\\N', iata: 'BB', icao: 'SBS', callsign: 'SEABORNE', country: 'United States', active: 'Y',
+},
+{
+ id: '4342', name: 'Scenic Airlines', alias: '\\N', iata: '', icao: 'SCE', callsign: 'SCENIC', country: 'United States', active: 'Y',
+},
+{
+ id: '4356', name: 'Sun Country Airlines', alias: '\\N', iata: 'SY', icao: 'SCX', callsign: 'SUN COUNTRY', country: 'United States', active: 'Y',
+},
+{
+ id: '4370', name: 'Southeast Air', alias: '\\N', iata: '', icao: 'SEA', callsign: 'SOUTHEAST AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '4411', name: 'Skagway Air Service', alias: '\\N', iata: 'N5', icao: 'SGY', callsign: 'SKAGWAY AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '4547', name: 'Southwest Airlines', alias: '\\N', iata: 'WN', icao: 'SWA', callsign: 'SOUTHWEST', country: 'United States', active: 'Y',
+},
+{
+ id: '4589', name: 'Skywalk Airlines', alias: '\\N', iata: 'AL', icao: 'SYX', callsign: 'SKYWAY-EX', country: 'United States', active: 'Y',
+},
+{
+ id: '4687', name: 'Spirit Airlines', alias: '\\N', iata: 'NK', icao: 'NKS', callsign: 'SPIRIT WINGS', country: 'United States', active: 'Y',
+},
+{
+ id: '4738', name: 'SkyWest', alias: '\\N', iata: 'OO', icao: 'SKW', callsign: 'SKYWEST', country: 'United States', active: 'Y',
+},
+{
+ id: '4804', name: 'Southern Airways', alias: '\\N', iata: '', icao: 'SOU', callsign: 'SOUTHERN EXPRESS', country: 'United States', active: 'Y',
+},
+{
+ id: '4816', name: 'South Pacific Island Airways', alias: '\\N', iata: '', icao: 'SPI', callsign: 'SOUTH PACIFIC', country: 'United States', active: 'Y',
+},
+{
+ id: '4822', name: 'Shuttle America', alias: '\\N', iata: 'S5', icao: 'TCF', callsign: 'MERCURY', country: 'United States', active: 'Y',
+},
+{
+ id: '5160', name: 'Trans States Airlines', alias: '\\N', iata: 'AX', icao: 'LOF', callsign: 'WATERSKI', country: 'United States', active: 'Y',
+},
+{
+ id: '5207', name: 'USA3000 Airlines', alias: '\\N', iata: 'U5', icao: 'GWY', callsign: 'GETAWAY', country: 'United States', active: 'Y',
+},
+{
+ id: '5209', name: 'United Airlines', alias: '\\N', iata: 'UA', icao: 'UAL', callsign: 'UNITED', country: 'United States', active: 'Y',
+},
+{
+ id: '5265', name: 'US Airways', alias: '\\N', iata: 'US', icao: 'USA', callsign: 'U S AIR', country: 'United States', active: 'Y',
+},
+{
+ id: '5268', name: 'US Helicopter', alias: '\\N', iata: '', icao: 'USH', callsign: 'US-HELI', country: 'United States', active: 'Y',
+},
+{
+ id: '5279', name: 'United States Air Force', alias: '\\N', iata: '', icao: 'AIO', callsign: 'AIR CHIEF', country: 'United States', active: 'Y',
+},
+{
+ id: '5284', name: 'US Helicopter Corporation', alias: '\\N', iata: 'UH', icao: '', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '5331', name: 'Virgin America', alias: '\\N', iata: 'VX', icao: 'VRD', callsign: 'REDWOOD', country: 'United States', active: 'Y',
+},
+{
+ id: '5424', name: 'Western Airlines', alias: '\\N', iata: 'WA', icao: 'WAL', callsign: 'WESTERN', country: 'United States', active: 'Y',
+},
+{
+ id: '5465', name: 'World Airways', alias: '\\N', iata: 'WO', icao: 'WOA', callsign: 'WORLD', country: 'United States', active: 'Y',
+},
+{
+ id: '8461', name: 'Carnival Air Lines', alias: '', iata: 'KW', icao: '\\N', callsign: 'Carnival Air', country: 'United States', active: 'Y',
+},
+{
+ id: '8809', name: 'Island Air (WP)', alias: '', iata: 'WP', icao: 'MKU', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '9833', name: 'Epic Holiday', alias: 'Epic Holidays', iata: 'FA', icao: '4AA', callsign: 'Epic', country: 'United States', active: 'Y',
+},
+{
+ id: '10123', name: 'Texas Wings', alias: '', iata: 'TQ', icao: 'TXW', callsign: 'TXW', country: 'United States', active: 'Y',
+},
+{
+ id: '10226', name: 'Atifly', alias: '', iata: 'A1', icao: 'A1F', callsign: 'atifly', country: 'United States', active: 'Y',
+},
+{
+ id: '10739', name: 'Air Choice One', alias: '', iata: '3E', icao: '\\N', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '10748', name: 'Locair', alias: '', iata: 'ZQ', icao: 'LOC', callsign: 'LOCAIR', country: 'United States', active: 'Y',
+},
+{
+ id: '10765', name: 'SeaPort Airlines', alias: '', iata: 'K5', icao: 'SQH', callsign: 'SASQUATCH', country: 'United States', active: 'Y',
+},
+{
+ id: '10776', name: 'Salmon Air', alias: '', iata: 'S6', icao: '\\N', callsign: '', country: 'United States', active: 'Y',
+},
+	{
+ id: '439', name: 'Alaska Airlines', alias: '\\N', iata: 'AS', icao: 'ASA', callsign: ' Inc.', country: 'ALASKA', active: 'Y',
+},
+	{
+ id: '10912', name: 'Alaska Seaplane Service', alias: '', iata: 'J5', icao: '\\N', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '12961', name: 'Gryphon Airlines', alias: '', iata: '6P', icao: '\\N', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '13391', name: 'U.S. Air', alias: '', iata: '-+', icao: '--+', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '13633', name: 'PanAm World Airways', alias: '', iata: 'WQ', icao: 'PQW', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '15887', name: 'CBM America', alias: '', iata: '', icao: 'XBM', callsign: 'AIRMAX', country: 'United States', active: 'Y',
+},
+{
+ id: '15975', name: 'Black Stallion Airways', alias: '', iata: 'BZ', icao: 'BSA', callsign: 'Stallion', country: 'United States', active: 'Y',
+},
+{
+ id: '16135', name: 'Yellowstone Club Private Shuttle', alias: '', iata: 'Y1', icao: '\\N', callsign: 'YCS', country: 'United States', active: 'Y',
+},
+{
+ id: '16264', name: 'Trans Pas Air', alias: '', iata: 'T6', icao: 'TP6', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '16625', name: 'Papillon Grand Canyon Helicopters', alias: '', iata: 'HI', icao: '\\N', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '16702', name: 'Usa Sky Cargo', alias: 'USky', iata: 'E1', icao: 'ES2', callsign: 'USKY', country: 'United States', active: 'Y',
+},
+{
+ id: '16726', name: 'Era Alaska', alias: '', iata: '7H', icao: 'ERR', callsign: 'ERAH', country: 'United States', active: 'Y',
+},
+{
+ id: '16735', name: 'Hankook Air US', alias: '', iata: 'H1', icao: 'HA1', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '16932', name: 'Orbit Airlines', alias: 'Orbit', iata: '', icao: 'OBT', callsign: 'Orbit', country: 'United States', active: 'Y',
+},
+{
+ id: '17519', name: 'SENIC AIRLINES', alias: '', iata: 'YR', icao: '\\N', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '17563', name: 'XOJET', alias: '', iata: '', icao: 'XOJ', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '17628', name: 'Orbit International Airlines', alias: '', iata: '', icao: 'OAI', callsign: 'OA', country: 'United States', active: 'Y',
+},
+{
+ id: '17629', name: 'Orbit Regional Airlines', alias: '', iata: '', icao: 'OAR', callsign: 'OA', country: 'United States', active: 'Y',
+},
+{
+ id: '17630', name: 'Orbit Atlantic Airways', alias: '', iata: '', icao: 'OAN', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '17841', name: 'Aws express', alias: '', iata: 'B0', icao: '666', callsign: 'aws', country: 'United States', active: 'Y',
+},
+{
+ id: '17859', name: 'Southjet', alias: '', iata: '76', icao: 'SJS', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '17860', name: 'Southjet connect', alias: '', iata: '77', icao: 'ZCS', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '17862', name: 'Southjet cargo', alias: '', iata: '78', icao: 'XAN', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '18169', name: 'Patriot Airways', alias: '', iata: 'P4', icao: '\\N', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '18178', name: 'Vision Airlines (V2)', alias: '', iata: 'V2', icao: 'RBY', callsign: 'RUBY', country: 'United States', active: 'Y',
+},
+{
+ id: '18239', name: 'Yellowtail', alias: '', iata: 'YE', icao: 'YEL', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '18241', name: 'Royal Airways', alias: 'Royal Inc.', iata: 'KG', icao: 'RAW', callsign: 'RAW', country: 'United States', active: 'Y',
+},
+{
+ id: '18257', name: 'Executive AirShare', alias: '', iata: '', icao: 'XSR', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '18529', name: 'T.J. Air', alias: '', iata: 'TJ', icao: 'TJA', callsign: 'T.J. Air', country: 'United States', active: 'Y',
+},
+{
+ id: '18930', name: 'Maryland Air', alias: 'Maryland', iata: 'M1', icao: 'M1F', callsign: 'Maryland Flight', country: 'United States', active: 'Y',
+},
+{
+ id: '19016', name: 'Apache Air', alias: 'Apache', iata: 'ZM', icao: 'IWA', callsign: 'APACHE', country: 'United States', active: 'Y',
+},
+{
+ id: '19287', name: 'National Air Cargo', alias: '', iata: 'N8', icao: 'NCR', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '19290', name: 'Eastern Atlantic Virtual Airlines', alias: '', iata: '13', icao: 'EAV', callsign: 'EAVA', country: 'United States', active: 'Y',
+},
+{
+ id: '19350', name: 'Comfort Express Virtual Charters Albany', alias: '', iata: '', icao: 'EVC', callsign: 'Comfort Express', country: 'United States', active: 'Y',
+},
+{
+ id: '19351', name: 'Comfort Express Virtual Charters', alias: '', iata: '', icao: 'CEO', callsign: '', country: 'United States', active: 'Y',
+},
+{
+ id: '19433', name: 'XAIR USA', alias: '', iata: 'XA', icao: 'XAU', callsign: 'XAIR', country: 'United States', active: 'Y',
+},
+{
+ id: '19619', name: 'Envoy Air', alias: '', iata: '', icao: 'ENY', callsign: 'Envoy', country: 'United States', active: 'Y',
+},
+{
+ id: '19674', name: 'Rainbow Air (RAI)', alias: 'Rainbow Air (RAI)', iata: 'RN', icao: 'RAB', callsign: 'Rainbow', country: 'United States', active: 'Y',
+},
+{
+ id: '19676', name: 'Rainbow Air Polynesia', alias: 'Rainbow Air POL', iata: 'RX', icao: 'RPO', callsign: 'Rainbow Air', country: 'United States', active: 'Y',
+},
+{
+ id: '19678', name: 'Rainbow Air US', alias: 'Rainbow Air US', iata: 'RM', icao: 'RNY', callsign: 'Rainbow Air', country: 'United States', active: 'Y',
+},
+{
+ id: '19774', name: 'Spike Airlines', alias: 'Aero Spike', iata: 'S0', icao: 'SAL', callsign: 'Spike Air', country: 'United States', active: 'Y',
+},
+{
+ id: '19804', name: 'All America', alias: 'All America', iata: 'A2', icao: 'AL2', callsign: '', country: 'United States', active: 'Y',
+},
+ ],
       countries:
 [
    {
@@ -1185,6 +1736,13 @@ export default {
 
     saveDecisionDate(date) {
       this.$refs.decisionDateMenu.save(date);
+    },
+
+    saveArrivalDate(date) {
+      this.$refs.arrivalDateMenu.save(date);
+    },
+    saveArrivalTime(time) {
+      this.$refs.arrivalTimeMenu.save(time);
     },
 
   },
