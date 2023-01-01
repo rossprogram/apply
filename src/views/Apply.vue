@@ -12,7 +12,7 @@
   </v-flex>
 </v-layout>
 
-<p>There are two locations for the Ross Program, and this single application is used for both.</p>
+<p>There are multiple locations for the Ross Program, and this single application is used for all locations.</p>
 
 <p>To enter or upload your application information, click on the menu items to the left.  Files are saved according to the email address you entered when setting up the account.  Please use an email that will remain valid at least through August {{ (new Date()).getFullYear() }}.  </p>
 
