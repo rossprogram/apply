@@ -85,11 +85,12 @@ export default {
 	() => !!this.application.phone || { error: 'You are missing a phone number.', severity: 'warning', to: '/apply/background' },
 	() => !!this.application.schoolName || { error: 'You are missing the name of your current school.', severity: 'warning', to: '/apply/background' },
 	() => (this.application.birthday && (ageInYears(this.application.birthday) >= 10)) || { error: 'You are too young.', to: '/apply/background' },
-	() => (this.application.applyingToUSA || this.application.applyingToAsia) || { error: 'You must apply to one or both of the Ross sites.', to: '/apply/background' },
+	() => (this.application.applyingToOhio || this.application.applyingToIndiana || this.application.applyingToAsia) || { error: 'You must apply to one of the Ross sites.', to: '/apply/background' },
 	() => !!this.application.address || { error: 'You have not included a home address.', to: '/apply/background', severity: 'warning' },
 
-	() => (!this.application.applyingToUSA || this.application.arriveAtStartUSA) || { error: 'If accepted to Ross/Ohio, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
-	() => (!this.application.applyingToAsia || this.application.arriveAtStartAsia) || { error: 'If accepted to Ross/Indiana, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
+	() => (!this.application.applyingToOhio || this.application.arriveAtStartOhio ) || { error: 'If accepted to Ross/Ohio, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
+	() => (!this.application.applyingToAsia || this.application.arriveAtStartAsia ) || { error: 'If accepted to Ross/Philippines, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
+	() => (!this.application.applyingToIndiana || this.application.arriveAtStartIndiana ) || { error: 'If accepted to Ross/Indiana, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
 
 	() => (this.application.nativeEnglish || (Object.values(this.attachments).filter(x => x.label === 'toefl').length > 0)) || { error: 'If your native language is not English, you should submit TOEFL documentation.', severity: 'warning', to: '/apply/background' },
 

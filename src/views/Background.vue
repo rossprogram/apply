@@ -112,15 +112,30 @@
 	    <v-layout wrap>
 	      <v-flex xs12 md6>
 		<v-checkbox
-		  v-model="applyingToUSA"
+		  v-model="applyingToOhio"
 		  label="I want my application to be considered for Ross/Ohio."
 		  ></v-checkbox>
 	      </v-flex>
 	      <v-flex xs12 md6>
 		<v-checkbox
-		  v-if="updatedApplication.applyingToUSA || applyingToUSA"
-		  v-model="arriveAtStartUSA"
-		  label="I will be able to attend the Columbus, Ohio session of the Ross Program starting on Wednesday, June 15, 2022."
+		  v-if="updatedApplication.applyingToOhio || applyingToOhio"
+		  v-model="arriveAtStartOhio"
+		  label="I will be able to attend the Columbus, Ohio session of the Ross Program starting on Sunday, June 11, 2023."
+		  ></v-checkbox>
+	      </v-flex>
+	    </v-layout>
+	    <v-layout wrap>
+	      <v-flex xs12 md6>
+		<v-checkbox
+		  v-model="applyingToIndiana"
+		  label="I want my application to be considered for Ross/Indiana."
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md6>
+		<v-checkbox
+		  v-if="updatedApplication.applyingToIndiana || applyingToIndiana"
+		  v-model="arriveAtStartIndiana"
+		  label="I will be able to attend the Terre Haute, Indaina session of the Ross Program starting on Sunday, June 18, 2023."
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
@@ -128,23 +143,23 @@
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-model="applyingToAsia"
-		  label="I want my application to be considered for Ross/Indiana"
+		  label="I want my application to be considered for Ross/Asia"
 		  ></v-checkbox>
 	      </v-flex>
 	      <v-flex xs12 md6>
 		<v-checkbox
 		  v-if="updatedApplication.applyingToAsia || applyingToAsia"
 		  v-model="arriveAtStartAsia"
-		  label="I will be able to attend the Terre Haute, Indiana session of the Ross Program starting on June 19, 2022."
+		  label="I will be able to attend the Philippines session of the Ross Program starting on a date (to be determined) in mid-June 2023."
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
-	    <v-layout  wrap v-if="(updatedApplication.applyingToAsia || applyingToAsia) && (updatedApplication.applyingToUSA || applyingToUSA)">
+	    <v-layout  wrap v-if="((updatedApplication.applyingToAsia || applyingToAsia) && (updatedApplication.applyingToOhio || applyingToOhio)) || ((updatedApplication.applyingToAsia || applyingToAsia) && (updatedApplication.applyingToIndiana || applyingToIndiana)) || ((updatedApplication.applyingToOhio || applyingToOhio) && (updatedApplication.applyingToIndiana || applyingToIndiana))">
 	      <v-flex xs12 md12>
 		  <v-select
 		    v-model="preferredLocation"
-		    hint="If admitted to both programs, the location I would prefer"
-		    :items="['Ohio', 'Indiana', 'No preference']"
+		    hint="If admitted to multiple programs, the location I would prefer"
+		    :items="['Ohio', 'Indiana', 'Philippines', 'No preference']"
 		    label="Location preference"
 		    prepend-icon="label_important"
 		    single-line
@@ -169,7 +184,6 @@
 	    </v-layout>
 
 	    <v-divider class="mr-4 mt-6"/>
-
 
 	    <v-layout  wrap v-if="updatedApplication.juniorCounselor || juniorCounselor">
 	      <v-flex xs12 md12>
@@ -411,17 +425,25 @@ export default {
       get() { return this.application.lastName; },
       set(v) { this.$set(this.updatedApplication, 'lastName', v); },
     },
-    applyingToUSA: {
-      get() { return this.application.applyingToUSA; },
-      set(v) { this.$set(this.updatedApplication, 'applyingToUSA', v); },
+    applyingToOhio: {
+      get() { return this.application.applyingToOhio; },
+      set(v) { this.$set(this.updatedApplication, 'applyingToOhio', v); },
+    },
+    applyingToIndiana: {
+      get() { return this.application.applyingToIndiana; },
+      set(v) { this.$set(this.updatedApplication, 'applyingToIndiana', v); },
     },
     applyingToAsia: {
       get() { return this.application.applyingToAsia; },
       set(v) { this.$set(this.updatedApplication, 'applyingToAsia', v); },
     },
-    arriveAtStartUSA: {
-      get() { return this.application.arriveAtStartUSA; },
-      set(v) { this.$set(this.updatedApplication, 'arriveAtStartUSA', v); },
+    arriveAtStartOhio: {
+      get() { return this.application.arriveAtStartOhio; },
+      set(v) { this.$set(this.updatedApplication, 'arriveAtStartOhio', v); },
+    },
+    arriveAtStartIndiana: {
+      get() { return this.application.arriveAtStartIndiana; },
+      set(v) { this.$set(this.updatedApplication, 'arriveAtStartIndiana', v); },
     },
     arriveAtStartAsia: {
       get() { return this.application.arriveAtStartAsia; },
