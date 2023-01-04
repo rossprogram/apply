@@ -107,7 +107,7 @@
 
     <v-row><v-col><v-card>
 	  <v-card-title>Locations</v-card-title>
-	  <v-card-subtitle>The Ross Program is planning two in-person sites for 2022.</v-card-subtitle>
+	  <v-card-subtitle>The Ross Program is planning multiple in-person sites for 2023.</v-card-subtitle>
 	  <v-card-text>
 	    <v-layout wrap>
 	      <v-flex xs12 md6>
