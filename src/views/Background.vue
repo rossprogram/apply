@@ -340,6 +340,77 @@
 </v-flex></v-layout>
 	  </v-card-text>
       </v-card></v-col></v-row>
+
+      <v-row><v-col><v-card>
+	  <v-card-title>Race and ethnicity</v-card-title>
+	  <v-card-subtitle>The Ross Program does not discriminate on the basis of gender, gender identity, gender expression, sexual orientation, race, creed, color, ethnic origin, disability, or marital status in its admissions, educational programming, financial aid, employment practices, or other activities.  Gathering information on the race and ethnicity of applicants enables the Ross Mathematics Foundation to measure its diversity and inclusion efforts in admissions.  <strong>Your responding to this question is optional.</strong></v-card-subtitle>
+	  <v-card-text>
+	    <v-layout wrap>
+	      <v-flex xs12 md12>
+		<v-checkbox
+		  v-model="eeoPreferNotToAnswer"
+		  label="I prefer not to answer this question"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoAmerindian"
+		  label="American Indian or Alaska Native"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoAsian"
+		  label="Asian or Asian American"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoBlack"
+		  label="Black or African American"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoHispanic"
+		  label="Hispanic, Latino, Latina, or Latinx"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoMideast"
+		  label="Middle Eastern or Northern African"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoPacificIslander"
+		  label="Native Hawaiian or Other Pacific Islander"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoWhite"
+		  label="White"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md4 v-if="eeoShowChoices">
+		<v-checkbox
+		  v-model="eeoOther"
+		  label="Another option not listed here"
+		  ></v-checkbox>
+	      </v-flex>
+	      <v-flex xs12 md12 v-if="eeoShowChoices && (eeoOther || updatedApplication.eeoOther)">
+	      <v-textarea
+		outlined
+		label="Additional information about your race and ethnicity"
+		v-model="eeoOtherText"
+		/>
+	      </v-flex>
+	    </v-layout>
+
+	  </v-card-text>
+      </v-card></v-col></v-row>
 </v-container>
 
   <v-flex
@@ -383,6 +454,10 @@ export default {
   computed: {
     ...mapState(['application']),
     ...mapState(['attachments']),
+
+    juniorCounselor: {
+      get() { return this.application.juniorCounselor; },
+    },
 
     toeflAttachments: {
       get() {
@@ -493,7 +568,54 @@ export default {
       get() { return this.application.citizenship; },
       set(v) { this.$set(this.updatedApplication, 'citizenship', v); },
     },
-
+    eeoAmerindian: {
+      get() { return this.application.eeoAmerindian; },
+      set(v) { this.$set(this.updatedApplication, 'eeoAmerindian', v); },
+    },
+    eeoAsian: {
+      get() { return this.application.eeoAsian; },
+      set(v) { this.$set(this.updatedApplication, 'eeoAsian', v); },
+    },
+    eeoBlack: {
+      get() { return this.application.eeoBlack; },
+      set(v) { this.$set(this.updatedApplication, 'eeoBlack', v); },
+    },
+    eeoHispanic: {
+      get() { return this.application.eeoHispanic; },
+      set(v) { this.$set(this.updatedApplication, 'eeoHispanic', v); },
+    },
+    eeoMideast: {
+      get() { return this.application.eeoMideast; },
+      set(v) { this.$set(this.updatedApplication, 'eeoMideast', v); },
+    },
+    eeoPacificIslander: {
+      get() { return this.application.eeoPacificIslander; },
+      set(v) { this.$set(this.updatedApplication, 'eeoPacificIslander', v); },
+    },
+    eeoWhite: {
+      get() { return this.application.eeoWhite; },
+      set(v) { this.$set(this.updatedApplication, 'eeoWhite', v); },
+    },
+    eeoShowChoices: {
+      get() {
+	if (this.updatedApplication.eeoPreferNotToAnswer !== undefined) {
+	  return !this.updatedApplication.eeoPreferNotToAnswer;
+	}
+	return !this.application.eeoPreferNotToAnswer;
+      },
+    },
+    eeoPreferNotToAnswer: {
+      get() { return this.application.eeoPreferNotToAnswer; },
+      set(v) { this.$set(this.updatedApplication, 'eeoPreferNotToAnswer', v); },
+    },
+    eeoOther: {
+      get() { return this.application.eeoOther; },
+      set(v) { this.$set(this.updatedApplication, 'eeoOther', v); },
+    },
+    eeoOtherText: {
+      get() { return this.application.eeoOtherText; },
+      set(v) { this.$set(this.updatedApplication, 'eeoOtherText', v); },
+    },
   },
 
   data() {
