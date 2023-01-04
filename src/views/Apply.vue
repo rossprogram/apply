@@ -8,7 +8,7 @@
     <v-checkbox
       v-model="juniorCounselor"
       >
-      <template v-slot:label>I was accepted and <strong>I have attended the Ross Program in Summer 2022</strong> or in a previous summer.</template>
+      <template v-slot:label><span>I was accepted and <strong>I have attended the Ross Program in Summer 2022</strong> or in a previous summer.</span></template>
     </v-checkbox>
   </v-flex>
 </v-layout>
