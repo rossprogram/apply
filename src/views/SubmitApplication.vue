@@ -28,7 +28,7 @@
 	  <p>After you click the blue &ldquo;Submit your Application&rdquo; button, the system might respond with a list of Errors and Warnings. Errors will stop your submission. A comment will state what required information is missing. Warnings are suggestions for improving your application, but will not block the submission.</p>
 	  <p>After your application has been submitted successfully, you may view (but not change) your submitted materials using the menu on the left.</p>
 	  <p>The red &ldquo;Withdraw your Application&rdquo; button allows you to undo your submission.  All materials you typed and uploaded will remain, allowing you to edit those materials as you choose. Then you may click &ldquo;Submit your Application&rdquo; as before.</p>
-	  <p><strong>Note:</strong>  Applications that are submitted in early April (after the deadline) will not be reviewed as carefully as those submitted earlier.  If you make changes in your file in early April, please alert the Committee with an email to <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a>.</p>
+	  <p><strong>Warning:</strong>  For full consideration of your application, the last submission must happen before the March 31 deadline. Applications that are submitted in early April (after the deadline) will not be reviewed as carefully as those submitted earlier.  If you make changes in your file in early April, please alert the Committee with an email to <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a>.</p>
 </v-card-subtitle>
 	<v-card-text v-if="!application.submitted">
 	  <v-btn @click="submitApplication" color="primary">Submit your application</v-btn>

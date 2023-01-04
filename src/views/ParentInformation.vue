@@ -3,7 +3,7 @@
   <v-container fluid>
     <v-row><v-col><v-card>
       <v-card-title>Your parent or guardian</v-card-title>
-    <v-card-subtitle>During the Program, we may need to contact your parent or guardian.  Please provide information (valid during Summer {{(new Date()).getFullYear()}}) on your parent or guardian below.</v-card-subtitle>
+    <v-card-subtitle>During the Program, we may need to contact your parent or guardian.  Please provide information (valid during Summer {{(new Date()).getFullYear()}}) on your parent or guardian below.  You can separate multiple email addresses for your parent(s) with commas.</v-card-subtitle>
     <v-card-text class="py-0">
           <v-text-field
             label="Your Parent's Full Name"
@@ -26,9 +26,9 @@
 	  <v-textarea
 	    outlined
 	    prepend-icon="mdi-home"
-	    label="Your parent's home address"
+	    label="Your parent's complete home address"
 	    v-model="parentAddress"
-	    hint="A residential address where your parent can receive mail"
+	    hint="A residential mailing address where your parent can receive mail, including the city and country"
 	    ></v-textarea>
     </v-card-text>
     </v-card></v-col></v-row>

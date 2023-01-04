@@ -8,7 +8,7 @@
 	      <li>The solution to each problem must be uploaded as a separate PDF.</li>
 	      <li>Use the PDF file format. If your solution file is in some other fomat, please transform it to a PDF, check that the converted file is readable, and then upload that PDF.</li>
 	      <li>We welcome solutions that have been prepared with LaTeX or some similar typesetting program that produces PDFs. It is OK to type up your work using a word processor (like Microsoft Word), and then converting that file to a PDF. Please verify that the mathematical symbols you use are readable.</li>
-	      <li>You are allowed to write up your solutions by hand, provided you use black ink or <strong>very dark</strong> pencil. Scan (or photograph) each page, combine the pages for one problem into a single PDF, check that the file is readable, and then upload that file. Please be sure to reduce the file size to be less than five megabytes. The Ross system cannot accept any files of larger size.</li>
+	      <li>You are allowed to write up your solutions by hand, provided you use black ink or <strong>very dark</strong> pencil. Scan each page, combine the pages for one problem into a single PDF, check that the file is readable, and then upload that file. Please be sure to reduce the file size to be less than five megabytes. The Ross system cannot accept any files of larger size.</li>
 	    </ul>
 	    <p>The Admissions Committee is not looking for quick answers written in minimal space,  but rather for readable mathematical expositions that includes evidence of your explorations, conjectures, and proofs.</p></v-card-subtitle>
 

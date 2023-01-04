@@ -230,10 +230,10 @@
 		>
 		<v-textarea
 		  outlined
-		  label="Your current address"
+		  label="Your current full address including your city and country"
 		  v-model="address"
 		  prepend-icon="home"
-		  hint="The address where you are living during the academic year"
+		  hint="The complete mailing address where you are living during the academic year"
 		  ></v-textarea>
 	    </v-flex></v-layout>
 	    <v-divider class="mr-4"/>
