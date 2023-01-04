@@ -3,7 +3,7 @@
   <v-container fluid>
     <v-row><v-col><v-card>
 	  <v-card-title>Solutions</v-card-title>
-	  <v-card-subtitle>Work on the Application Problems which you can find at <a href="https://rossprogram.org/students/application-problems.pdf">https://rossprogram.org/students/application-problems.pdf</a>. Upload your carefully written solutions to those problems.
+	  <v-card-subtitle>Work on the 2023 Application Problems which you can find at <a href="https://rossprogram.org/students/application-problems.pdf">https://rossprogram.org/students/application-problems.pdf</a>. Upload your carefully written solutions to those problems.
 	    <ul>
 	      <li>The solution to each problem must be uploaded as a separate PDF.</li>
 	      <li>Use the PDF file format. If your solution file is in some other fomat, please transform it to a PDF, check that the converted file is readable, and then upload that PDF.</li>
