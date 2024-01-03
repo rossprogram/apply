@@ -3,17 +3,9 @@
   <v-container fluid>
     <v-row><v-col><v-card>
 	  <v-card-title>Personal Statement</v-card-title>
-	  <v-card-subtitle>This essay serves as your introduction to the Admissions Committee, and provides an opportunity for you to discuss your interest in mathematics and your goals for your participation in the Ross Program.  For your Personal Statement, please write one essay discussing the following questions and related topics.</v-card-subtitle>
+
+<v-card-subtitle>This is free space for you to tell us about yourself! <strong>Introduce yourself to us: who are you?</strong> This essay serves as your introduction to the Admissions Committee, and provides an opportunity for you to discuss your interest in mathematics and your goals for your participation in the Ross Program.</v-card-subtitle>
 	  <v-card-text class="py-0">
-	    <p>You may type (or copy and paste) the essay into the textbox below, or you may upload a PDF version of your essay.</p>
-	    <ul>
-	      <li>What aspect of mathematics draws your interest and attention?
-		Are you interested in math for its own sake? For the thrill of solving puzzling problems?  Or because math has important applications to other fields?</li>
-	      <li>Do you have some strong academic interests in addition to math?  For instance, are you intensively studying physics? Or economics?  Are you serious about Chinese literature, paleontology, or modern dance?</li>
-	      <li>What do you hope to gain by attending this challenging summer program?</li>
-	      <li>How do you like to spend your time?</li>
-	      <li>What are your hobbies or interests outside of school?</li>
-	    </ul>
 	    <v-textarea
 	      class="my-4"
 	      outlined

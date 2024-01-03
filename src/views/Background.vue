@@ -120,7 +120,7 @@
 		<v-checkbox
 		  v-if="updatedApplication.applyingToOhio || applyingToOhio"
 		  v-model="arriveAtStartOhio"
-		  label="I will be able to attend the Columbus, Ohio session of the Ross Program starting on Sunday, June 11, 2023."
+		  label="I will be able to attend the Columbus, Ohio session of the Ross Program starting on Sunday, June 9, 2024."
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
@@ -135,22 +135,7 @@
 		<v-checkbox
 		  v-if="updatedApplication.applyingToIndiana || applyingToIndiana"
 		  v-model="arriveAtStartIndiana"
-		  label="I will be able to attend the Terre Haute, Indaina session of the Ross Program starting on Sunday, June 18, 2023."
-		  ></v-checkbox>
-	      </v-flex>
-	    </v-layout>
-	    <v-layout  wrap>
-	      <v-flex xs12 md6>
-		<v-checkbox
-		  v-model="applyingToAsia"
-		  label="I want my application to be considered for Ross/Asia"
-		  ></v-checkbox>
-	      </v-flex>
-	      <v-flex xs12 md6>
-		<v-checkbox
-		  v-if="updatedApplication.applyingToAsia || applyingToAsia"
-		  v-model="arriveAtStartAsia"
-		  label="I will be able to attend the Philippines session of the Ross Program starting on a date (to be determined) in mid-June 2023."
+		  label="I will be able to attend the Terre Haute, Indaina session of the Ross Program starting on Sunday, June 16, 2024."
 		  ></v-checkbox>
 	      </v-flex>
 	    </v-layout>
@@ -158,8 +143,8 @@
 	      <v-flex xs12 md12>
 		  <v-select
 		    v-model="preferredLocation"
-		    hint="If admitted to multiple programs, the location I would prefer"
-		    :items="['Ohio', 'Indiana', 'Philippines', 'No preference']"
+		    hint="If admitted to both programs, the location I would prefer"
+		    :items="['Ohio', 'Indiana', 'No preference']"
 		    label="Location preference"
 		    prepend-icon="label_important"
 		    single-line

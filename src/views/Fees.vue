@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row><v-col><v-card>
 	    <v-card-title>Make credit card payment</v-card-title>
-	    <v-card-subtitle>You may pay the Program Fees to the Ross Mathematics Foundation.  Your remaining balance is ${{ ( (600000 - this.totalPaid) / 100).toFixed(2) }}.</v-card-subtitle>
+	    <v-card-subtitle>You may pay the Program Fees to the Ross Mathematics Foundation.  Your remaining balance is ${{ ( (700000 - this.totalPaid) / 100).toFixed(2) }}.</v-card-subtitle>
 	    <v-card-text>
 	      <v-layout wrap>
 	      <v-layout wrap>
@@ -88,7 +88,7 @@
 		</v-list-item-icon>
 		<v-list-item-content>
 		  <v-list-item-title>Total paid: ${{ (this.totalPaid / 100).toFixed(2) }}</v-list-item-title>
-		  <v-list-item-subtitle v-if="this.totalPaid <= 600000">Outstanding balance: ${{ ( (600000 - this.totalPaid) / 100).toFixed(2) }}</v-list-item-subtitle>
+		  <v-list-item-subtitle v-if="this.totalPaid <= 700000">Outstanding balance: ${{ ( (700000 - this.totalPaid) / 100).toFixed(2) }}</v-list-item-subtitle>
 		</v-list-item-content>
 	      </v-list-item>
 

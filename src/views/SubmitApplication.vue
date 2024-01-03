@@ -88,9 +88,9 @@ export default {
 	() => (this.application.applyingToOhio || this.application.applyingToIndiana || this.application.applyingToAsia) || { error: 'You must apply to one of the Ross sites.', to: '/apply/background' },
 	() => !!this.application.address || { error: 'You have not included a home address.', to: '/apply/background', severity: 'warning' },
 
-	() => (!this.application.applyingToOhio || this.application.arriveAtStartOhio ) || { error: 'If accepted to Ross/Ohio, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
-	() => (!this.application.applyingToAsia || this.application.arriveAtStartAsia ) || { error: 'If accepted to Ross/Philippines, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
-	() => (!this.application.applyingToIndiana || this.application.arriveAtStartIndiana ) || { error: 'If accepted to Ross/Indiana, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
+	() => (!this.application.applyingToOhio || this.application.arriveAtStartOhio) || { error: 'If accepted to Ross/Ohio, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
+	() => (!this.application.applyingToAsia || this.application.arriveAtStartAsia) || { error: 'If accepted to Ross/Philippines, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
+	() => (!this.application.applyingToIndiana || this.application.arriveAtStartIndiana) || { error: 'If accepted to Ross/Indiana, you must arrive at the beginning of the Program.', to: '/apply/background', severity: 'warning' },
 
 	() => (this.application.nativeEnglish || (Object.values(this.attachments).filter(x => x.label === 'toefl').length > 0)) || { error: 'If your native language is not English, you should submit TOEFL documentation.', severity: 'warning', to: '/apply/background' },
 
@@ -105,13 +105,11 @@ export default {
       rules: [
 	() => !!this.application.personalStatement || (Object.values(this.attachments).filter(x => x.label === 'statement').length > 0) || { error: 'You have not included a personal statement.', to: '/apply/statement' },
 
-	() => !!this.application.interestingProjects || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe an interesting project you have worked on.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.otherPrograms || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your participation in any other programs.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.books || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your favorite books and websites.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.intendedMajor || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your intended major and career.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.collaboration || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your experiences with collaboration.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.otherCourses || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your prior coursework in mathematics.', severity: 'warning', to: '/apply/essays' },
-	() => !!this.application.eager || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not share your thoughts about being away from home.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.passion || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your mathematical journey.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.collaboration || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your experience with collaboration.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.previousExperience || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe how your personal background shaped your journey.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.otherPrograms || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe activities you engage in outside of classes.', severity: 'warning', to: '/apply/essays' },
+	() => !!this.application.intendedMajor || (Object.values(this.attachments).filter(x => x.label === 'essay').length > 0) || { error: 'You did not describe your future goals.', severity: 'warning', to: '/apply/essays' },
 
 	() => (Object.values(this.attachments).filter(x => x.label === 'statement').length > 0) || (this.application.personalStatement && this.application.personalStatement.length > 250) || { error: 'Your personal statement is short.', to: '/apply/statement', severity: 'warning' },
 

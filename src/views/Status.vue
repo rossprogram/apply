@@ -160,30 +160,40 @@
 
 
 <div v-if="this.offer.location === 'ohio'">
-  <p>Congratulations! You have been accepted as a participant in the 2022 Ross Mathematics Program
-    at Ohio Dominican University in Columbus, Ohio.  This location will run from June 15 (Wednesday) through  July 27, 2022.</p>
-  <p>You should plan to arrive at the Columbus airport (CMH) on Tuesday June 14 in the afternoon.  There will be an orientation meeting that night at 7 PM.</p>
+  <p>Congratulations! You have been accepted as a participant in the 2023 Ross Mathematics Program
+    at Otterbein University in Columbus, Ohio.  This location will run from June 11 through  July 21, 2023.</p>
+  <p>You should plan to arrive at the Columbus airport (CMH) on June 11 (Sunday) in the afternoon.  There will be an orientation meeting that night at 7 PM.</p>
 </div>
 <div v-else-if="this.offer.location === 'indiana'">
-  <p>Congratulations! You have been accepted as a participant in the 2022 Ross Mathematics Program
+  <p>Congratulations! You have been accepted as a participant in the 2023 Ross Mathematics Program
     at Rose-Hulman Institute of Technology in Terre Haute, Indiana.  This location will run from
-    June 19 (Sunday) through July 29, 2022.</p>
-  <p>You should plan to arrive at the Indianapolis airport (IND) on Sunday June 19 in the afternoon. There will be an orientation meeting that night at 7 PM.</p>
+    June 18 through July 28, 2023.</p>
+  <p>You should plan to arrive at the Indianapolis airport (IND) on June 18 (Sunday) in the afternoon. There will be an orientation meeting that night at 7 PM.</p>
+</div>
+<div v-else-if="this.offer.location === 'philippines'">
+  <p>Congratulations! You have been accepted as a participant in the 2023 Ross Mathematics Program in the location in the Philippines.  This location is not run by the Ross Mathematics Foundation, but rather by Renascentia Hall International.  This location will run from July 9 through August 11, 2023. Participants from outside the Philippines should plan to arrive in Manila on Saturday July 8 (after noon), with departing flights on Friday evening August 11, or on Saturday August 12.
+ Renascentia Hall International will provide more information.</p>
 </div>
 <div v-else>
-  <p>Congratulations! You have been accepted as a participant in the 2022 Ross Mathematics Program.</p>
+  <p>Congratulations! You have been accepted as a participant in the Ross Mathematics Program.</p>
 </div>
 
-<p>Please let us know whether you accept a spot in the in-person 2022 Ross Program. An email will be sent in early May requesting additional information, a parental approval form, instructions for payment and for scholarship requests.</p>
+<p>Please let us know whether you accept a spot in the in-person 2023 Ross Program. An email will be sent in early May requesting additional information, a parental approval form, instructions for payment and for scholarship requests.</p>
 
 <hr/>
 
-<h3>Plans for the 2022 Ross Program</h3>
+<h3>Plans for the 2023 Ross Program</h3>
 
-    <p>During those six weeks, you will be part of a Ross “family” of 4 or 5 students and a junior-counselor, led by a counselor.  You are welcome to join the more advanced Ross courses, provided you are keeping up with the Number Theory course.</p>
+    <p>During the Program, you will be part of a Ross “family” of 4 or 5 students and a junior-counselor, led by a counselor.  You are welcome to join the more advanced Ross courses, provided you are keeping up with the Number Theory course.</p>
 
+<div v-if="this.offer.location === 'philippines'">
+  <h4>Costs</h4>
+  <p>In exchange for those many weeks of mathematical experiences, each Ross participant is charged a program fee of $6000 (US Dollars).  Since Ross/Asia is run by  Renascentia Hall International, those program fees must be paid directly to Renascentia Hall International.  Information on how to make such payments will be emailed to accepted participants.</p>
+</div>
+<div v-else>
 <h4>Costs</h4>
-<p>In exchange for those six weeks of mathematical experiences, each Ross participant is charged a program fee of $6000 (US Dollars), payable by personal check, credit card, or wire transfer. That fee will be due some weeks before the start of the summer session.  These funds provide for room and board (i.e., housing in the dorm and meals in the cafeteria) for those six weeks as well as salaries for the instructional staff.</p>
+<p>In exchange for those many weeks of mathematical experiences, each Ross participant is charged a program fee of $6000 (US Dollars), payable by personal check, credit card, or wire transfer. That fee will be due some weeks before the start of the summer session.  These funds provide for room and board (i.e., housing in the dorm and meals in the cafeteria) for those weeks as well as salaries for the instructional staff.</p>
+</div>
 
 <p>Scholarship funds are available to help support participants whose families have some financial need.</p>
   </div>
@@ -194,25 +204,23 @@ Admissions Committee has to make difficult choices.  They decided that
 we are not able to accept you to the Ross Program this year.</p>
 
 <p>These are hard decisions to make and it is painful to me to write
-negative messages like this, to talented and eager applicants.  You
-clearly spent some effort working on this application, with good
-solutions to some of the application problem.  However, many students
-submitted strong applications and we do not have enough room to accept
-  them all.</p>
+negative messages like this, to talented and eager applicants.  Many
+students submitted strong applications and we do not have enough room
+to accept them all.</p>
 
   <div v-if="this.offer.offer === 'waitlist'">
-<p>Since your application has positive aspects, we have put your name on
+    <p>We have put your name on
 the <strong>Waiting List</strong> for the  Ross Program.  If some spots are still
 available by the end of the season, we will contact you
 again to ask whether you are still interested.</p></div>
 
-<p>I hope you continue to pursue your strong interests in mathematics and
+<p>We hope you continue to pursue your strong interests in mathematics and
 related fields.</p>
 
   </div>
 
   <div v-if="! this.offer">
-    <p>Unfortunately, the Admissions Committee is still evaluating applications.  We expect to have more information after mid-April.</p>
+    <p>Unfortunately, the Admissions Committee is still evaluating applications.  We expect to have more information in the coming weeks.</p>
   </div>
   <p>Please make sure you "log in" to access this page.  (You may need to log out first.)</p>
   <p>If you have questions about the admissions process or any trouble using this page, please contact

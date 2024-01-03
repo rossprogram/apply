@@ -2,12 +2,10 @@
 <v-form :key="key">
   <v-container fluid>
 
-    <p>For your resposes below, if you wish to use mathematical formatting not available here, you may include your response as a PDF file and upload it using the Attachments option in the menu on the left. If you do this, please type &ldquo;See Attachments&rdquo; in the text boxes below.</p>
 
     <v-row><v-col><v-card>
 	  <v-card-title>Previous experience</v-card-title>
-	  <v-card-subtitle><strong>Think back to your previous experience in the Ross Program.</strong> When did you attend the Ross Program? Who was your counselor? How far did you progress through the Ross Number Theory problem sets?
-Have you done any work on those problems since then?
+	  <v-card-subtitle><strong>Tell us about your experience at Ross!</strong> In particular, what makes you want to return to Ross?
 	  </v-card-subtitle>
 	  <v-card-text class="py-0">
 	    <v-textarea
@@ -31,9 +29,7 @@ Have you done any work on those problems since then?
 
     <v-row><v-col><v-card>
 	  <v-card-title>Most interesting parts of Ross</v-card-title>
-	  <v-card-subtitle><strong>What parts of the Ross Program did you find most interesting or useful?</strong>
-	    Number Theory lecture? Family meetings? Collaboration room? Working on the sets? Discussing math with counselor or JC?
-	    Talking about math with your friends? Etc.
+	  <v-card-subtitle><strong>Tell us about what you learned from Ross.</strong> What were the most meaningful mathematical experiences you had at Ross?
 	  </v-card-subtitle>
 	  <v-card-text class="py-0">
 	    <v-textarea
@@ -56,63 +52,46 @@ Have you done any work on those problems since then?
     </v-card></v-col></v-row>
 
 
-    <v-row><v-col><v-card>
-	  <v-card-title>Other programs</v-card-title>
-	  <v-card-subtitle><strong>What math or science activities have you been involved with since you left Ross?</strong> In a math club? Studied an interesting math book?
-	  </v-card-subtitle>
-	  <v-card-text class="py-0">
-	    <v-textarea
-	      outlined
-	      label="Your response"
-	      v-model="otherPrograms"
-	      >
-	    </v-textarea>
-	  </v-card-text>
-	  <v-card-actions>
-	    <v-btn
-	      text
-	      @click="saveApplication"
-	      color="primary"
-              :disabled="Object.keys(this.updatedApplication).length == 0"
-	      >
-	      Save
-	    </v-btn>
-	  </v-card-actions>
-    </v-card></v-col></v-row>
-
-    <v-row><v-col><v-card>
-	  <v-card-title>Mathematical interests</v-card-title>
-	  <v-card-subtitle><strong>What mathematical areas do you find most interesting?</strong>
-	  </v-card-subtitle>
-	  <v-card-text class="py-0">
-	    <v-textarea
-	      outlined
-	      label="Your response"
-	      v-model="mostInterestingMath"
-	      >
-	    </v-textarea>
-	  </v-card-text>
-	  <v-card-actions>
-	    <v-btn
-	      text
-	      @click="saveApplication"
-	      color="primary"
-              :disabled="Object.keys(this.updatedApplication).length == 0"
-	      >
-	      Save
-	    </v-btn>
-	  </v-card-actions>
-    </v-card></v-col></v-row>
-
-
-    <v-row><v-col><v-card>
-    <v-card-title>Problem</v-card-title>
-    <v-card-subtitle><strong>What is an interesting mathematical problem you have worked on during the past several months?</strong>  Carefully state the problem. Describe the work you have done on it.</v-card-subtitle>
+  <v-row><v-col><v-card>
+    <v-card-title>Community</v-card-title>
+    <v-card-subtitle>As a returning student, you will play an important role in creating a welcoming and
+inclusive community at Ross. <strong>How did you help make Ross a welcoming community
+during your time at Ross?</strong> What will you commit to doing to help make Ross a
+welcoming community for everyone?
+    </v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
 	label="Your response"
-	v-model="interestingProblem"
+	v-model="community"
+	>
+      </v-textarea>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+	text
+	@click="saveApplication"
+	color="primary"
+        :disabled="Object.keys(this.updatedApplication).length == 0"
+	>
+	Save
+      </v-btn>
+    </v-card-actions>
+  </v-card></v-col></v-row>
+
+  <v-row><v-col><v-card>
+    <v-card-title>Collaboration</v-card-title>
+    <v-card-subtitle>
+Collaborating and working together mathematically is an important aspect of Ross.
+<strong>Describe a time at Ross where you collaborated with others.</strong> What norms, practices, and
+values made the collaboration effective? How will you practice collaboration at Ross to
+make Ross a welcoming learning environment for everyone?
+    </v-card-subtitle>
+    <v-card-text class="py-0">
+      <v-textarea
+	outlined
+	label="Your response"
+	v-model="collaboration"
 	>
       </v-textarea>
     </v-card-text>
@@ -130,12 +109,35 @@ Have you done any work on those problems since then?
 
   <v-row><v-col><v-card>
     <v-card-title>Future goals</v-card-title>
-    <v-card-subtitle><strong>What do you plan to major in at college?</strong> What are your career goals? Do you feel &ldquo;driven&rdquo; toward one type of work? (Like an academic career in math, astronomy, or economics? Or a career in finance? etc.) Or will you take a variety of courses in college and see what areas seem most interesting?</v-card-subtitle>
+    <v-card-subtitle>What do you plan to major in at college?</strong> What are your career goals? Do you feel &ldquo;driven&rdquo; toward one type of work? (Like an academic career in math, astronomy, or economics? Or a career in finance? etc.) Or will you take a variety of courses in college and see what areas seem most interesting?</v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
 	label="Your response"
 	v-model="intendedMajor"
+	>
+      </v-textarea>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+	text
+	@click="saveApplication"
+	color="primary"
+        :disabled="Object.keys(this.updatedApplication).length == 0"
+	>
+	Save
+      </v-btn>
+    </v-card-actions>
+  </v-card></v-col></v-row>
+
+  <v-row><v-col><v-card>
+    <v-card-title>Other Information</v-card-title>
+    <v-card-subtitle><strong>Is there anything else you’d like to tell us?</v-card-subtitle>
+    <v-card-text class="py-0">
+      <v-textarea
+	outlined
+	label="Your response"
+	v-model="otherInformation"
 	>
       </v-textarea>
     </v-card-text>
@@ -178,19 +180,6 @@ export default {
   computed: {
     ...mapState(['application']),
 
-    intendedMajor: {
-      get() { return this.application.intendedMajor; },
-      set(v) { this.$set(this.updatedApplication, 'intendedMajor', v); },
-    },
-    interestingProblem: {
-      get() { return this.application.interestingProblem; },
-      set(v) { this.$set(this.updatedApplication, 'interestingProblem', v); },
-    },
-    otherPrograms: {
-      get() { return this.application.otherPrograms; },
-      set(v) { this.$set(this.updatedApplication, 'otherPrograms', v); },
-    },
-
     previousExperience: {
       get() { return this.application.previousExperience; },
       set(v) { this.$set(this.updatedApplication, 'previousExperience', v); },
@@ -199,9 +188,21 @@ export default {
       get() { return this.application.mostInterestingRoss; },
       set(v) { this.$set(this.updatedApplication, 'mostInterestingRoss', v); },
     },
-    mostInterestingMath: {
-      get() { return this.application.mostInterestingMath; },
-      set(v) { this.$set(this.updatedApplication, 'mostInterestingMath', v); },
+  community: {
+      get() { return this.application.community; },
+      set(v) { this.$set(this.updatedApplication, 'community', v); },
+    },
+  collaboration: {
+      get() { return this.application.collaboration; },
+      set(v) { this.$set(this.updatedApplication, 'collaboration', v); },
+    },
+    intendedMajor: {
+      get() { return this.application.intendedMajor; },
+      set(v) { this.$set(this.updatedApplication, 'intendedMajor', v); },
+    },
+    otherInformation: {
+        get() { return this.application.otherInformation; },
+      	set(v) { this.$set(this.updatedApplication, 'otherInformation', v); },
     },
 
   },

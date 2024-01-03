@@ -4,52 +4,27 @@
 
     <p>Please respond to each of the prompts below.  There is no prescribed word count limit.</p>
 
-      <v-row><v-col><v-card>
-    <v-card-title>Optional PDF</v-card-title>
-    <v-card-subtitle>For your response below, if you wish to use mathematical formatting not available here, you may include your response to all prompts below as a single PDF file.</v-card-subtitle>
-    <v-card-text class="py-0">
-	      <v-list-item two-line v-for="attachment in essayAttachments"
-			   :href="attachment.url"
-			   :key="attachment.id">
-		<v-list-item-icon>
-		  <v-icon>mdi-file</v-icon>
-		</v-list-item-icon>
-		<v-list-item-content>
-		  <v-list-item-title>{{ attachment.name }}</v-list-item-title>
-		  <v-list-item-subtitle v-if="attachment.createdAt">Uploaded {{ attachment.createdAt | moment("from", "now") }}</v-list-item-subtitle>
-		</v-list-item-content>
-		<v-list-item-action @click.prevent="remove(attachment.id)">
-		  <v-btn icon>
-		    <v-icon color="grey lighten-1">mdi-delete</v-icon>
-		  </v-btn>
-		</v-list-item-action>
-	      </v-list-item>
-
-	      <v-list-item two-line>
-		<v-list-item-content>
-		  <v-list-item-title>
-		    <v-file-input v-model="file" label="Upload your essay responses" hint="Optionally, instead of entering your responses below, you may upload your responses as a PDF." persistent-hint/>
-		  </v-list-item-title>
-		  <v-list-item-subtitle></v-list-item-subtitle>
-		</v-list-item-content>
-		<v-list-item-action @click="upload">
-		  <v-btn color="primary">
-		    Upload
-		    <v-icon right>mdi-upload</v-icon>
-		  </v-btn>
-		</v-list-item-action>
-	      </v-list-item>
-	      </v-card-text>
-      </v-card></v-col></v-row>
-
   <v-row><v-col><v-card>
-    <v-card-title>Projects</v-card-title>
-    <v-card-subtitle><strong>Have you worked on some interesting mathematical projects?</strong> If so, what were the topics? For the project you enjoyed the most: How much time did you spend on it? Were you working alone, guided by a mentor, or as part of a team? What benefits do you feel you gained from doing that work?</v-card-subtitle>
+    <v-card-title>Passion</v-card-title>
+    <v-card-subtitle><strong>Tell us about your mathematical journey!</strong> Some possible things you could talk about
+are the following (you do not have to answer all of these, nor are you limited to these
+questions):
+<ul>
+<li>How did you come to love math? What draws you to math?</li>
+<li>What mathematical experiences have you enjoyed?</li>
+<li>What is a mathematical idea you find exciting and would love to share?</li>
+<li>Tell us about some mathematics that you’ve worked on and enjoyed.</li>
+</ul>
+All responses are welcome! This isn’t a test for coming up with something
+&ldquo;impressive&rdquo; or for you to try and figure out what math we’re &ldquo;looking for&rdquo; &mdash; we really
+want to hear about mathematics that you like and find interesting.)
+Coming to Ross is a 6-week endeavor. What makes you want to come to Ross and do
+math for 6 weeks? What do you hope to get out of Ross?</v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
 	label="Your response"
-	v-model="interestingProjects"
+	v-model="passion"
 	>
       </v-textarea>
     </v-card-text>
@@ -65,83 +40,22 @@
     </v-card-actions>
   </v-card></v-col></v-row>
 
-  <v-row><v-col><v-card>
-    <v-card-title>Competitions</v-card-title>
-    <v-card-subtitle><strong>Have you recently participated in some math competitions?</strong> Which ones? Did you do well on them? Do you feel that the process of preparing for math competitions to be more interesting and worthwhile than the math courses you have taken in high school or in other venues?</v-card-subtitle>
-    <v-card-text class="py-0">
-      <v-textarea
-	outlined
-	label="Your response"
-	v-model="competitions"
-	>
-      </v-textarea>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-	text
-	@click="saveApplication"
-	color="primary"
-        :disabled="Object.keys(this.updatedApplication).length == 0"
-	>
-	Save
-      </v-btn>
-    </v-card-actions>
-  </v-card></v-col></v-row>
 
   <v-row><v-col><v-card>
-    <v-card-title>Other programs</v-card-title>
-    <v-card-subtitle><strong>Have you participated in academic programs outside of school?</strong> This might include another summer math camp, a local Math Club, or a Math Circle at some nearby college.  What sorts of activities were involved? Did you enjoy those experiences?  Were the programs online or were they in-person?</v-card-subtitle>
+    <v-card-title>Community</v-card-title>
+    <v-card-subtitle>At Ross, you will have to live with many different people, some who you may have
+    much in common with, and some who may have different life experiences from your
+own. <strong>What should people know about you to share the same
+space as you, and for you to feel valued in a community?</strong> (This can include, but is not
+limited to: what should people know about the way you engage with and learn
+mathematics?) What will you commit to doing to help make the community one that
+welcomes your future community members?
+    </v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
 	label="Your response"
-	v-model="otherPrograms"
-	>
-      </v-textarea>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-	text
-	@click="saveApplication"
-	color="primary"
-        :disabled="Object.keys(this.updatedApplication).length == 0"
-	>
-	Save
-      </v-btn>
-    </v-card-actions>
-  </v-card></v-col></v-row>
-
-  <v-row><v-col><v-card>
-    <v-card-title>Books and websites</v-card-title>
-    <v-card-subtitle><strong>What have you read recently about mathematics?</strong> Which math books are your favorites? What parts of them were most enjoyable or interesting to you? What interesting mathematical websites have you visited in the past year? What aspects of math have you learned by reading the material on those sites?</v-card-subtitle>
-    <v-card-text class="py-0">
-      <v-textarea
-	outlined
-	label="Your response"
-	v-model="books"
-	>
-      </v-textarea>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-	text
-	@click="saveApplication"
-	color="primary"
-        :disabled="Object.keys(this.updatedApplication).length == 0"
-	>
-	Save
-      </v-btn>
-    </v-card-actions>
-  </v-card></v-col></v-row>
-
-  <v-row><v-col><v-card>
-    <v-card-title>Future goals</v-card-title>
-    <v-card-subtitle><strong>What do you plan to major in at college?</strong> What are your career goals? Do you feel &ldquo;driven&rdquo; toward one type of work? (Like an academic career in math, astronomy, or economics? Or a career in finance? etc.) Or will you take a variety of courses in college and see what areas seem most interesting?</v-card-subtitle>
-    <v-card-text class="py-0">
-      <v-textarea
-	outlined
-	label="Your response"
-	v-model="intendedMajor"
+	v-model="community"
 	>
       </v-textarea>
     </v-card-text>
@@ -159,7 +73,13 @@
 
   <v-row><v-col><v-card>
     <v-card-title>Collaboration</v-card-title>
-    <v-card-subtitle><strong>When you work on hard math problems do you usually work alone? Or with a group of friends?</strong>  Reminder: when you work on the Ross Application Problems, please be sure to work by yourself.</v-card-subtitle>
+    <v-card-subtitle>
+Collaborating and working together mathematically is an important aspect of Ross.
+<strong>Describe a project or otherwise that you have collaborated with others on (mathematical
+or otherwise).</strong> What norms, practices, and values made the collaboration effective? How
+will you practice collaboration at Ross to make Ross a welcoming learning environment
+for everyone?
+    </v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
@@ -181,13 +101,17 @@
   </v-card></v-col></v-row>
 
   <v-row><v-col><v-card>
-    <v-card-title>Other coursework</v-card-title>
-    <v-card-subtitle><strong>Have you taken math courses outside of the standard high school curriculum?</strong> Those courses could have been at a local college, in a residential math program, from an educational website, etc.</v-card-subtitle>
+    <v-card-title>Background</v-card-title>
+    <v-card-subtitle>
+    Ross students often come from a myriad of personal backgrounds, with many rich and
+varied life experiences. <strong>How have your personal background and experiences have
+shaped your academic and/or mathematical journey?</strong>
+    </v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
 	label="Your response"
-	v-model="otherCourses"
+	v-model="previousExperience"
 	>
       </v-textarea>
     </v-card-text>
@@ -204,13 +128,13 @@
   </v-card></v-col></v-row>
 
   <v-row><v-col><v-card>
-    <v-card-title>Being away from home</v-card-title>
-    <v-card-subtitle><strong>Are you eager to spend many weeks away from home, with with no distractions from non-mathematical activities, focusing all of your energies on one narrow area of mathematics?</strong> Ross students live in a college dormitory, with no access to televisions or electronic games. Most of their waking hours are spent working on challenging math problems. Does this intensity and focus appeal to you?</v-card-subtitle>
+    <v-card-title>Source</v-card-title>
+    <v-card-subtitle><strong>How did you hear about Ross?</strong></v-card-subtitle>
     <v-card-text class="py-0">
       <v-textarea
 	outlined
 	label="Your response"
-	v-model="eager"
+	v-model="referral"
 	>
       </v-textarea>
     </v-card-text>
@@ -225,7 +149,78 @@
       </v-btn>
     </v-card-actions>
   </v-card></v-col></v-row>
-   </v-container>
+
+  <v-row><v-col><v-card>
+    <v-card-title>Activities</v-card-title>
+    <v-card-subtitle><strong>What activities do you engage in outside of classes?</strong></v-card-subtitle>
+    <v-card-text class="py-0">
+      <v-textarea
+	outlined
+	label="Your response"
+	v-model="otherPrograms"
+	>
+      </v-textarea>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+	text
+	@click="saveApplication"
+	color="primary"
+        :disabled="Object.keys(this.updatedApplication).length == 0"
+	>
+	Save
+      </v-btn>
+    </v-card-actions>
+  </v-card></v-col></v-row>
+
+  <v-row><v-col><v-card>
+    <v-card-title>Future goals</v-card-title>
+    <v-card-subtitle>What do you plan to major in at college?</strong> What are your career goals? Do you feel &ldquo;driven&rdquo; toward one type of work? (Like an academic career in math, astronomy, or economics? Or a career in finance? etc.) Or will you take a variety of courses in college and see what areas seem most interesting?</v-card-subtitle>
+    <v-card-text class="py-0">
+      <v-textarea
+	outlined
+	label="Your response"
+	v-model="intendedMajor"
+	>
+      </v-textarea>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+	text
+	@click="saveApplication"
+	color="primary"
+        :disabled="Object.keys(this.updatedApplication).length == 0"
+	>
+	Save
+      </v-btn>
+    </v-card-actions>
+  </v-card></v-col></v-row>
+
+  <v-row><v-col><v-card>
+    <v-card-title>Other Information</v-card-title>
+    <v-card-subtitle><strong>Is there anything else you’d like to tell us?</v-card-subtitle>
+    <v-card-text class="py-0">
+      <v-textarea
+	outlined
+	label="Your response"
+	v-model="otherInformation"
+	>
+      </v-textarea>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+	text
+	@click="saveApplication"
+	color="primary"
+        :disabled="Object.keys(this.updatedApplication).length == 0"
+	>
+	Save
+      </v-btn>
+    </v-card-actions>
+  </v-card></v-col></v-row>
+
+
+  </v-container>
 
   <v-flex
     xs12
@@ -259,41 +254,41 @@ export default {
       },
     },
 
-  interestingProblem: {
-      get() { return this.application.interestingProblem; },
-      set(v) { this.$set(this.updatedApplication, 'interestingProblem', v); },
+  introduction: {
+      get() { return this.application.introduction; },
+      set(v) { this.$set(this.updatedApplication, 'introduction', v); },
     },
-  interestingProjects: {
-      get() { return this.application.interestingProjects; },
-      set(v) { this.$set(this.updatedApplication, 'interestingProjects', v); },
+  passion: {
+      get() { return this.application.passion; },
+      set(v) { this.$set(this.updatedApplication, 'passion', v); },
     },
-  competitions: {
-      get() { return this.application.competitions; },
-      set(v) { this.$set(this.updatedApplication, 'competitions', v); },
-    },
-  otherPrograms: {
-      get() { return this.application.otherPrograms; },
-      set(v) { this.$set(this.updatedApplication, 'otherPrograms', v); },
-    },
-  books: {
-      get() { return this.application.books; },
-      set(v) { this.$set(this.updatedApplication, 'books', v); },
-    },
-  eager: {
-      get() { return this.application.eager; },
-      set(v) { this.$set(this.updatedApplication, 'eager', v); },
-    },
-  intendedMajor: {
-      get() { return this.application.intendedMajor; },
-      set(v) { this.$set(this.updatedApplication, 'intendedMajor', v); },
+  community: {
+      get() { return this.application.community; },
+      set(v) { this.$set(this.updatedApplication, 'community', v); },
     },
   collaboration: {
       get() { return this.application.collaboration; },
       set(v) { this.$set(this.updatedApplication, 'collaboration', v); },
     },
-  otherCourses: {
-      get() { return this.application.otherCourses; },
-      set(v) { this.$set(this.updatedApplication, 'otherCourses', v); },
+  previousExperience: {
+      get() { return this.application.previousExperience; },
+      set(v) { this.$set(this.updatedApplication, 'previousExperience', v); },
+    },
+  referral: {
+      get() { return this.application.referral; },
+      set(v) { this.$set(this.updatedApplication, 'referral', v); },
+    },
+  otherPrograms: {
+      get() { return this.application.otherPrograms; },
+      set(v) { this.$set(this.updatedApplication, 'otherPrograms', v); },
+    },
+  intendedMajor: {
+      get() { return this.application.intendedMajor; },
+      set(v) { this.$set(this.updatedApplication, 'intendedMajor', v); },
+    },
+  otherInformation: {
+      get() { return this.application.otherInformation; },
+      set(v) { this.$set(this.updatedApplication, 'otherInformation', v); },
     },
 
   },

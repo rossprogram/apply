@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import router from '@/router';
 import { version } from '../../package.json';
 import userService from '../services/user';
-import router from '@/router';
 
 Vue.use(Vuex);
 
