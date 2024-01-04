@@ -1,8 +1,8 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import router from '@/router';
-import { version } from '../../package.json';
-import userService from '../services/user';
+import Vue from "vue";
+import Vuex from "vuex";
+import router from "@/router";
+import { version } from "../../package.json";
+import userService from "../services/user";
 
 Vue.use(Vuex);
 
@@ -15,14 +15,14 @@ const store = new Vuex.Store({
     recommendations: {},
     attachments: {},
     payments: [],
-    snackbar: { snack: '' },
+    snackbar: { snack: "" },
   },
 
   mutations: {
     initializeStore(state) {
       // Check if the store exists
-      if (localStorage.getItem('store')) {
-        const localStore = JSON.parse(localStorage.getItem('store'));
+      if (localStorage.getItem("store")) {
+        const localStore = JSON.parse(localStorage.getItem("store"));
 
         // Check the version stored against current. If different, don't
         // load the cached version
@@ -86,69 +86,69 @@ const store = new Vuex.Store({
       state.profile = null;
     },
 
-    loginFailure(state, error) { // eslint-disable-line no-unused-vars
+    loginFailure(state, error) {
+      // eslint-disable-line no-unused-vars
       state.profile = null;
     },
 
     setSnack(state, snack) {
       state.snackbar.snack = snack;
     },
-
   },
 
   actions: {
-    alertError({ dispatch, commit }, error) { // eslint-disable-line no-unused-vars
-      if (error.response && error.response.data) commit('setSnack', error.response.data);
-      else commit('setSnack', error);
+    alertError({ dispatch, commit }, error) {
+      // eslint-disable-line no-unused-vars
+      if (error.response && error.response.data) commit("setSnack", error.response.data);
+      else commit("setSnack", error);
     },
 
-    alertSuccess({ dispatch, commit }, success) { // eslint-disable-line no-unused-vars
-      commit('setSnack', success);
+    alertSuccess({ dispatch, commit }, success) {
+      // eslint-disable-line no-unused-vars
+      commit("setSnack", success);
     },
 
     login({ dispatch, commit }, { email, password }) {
-      userService.login(email, password)
-        .then(
-          (response) => {
-            if (response.status === 200) {
-              commit('setProfile', response.data);
-              router.push('/');
-            } else {
-              commit('loginFailure', response.status);
-              dispatch('alertError', response, { root: true });
-            }
-          },
-          (error) => {
-            commit('loginFailure', error);
-            dispatch('alertError', error, { root: true });
-          },
-        );
+      userService.login(email, password).then(
+        (response) => {
+          if (response.status === 200) {
+            commit("setProfile", response.data);
+            router.push("/");
+          } else {
+            commit("loginFailure", response.status);
+            dispatch("alertError", response, { root: true });
+          }
+        },
+        (error) => {
+          commit("loginFailure", error);
+          dispatch("alertError", error, { root: true });
+        }
+      );
     },
 
     getPayments({ dispatch, commit }) {
       userService.getPayments().then(
         (response) => {
           if (response.status === 200) {
-            commit('setPayments', response.data);
+            commit("setPayments", response.data);
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
-
 
     getOffer({ dispatch, commit }) {
       userService.getOffer().then(
         (response) => {
           if (response.status === 200) {
-            commit('setOffer', response.data);
+            commit("setOffer", response.data);
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
@@ -156,120 +156,116 @@ const store = new Vuex.Store({
       userService.putOffer(data).then(
         (response) => {
           if (response.status === 200) {
-            commit('setOffer', response.data);
-            dispatch('alertSuccess', 'Response provided.');
+            commit("setOffer", response.data);
+            dispatch("alertSuccess", "Response provided.");
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
     getApplication({ dispatch, commit }) {
-      userService.getApplication('me').then(
+      userService.getApplication("me").then(
         (response) => {
           if (response.status === 200) {
-            commit('setApplication', response.data);
+            commit("setApplication", response.data);
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
     addRecommendation({ dispatch, commit }, email) {
-      commit('addRecommendation', { email, loading: true });
+      commit("addRecommendation", { email, loading: true });
 
-      userService.addRecommendation('me', email).then(
+      userService.addRecommendation("me", email).then(
         (response) => {
           if (response.status === 200) {
-            commit('addRecommendation', response.data);
+            commit("addRecommendation", response.data);
           }
         },
         (error) => {
-          commit('removeRecommendation', email);
-          dispatch('alertError', error, { root: true });
-        },
+          commit("removeRecommendation", email);
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
     getRecommendations({ dispatch, commit }) {
-      userService.getRecommendations('me').then(
+      userService.getRecommendations("me").then(
         (response) => {
           if (response.status === 200) {
-            commit('setRecommendations', response.data);
+            commit("setRecommendations", response.data);
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
     addAttachment({ dispatch, commit }, { file, label }) {
-      userService.postAttachment('me', file, label).then(
+      userService.postAttachment("me", file, label).then(
         (response) => {
           if (response.status === 200) {
-            commit('addAttachment', response.data);
+            commit("addAttachment", response.data);
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
     removeAttachment({ dispatch, commit }, id) {
-      userService.deleteAttachment('me', id).then(
+      userService.deleteAttachment("me", id).then(
         (response) => {
           if (response.status === 200) {
-            commit('removeAttachment', id);
+            commit("removeAttachment", id);
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
     getAttachments({ dispatch, commit }) {
-      userService.getAttachments('me').then(
+      userService.getAttachments("me").then(
         (response) => {
           if (response.status === 200) {
-            commit('setAttachments', response.data);
+            commit("setAttachments", response.data);
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
     updateApplication({ dispatch, commit }, data) {
-      userService.putApplication('me', data).then(
+      userService.putApplication("me", data).then(
         (response) => {
           if (response.status === 200) {
-            commit('setApplication', response.data);
-            dispatch('alertSuccess', 'Application updated!');
+            commit("setApplication", response.data);
+            dispatch("alertSuccess", "Application updated!");
           }
         },
         (error) => {
-          dispatch('alertError', error, { root: true });
-        },
+          dispatch("alertError", error, { root: true });
+        }
       );
     },
 
-
     logout({ commit }) {
-      commit('logout');
+      commit("logout");
     },
-
-
   },
-  modules: {
-  },
+  modules: {},
 });
 
 export default store;
@@ -277,5 +273,5 @@ export default store;
 // Subscribe to store updates
 store.subscribe((mutation, state) => {
   // Store the state object as a JSON string
-  localStorage.setItem('store', JSON.stringify(state));
+  localStorage.setItem("store", JSON.stringify(state));
 });

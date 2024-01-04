@@ -1,33 +1,20 @@
 <template>
   <v-container>
-    <v-layout
-      text-center
-      wrap
-    >
+    <v-layout text-center wrap>
       <v-flex xs12>
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        ></v-img>
+        <v-img :src="require('../assets/logo.svg')" class="my-3" contain height="200"></v-img>
       </v-flex>
 
       <v-flex mb-4>
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
+        <h1 class="display-2 font-weight-bold mb-3">Welcome to Vuetify</h1>
         <p class="subheading font-weight-regular">
           For help and collaboration with other Vuetify developers,
-          <br>please join our online
+          <br />please join our online
           <a href="https://community.vuetifyjs.com" target="_blank">Discord Community</a>
         </p>
       </v-flex>
 
-      <v-flex
-        mb-5
-        xs12
-      >
+      <v-flex mb-5 xs12>
         <h2 class="headline font-weight-bold mb-3">What's next?</h2>
 
         <v-layout justify-center>
@@ -43,10 +30,7 @@
         </v-layout>
       </v-flex>
 
-      <v-flex
-        xs12
-        mb-5
-      >
+      <v-flex xs12 mb-5>
         <h2 class="headline font-weight-bold mb-3">Important Links</h2>
 
         <v-layout justify-center>
@@ -62,10 +46,7 @@
         </v-layout>
       </v-flex>
 
-      <v-flex
-        xs12
-        mb-5
-      >
+      <v-flex xs12 mb-5>
         <h2 class="headline font-weight-bold mb-3">Ecosystem</h2>
 
         <v-layout justify-center>
@@ -86,57 +67,57 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
 
   data: () => ({
     ecosystem: [
       {
-        text: 'vuetify-loader',
-        href: 'https://github.com/vuetifyjs/vuetify-loader',
+        text: "vuetify-loader",
+        href: "https://github.com/vuetifyjs/vuetify-loader",
       },
       {
-        text: 'github',
-        href: 'https://github.com/vuetifyjs/vuetify',
+        text: "github",
+        href: "https://github.com/vuetifyjs/vuetify",
       },
       {
-        text: 'awesome-vuetify',
-        href: 'https://github.com/vuetifyjs/awesome-vuetify',
+        text: "awesome-vuetify",
+        href: "https://github.com/vuetifyjs/awesome-vuetify",
       },
     ],
     importantLinks: [
       {
-        text: 'Documentation',
-        href: 'https://vuetifyjs.com',
+        text: "Documentation",
+        href: "https://vuetifyjs.com",
       },
       {
-        text: 'Chat',
-        href: 'https://community.vuetifyjs.com',
+        text: "Chat",
+        href: "https://community.vuetifyjs.com",
       },
       {
-        text: 'Made with Vuetify',
-        href: 'https://madewithvuejs.com/vuetify',
+        text: "Made with Vuetify",
+        href: "https://madewithvuejs.com/vuetify",
       },
       {
-        text: 'Twitter',
-        href: 'https://twitter.com/vuetifyjs',
+        text: "Twitter",
+        href: "https://twitter.com/vuetifyjs",
       },
       {
-        text: 'Articles',
-        href: 'https://medium.com/vuetify',
+        text: "Articles",
+        href: "https://medium.com/vuetify",
       },
     ],
     whatsNext: [
       {
-        text: 'Explore components',
-        href: 'https://vuetifyjs.com/components/api-explorer',
+        text: "Explore components",
+        href: "https://vuetifyjs.com/components/api-explorer",
       },
       {
-        text: 'Select a layout',
-        href: 'https://vuetifyjs.com/layout/pre-defined',
+        text: "Select a layout",
+        href: "https://vuetifyjs.com/layout/pre-defined",
       },
       {
-        text: 'Frequently Asked Questions',
-        href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+        text: "Frequently Asked Questions",
+        href: "https://vuetifyjs.com/getting-started/frequently-asked-questions",
       },
     ],
   }),

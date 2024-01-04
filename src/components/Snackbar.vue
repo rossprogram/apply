@@ -1,16 +1,7 @@
 <template>
-  <v-snackbar
-    v-model="show"
-    :timeout="timeout"
-    >
+  <v-snackbar v-model="show" :timeout="timeout">
     {{ text }}
-    <v-btn
-      color="accent"
-      text
-      @click="show = false"
-      >
-      Close
-    </v-btn>
+    <v-btn color="accent" text @click="show = false"> Close </v-btn>
   </v-snackbar>
 </template>
 
@@ -21,19 +12,22 @@ export default {
     return {
       show: false,
       timeout: 2000,
-      text: '',
+      text: "",
     };
   },
   created() {
-    this.$store.watch(state => state.snackbar.snack, () => {
-      const msg = this.$store.state.snackbar.snack;
-      if (msg !== '') {
-        this.show = true;
-        this.text = this.$store.state.snackbar.snack;
-        this.timeout = 6000;
-        this.$store.commit('setSnack', '');
+    this.$store.watch(
+      (state) => state.snackbar.snack,
+      () => {
+        const msg = this.$store.state.snackbar.snack;
+        if (msg !== "") {
+          this.show = true;
+          this.text = this.$store.state.snackbar.snack;
+          this.timeout = 6000;
+          this.$store.commit("setSnack", "");
+        }
       }
-    });
+    );
   },
 };
 </script>
