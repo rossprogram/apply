@@ -1,5 +1,7 @@
 # frontend
 
+export NODE_OPTIONS=--openssl-legacy-provider
+
 ## Project setup
 ```
 yarn install

@@ -97,7 +97,7 @@
           ><v-card>
             <v-card-title>Locations</v-card-title>
             <v-card-subtitle
-              >The Ross Program is planning multiple in-person sites for 2023.</v-card-subtitle
+              >The Ross Program is planning multiple in-person sites for 2024.</v-card-subtitle
             >
             <v-card-text>
               <v-layout wrap>

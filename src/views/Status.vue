@@ -185,36 +185,29 @@
 
       <div v-if="this.offer.location === 'ohio'">
         <p>
-          Congratulations! You have been accepted as a participant in the 2023 Ross Mathematics
-          Program at Otterbein University in Columbus, Ohio. This location will run from June 11
-          through July 21, 2023.
+          Congratulations! You have been accepted as a participant in the 2024 Ross Mathematics
+          Program at Otterbein University in Columbus, Ohio. This location will run from June 9
+          through July 19, 2024.
         </p>
         <p>
-          You should plan to arrive at the Columbus airport (CMH) on June 11 (Sunday) in the
+          You should plan to arrive at the Columbus airport (CMH) on June 9 (Sunday) in the
           afternoon. There will be an orientation meeting that night at 7 PM.
         </p>
       </div>
       <div v-else-if="this.offer.location === 'indiana'">
         <p>
-          Congratulations! You have been accepted as a participant in the 2023 Ross Mathematics
+          Congratulations! You have been accepted as a participant in the 2024 Ross Mathematics
           Program at Rose-Hulman Institute of Technology in Terre Haute, Indiana. This location will
-          run from June 18 through July 28, 2023.
+          run from June 16 through July 26, 2024.
         </p>
         <p>
-          You should plan to arrive at the Indianapolis airport (IND) on June 18 (Sunday) in the
+          You should plan to arrive at the Indianapolis airport (IND) on June 16 (Sunday) in the
           afternoon. There will be an orientation meeting that night at 7 PM.
         </p>
       </div>
       <div v-else-if="this.offer.location === 'philippines'">
         <p>
-          Congratulations! You have been accepted as a participant in the 2023 Ross Mathematics
-          Program in the location in the Philippines. This location is not run by the Ross
-          Mathematics Foundation, but rather by Renascentia Hall International. This location will
-          run from July 9 through August 11, 2023. Participants from outside the Philippines should
-          plan to arrive in Manila on Saturday July 8 (after noon), with departing flights on Friday
-          evening August 11, or on Saturday August 12. Renascentia Hall International will provide
-          more information.
-        </p>
+	The Ross Program will not be able to offer a site outside of the USA this year.</p>
       </div>
       <div v-else>
         <p>
@@ -223,14 +216,14 @@
       </div>
 
       <p>
-        Please let us know whether you accept a spot in the in-person 2023 Ross Program. An email
+        Please let us know whether you accept a spot in the in-person 2024 Ross Program. An email
         will be sent in early May requesting additional information, a parental approval form,
         instructions for payment and for scholarship requests.
       </p>
 
       <hr />
 
-      <h3>Plans for the 2023 Ross Program</h3>
+      <h3>Plans for the 2024 Ross Program</h3>
 
       <p>
         During the Program, you will be part of a Ross “family” of 4 or 5 students and a
@@ -242,7 +235,7 @@
         <h4>Costs</h4>
         <p>
           In exchange for those many weeks of mathematical experiences, each Ross participant is
-          charged a program fee of $6000 (US Dollars). Since Ross/Asia is run by Renascentia Hall
+          charged a program fee of $7000 (US Dollars). Since Ross/Asia is run by Renascentia Hall
           International, those program fees must be paid directly to Renascentia Hall International.
           Information on how to make such payments will be emailed to accepted participants.
         </p>
@@ -251,7 +244,7 @@
         <h4>Costs</h4>
         <p>
           In exchange for those many weeks of mathematical experiences, each Ross participant is
-          charged a program fee of $6000 (US Dollars), payable by personal check, credit card, or
+          charged a program fee of $7000 (US Dollars), payable by personal check, credit card, or
           wire transfer. That fee will be due some weeks before the start of the summer session.
           These funds provide for room and board (i.e., housing in the dorm and meals in the
           cafeteria) for those weeks as well as salaries for the instructional staff.
