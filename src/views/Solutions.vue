@@ -9,7 +9,7 @@
               >Work on the 2024 Application Problems which you can find at
               <a href="https://rossprogram.org/students/application-problems.pdf"
                 >https://rossprogram.org/students/application-problems.pdf</a
-              >. Upload your carefully written solutions to those problems.
+              >. <strong>There are four problems.</strong> Upload your carefully written solutions to those four problems.
               <ul>
                 <li>The solution to each problem must be uploaded as a separate PDF.</li>
                 <li>
@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       problem: null,
-      problemCount: 3,
+      problemCount: 4,
       key: 1,
       file: null,
     };
