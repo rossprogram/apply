@@ -7,8 +7,8 @@
             <v-card-title>Solutions</v-card-title>
             <v-card-subtitle
               >Work on the 2024 Application Problems which you can find at
-              <a href="https://rossprogram.org/students/application-problems.pdf"
-                >https://rossprogram.org/students/application-problems.pdf</a
+              <a href="https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf"
+                >https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf</a
               >. <strong>There are four problems.</strong> Upload your carefully written solutions to those four problems.
               <ul>
                 <li>The solution to each problem must be uploaded as a separate PDF.</li>

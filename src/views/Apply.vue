@@ -34,11 +34,10 @@
     </p>
 
     <p class="my-4">
-      The Admissions Committee will begin reading applications on April 1,
+      The Admissions Committee will begin reading applications on March 16,
       {{ new Date().getFullYear() }}.
-      <b>Complete and submit your application before the end of March.</b>The Admissions Committee
-      might not read applications received after April 1. Admission decisions will be made later in
-      April, and will be emailed to applicants who submitted complete applications.
+      <b>Complete and submit your application before the end of March 15.</b>The Admissions Committee
+      might not read applications received after March 15. Admission decisions will be made by early April, and will be emailed to applicants who submitted complete applications.
     </p>
     <p>
       If you have questions about the admissions process, please contact

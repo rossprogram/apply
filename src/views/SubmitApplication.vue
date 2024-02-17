@@ -61,9 +61,9 @@
             </p>
             <p>
               <strong>Warning:</strong> For full consideration of your application, the last
-              submission must happen before the March 31 deadline. Applications that are submitted
-              in early April (after the deadline) will not be reviewed as carefully as those
-              submitted earlier. If you make changes in your file in early April, please alert the
+              submission must happen before the March 15 deadline. Applications that are submitted
+              after the deadline will not be reviewed as carefully as those
+              submitted earlier. If you make changes in your file after the deadline, please alert the
               Committee with an email to
               <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a>.
             </p>
