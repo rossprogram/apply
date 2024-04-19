@@ -226,7 +226,7 @@
       <h3>Plans for the 2024 Ross Program</h3>
 
       <p>
-        During the Program, you will be part of a Ross “family” of 4 or 5 students and a
+        During the Program, you will be part of a Ross “family” of students and a
         junior-counselor, led by a counselor. You are welcome to join the more advanced Ross
         courses, provided you are keeping up with the Number Theory course.
       </p>
@@ -235,9 +235,7 @@
         <h4>Costs</h4>
         <p>
           In exchange for those many weeks of mathematical experiences, each Ross participant is
-          charged a program fee of $7000 (US Dollars). Since Ross/Asia is run by Renascentia Hall
-          International, those program fees must be paid directly to Renascentia Hall International.
-          Information on how to make such payments will be emailed to accepted participants.
+          charged a program fee of $7000 (US Dollars). 
         </p>
       </div>
       <div v-else>

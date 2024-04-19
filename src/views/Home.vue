@@ -22,11 +22,10 @@
 
       <p><v-btn v-if="profile" to="/apply" color="primary">Work on your application</v-btn></p>
 
-      <!--
 <p v-if="offer && offer.offer == 'accept'"><v-btn v-if="profile" to="/status" color="primary">Provide travel information</v-btn></p>
 <p v-else><v-btn v-if="profile" to="/status" color="primary">View status</v-btn></p>
 <p v-if="offer && offer.offer == 'accept' && offer.location != 'philippines'"><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p>
--->
+
     </v-flex>
   </v-container>
 </template>
