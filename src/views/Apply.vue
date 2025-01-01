@@ -8,7 +8,7 @@
           <template v-slot:label
             ><span
               >I was accepted and
-              <strong>I have attended the Ross Program in Summer 2023</strong> or in a previous
+              <strong>I have attended the Ross Program in Summer 2024</strong> or in a previous
               summer.</span
             ></template
           >

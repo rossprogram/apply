@@ -185,23 +185,23 @@
 
       <div v-if="this.offer.location === 'ohio'">
         <p>
-          Congratulations! You have been accepted as a participant in the 2024 Ross Mathematics
-          Program at Otterbein University in Columbus, Ohio. This location will run from June 9
-          through July 19, 2024.
+          Congratulations! You have been accepted as a participant in the 2025 Ross Mathematics
+          Program at Otterbein University in Columbus, Ohio. This location will run from June 15
+          through July 25, 2025.
         </p>
         <p>
-          You should plan to arrive at the Columbus airport (CMH) on June 9 (Sunday) in the
+          You should plan to arrive at the Columbus airport (CMH) on June 15 (Sunday) in the
           afternoon. There will be an orientation meeting that night at 7 PM.
         </p>
       </div>
       <div v-else-if="this.offer.location === 'indiana'">
         <p>
-          Congratulations! You have been accepted as a participant in the 2024 Ross Mathematics
+          Congratulations! You have been accepted as a participant in the 2025 Ross Mathematics
           Program at Rose-Hulman Institute of Technology in Terre Haute, Indiana. This location will
-          run from June 16 through July 26, 2024.
+          run from June 15 through July 25, 2025.
         </p>
         <p>
-          You should plan to arrive at the Indianapolis airport (IND) on June 16 (Sunday) in the
+          You should plan to arrive at the Indianapolis airport (IND) on June 15 (Sunday) in the
           afternoon. There will be an orientation meeting that night at 7 PM.
         </p>
       </div>
@@ -216,14 +216,14 @@
       </div>
 
       <p>
-        Please let us know whether you accept a spot in the in-person 2024 Ross Program. An email
+        Please let us know whether you accept a spot in the in-person 2025 Ross Program. An email
         will be sent in early May requesting additional information, a parental approval form,
         instructions for payment and for scholarship requests.
       </p>
 
       <hr />
 
-      <h3>Plans for the 2024 Ross Program</h3>
+      <h3>Plans for the 2025 Ross Program</h3>
 
       <p>
         During the Program, you will be part of a Ross “family” of students and a

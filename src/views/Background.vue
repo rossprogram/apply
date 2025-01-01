@@ -97,7 +97,7 @@
           ><v-card>
             <v-card-title>Locations</v-card-title>
             <v-card-subtitle
-              >The Ross Program is planning multiple in-person sites for 2024.</v-card-subtitle
+              >The Ross Program is planning two in-person sites for 2025.</v-card-subtitle
             >
             <v-card-text>
               <v-layout wrap>
@@ -111,7 +111,7 @@
                   <v-checkbox
                     v-if="updatedApplication.applyingToOhio || applyingToOhio"
                     v-model="arriveAtStartOhio"
-                    label="I will be able to attend the Columbus, Ohio session of the Ross Program starting on Sunday, June 9, 2024."
+                    label="I will be able to attend the Columbus, Ohio session of the Ross Program and will arrive on Sunday, June 15, 2025."
                   ></v-checkbox>
                 </v-flex>
               </v-layout>
@@ -126,7 +126,7 @@
                   <v-checkbox
                     v-if="updatedApplication.applyingToIndiana || applyingToIndiana"
                     v-model="arriveAtStartIndiana"
-                    label="I will be able to attend the Terre Haute, Indaina session of the Ross Program starting on Sunday, June 16, 2024."
+                    label="I will be able to attend the Terre Haute, Indaina session of the Ross Program and will arrive on Sunday, June 15, 2025."
                   ></v-checkbox>
                 </v-flex>
               </v-layout>

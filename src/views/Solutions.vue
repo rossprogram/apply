@@ -6,10 +6,10 @@
           ><v-card>
             <v-card-title>Solutions</v-card-title>
             <v-card-subtitle
-              >Work on the 2024 Application Problems which you can find at
+              >Work on the 2025 Application Problems which you can find on January 8, 2025 at
               <a href="https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf"
                 >https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf</a
-              >. <strong>There are four problems.</strong> Upload your carefully written solutions to those four problems.
+              >. <strong>There are four problems.</strong> Upload your carefully written solutions to those <strong>four</strong> problems.
               <ul>
                 <li>The solution to each problem must be uploaded as a separate PDF.</li>
                 <li>
