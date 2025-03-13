@@ -29,7 +29,7 @@
                 <v-list-item-title>{{ recommendation.email }}</v-list-item-title>
                 <v-list-item-subtitle v-if="recommendation.submittedAt"
                   >Received
-                  {{ recommendation.createdAt | moment("from", "now") }}</v-list-item-subtitle
+                  {{ recommendation.submittedAt | moment("from", "now") }}</v-list-item-subtitle
                 >
                 <v-list-item-subtitle v-if="recommendation.createdAt"
                   >Requested
