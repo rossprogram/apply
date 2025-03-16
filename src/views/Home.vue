@@ -8,7 +8,7 @@
         <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a> for assistance.
       </p>
 
-      <p><strong>The 2025 application will be available on January 8, 2025.</strong> You will be able to create an account on that date.</p>
+      <p><strong>The 2025 application window has now closed.</strong> We expect decisions to be released in mid-April.</p>
 
       <p v-if="!profile">
         The first step is to <router-link to="/signup">sign up for an account</router-link> by
@@ -22,11 +22,13 @@
         <router-link to="/apply">work on your application</router-link>.
       </p>
 
-      <p><v-btn v-if="profile" to="/apply" color="primary">Work on your application</v-btn></p>
+      <p><v-btn v-if="profile" to="/apply" color="primary">Update your application</v-btn></p>
 
+<div v-if="false">
 <p v-if="offer && offer.offer == 'accept'"><v-btn v-if="profile" to="/status" color="primary">Provide travel information</v-btn></p>
 <p v-else><v-btn v-if="profile" to="/status" color="primary">View status</v-btn></p>
 <p v-if="offer && offer.offer == 'accept' && offer.location != 'philippines'"><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p>
+</div>
 
     </v-flex>
   </v-container>
