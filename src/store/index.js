@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     attachments: {},
     payments: [],
     snackbar: { snack: "" },
+    videoExists: false,
   },
 
   mutations: {
@@ -93,6 +94,10 @@ const store = new Vuex.Store({
 
     setSnack(state, snack) {
       state.snackbar.snack = snack;
+    },
+
+    setVideoExists(state, exists) {
+      state.videoExists = exists;
     },
   },
 
@@ -257,6 +262,24 @@ const store = new Vuex.Store({
         },
         (error) => {
           dispatch("alertError", error, { root: true });
+        }
+      );
+    },
+
+    getVideoStatus({ dispatch, commit }) {
+      userService.getVideoUrl("me").then(
+        (response) => {
+          if (response.status === 200) {
+            commit("setVideoExists", true);
+          }
+        },
+        (error) => {
+          if (error.response && error.response.status === 404) {
+            commit("setVideoExists", false);
+          } else {
+            commit("setVideoExists", false);
+            dispatch("alertError", error, { root: true });
+          }
         }
       );
     },

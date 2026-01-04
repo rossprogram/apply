@@ -217,7 +217,7 @@
 
       <p>
         Please let us know whether you accept a spot in the in-person 2025 Ross Program. An email
-        will be sent in early May requesting additional information, a parental approval form,
+        will be sent in <strong>early May</strong> requesting additional information, a parental approval form,
         instructions for payment and for scholarship requests.
       </p>
 
@@ -251,7 +251,7 @@
 
       <p>
         Scholarship funds are available to help support participants whose families have some
-        financial need.
+        financial need. An email will be sent with instructions on how to request scholarship funds.
       </p>
     </div>
     <div v-if="this.offer && (this.offer.offer === 'waitlist' || this.offer.offer === 'reject')">
@@ -2875,7 +2875,7 @@ export default {
     for (let i = 1; i < 11; i += 1) {
       this.possibleTimes.push({ name: `${i}pm - ${i + 1}pm`, hour: i + 12 });
     }
-    this.possibleTimes.push({ name: "11pm - Midnight", hour: 23 });
+    this.possibleTimes.push({ name: '11pm - Midnight', hour: 23 });
 
     return this.getOffer();
   },

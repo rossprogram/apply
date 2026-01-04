@@ -11,6 +11,7 @@ import JCEssays from "../views/JCEssays.vue";
 import Login from "../views/Login.vue";
 import ParentInformation from "../views/ParentInformation.vue";
 import PersonalStatement from "../views/PersonalStatement.vue";
+import VideoUpload from "../views/VideoUpload.vue";
 import Recommendation from "../views/Recommendation.vue";
 import Attachments from "../views/Attachments.vue";
 import Solutions from "../views/Solutions.vue";
@@ -66,6 +67,11 @@ const routes = [
     path: "/apply/jc-essays",
     name: "jc-essays",
     component: JCEssays,
+  },
+  {
+    path: "/apply/video",
+    name: "video",
+    component: VideoUpload,
   },
   {
     path: "/apply/background",

@@ -108,7 +108,7 @@ function ageInYears(born) {
 
 export default {
   computed: {
-    ...mapState(["application", "recommendations", "attachments"]),
+    ...mapState(["application", "recommendations", "attachments", "videoExists"]),
 
     errorsAndWarnings() {
       const someErrors = this.commonRules.map((r) => r()).filter((r) => r.error);
@@ -247,6 +247,13 @@ export default {
             error: "You did not submit a high school transcript.",
             to: "/apply/transcript",
           },
+
+        () =>
+          this.videoExists || {
+            error: "You have not recorded your required application video.",
+            severity: "warning",
+            to: "/apply/video",
+          },
       ],
 
       rules: [
@@ -337,7 +344,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getApplication", "getAttachments", "getRecommendations", "updateApplication"]),
+    ...mapActions([
+      "getApplication",
+      "getAttachments",
+      "getRecommendations",
+      "updateApplication",
+      "getVideoStatus",
+    ]),
 
     submitApplication() {
       return this.updateApplication({ submitted: true });
@@ -351,6 +364,7 @@ export default {
     this.getAttachments();
     this.getRecommendations();
     this.getApplication();
+    this.getVideoStatus();
   },
 };
 </script>

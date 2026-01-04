@@ -119,6 +119,11 @@ export default {
           to: "/apply/jc-essays",
         },
         {
+          title: "Video",
+          icon: "videocam",
+          to: "/apply/video",
+        },
+        {
           title: "Attachments",
           icon: "attachment",
           to: "/apply/attachments",
@@ -154,6 +159,11 @@ export default {
           title: "Short Essays",
           icon: "message",
           to: "/apply/essays",
+        },
+        {
+          title: "Video",
+          icon: "videocam",
+          to: "/apply/video",
         },
         {
           title: "Solutions",

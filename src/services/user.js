@@ -76,4 +76,49 @@ export default {
       `/users/${id}/application/${new Date().getFullYear()}/recommendations/${email}`
     );
   },
+
+  async createVideoMultipart(id, contentType) {
+    const data = {};
+    if (contentType) data.contentType = contentType;
+    return axios.post(
+      `/users/${id}/application/${new Date().getFullYear()}/video/multipart/create`,
+      data
+    );
+  },
+
+  async createVideoPartUrl(id, { uploadId, key, partNumber }) {
+    return axios.post(
+      `/users/${id}/application/${new Date().getFullYear()}/video/multipart/part-url`,
+      {
+        uploadId,
+        key,
+        partNumber,
+      }
+    );
+  },
+
+  async completeVideoMultipart(id, { uploadId, key, parts }) {
+    return axios.post(
+      `/users/${id}/application/${new Date().getFullYear()}/video/multipart/complete`,
+      {
+        uploadId,
+        key,
+        parts,
+      }
+    );
+  },
+
+  async abortVideoMultipart(id, { uploadId, key }) {
+    return axios.post(
+      `/users/${id}/application/${new Date().getFullYear()}/video/multipart/abort`,
+      {
+        uploadId,
+        key,
+      }
+    );
+  },
+
+  async getVideoUrl(id) {
+    return axios.get(`/users/${id}/application/${new Date().getFullYear()}/video`);
+  },
 };
