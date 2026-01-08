@@ -82,7 +82,7 @@
                 <div class="video-instructions">
                   <div class="video-instructions__title">Video Essay Prompts</div>
                   <div class="video-instructions__intro">
-                    Please record a short video responding to <strong>four prompts</strong> below. We are much more
+                    Please record <strong>one</strong> video responding to <strong>all four prompts</strong> below. We are much more
                     interested in how you think than in polished production.
                   </div>
                   <div class="video-instructions__prompt">

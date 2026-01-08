@@ -6,7 +6,7 @@
           ><v-card>
             <v-card-title>Solutions</v-card-title>
             <v-card-subtitle
-              >Work on the 2026 Application Problems, available January 8, 2026, at
+              >Work on the 2026 Application Problems at
               <a href="https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf"
                 >https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf</a
               >. <strong>There are three problems.</strong> Upload your carefully written solutions to those <strong>three</strong> problems.
