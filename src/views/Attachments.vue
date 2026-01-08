@@ -7,7 +7,7 @@
             <v-card-title>Optional attachments</v-card-title>
             <v-card-subtitle
               >You may optionally upload a <em>curriculum vitae</em>, a résumé, or any other
-              documents which would help the Admissions Committee understand your accomplishments.
+              documents that would help the Admissions Committee understand your accomplishments.
               Please use PDF format for all uploaded documents.</v-card-subtitle
             >
             <v-list-item
@@ -54,15 +54,15 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["attachments"]),
+    ...mapState(['attachments']),
 
     optionalAttachments: {
       get() {
-        if (this.attachments) return Object.values(this.attachments).filter((a) => !a.label);
+        if (this.attachments) return Object.values(this.attachments).filter(a => !a.label);
         return [];
       },
     },
@@ -75,7 +75,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getAttachments", "removeAttachment", "addAttachment"]),
+    ...mapActions(['getAttachments', 'removeAttachment', 'addAttachment']),
 
     upload() {
       this.addAttachment({ file: this.file });

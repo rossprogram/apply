@@ -7,18 +7,18 @@
             <v-card-title>Your parent or guardian</v-card-title>
             <v-card-subtitle
               >During the Program, we may need to contact your parent or guardian. Please provide
-              information (valid during Summer {{ new Date().getFullYear() }}) on your parent or
+              information (valid during summer {{ new Date().getFullYear() }}) on your parent or
               guardian below. You can separate multiple email addresses for your parent(s) with
               commas.</v-card-subtitle
             >
             <v-card-text class="py-0">
               <v-text-field
-                label="Your Parent's Full Name"
+                label="Your parent's full name"
                 v-model="parentName"
                 prepend-icon="mdi-account"
               ></v-text-field>
               <v-text-field
-                label="Your Parent's Email"
+                label="Your parent's email"
                 prepend-icon="mdi-mail"
                 v-model="parentEmail"
               ></v-text-field>
@@ -59,18 +59,18 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["application"]),
+    ...mapState(['application']),
 
     parentName: {
       get() {
         return this.application.parentName;
       },
       set(v) {
-        this.$set(this.updatedApplication, "parentName", v);
+        this.$set(this.updatedApplication, 'parentName', v);
       },
     },
     parentPhone: {
@@ -78,7 +78,7 @@ export default {
         return this.application.parentPhone;
       },
       set(v) {
-        this.$set(this.updatedApplication, "parentPhone", v);
+        this.$set(this.updatedApplication, 'parentPhone', v);
       },
     },
     parentEmail: {
@@ -86,7 +86,7 @@ export default {
         return this.application.parentEmail;
       },
       set(v) {
-        this.$set(this.updatedApplication, "parentEmail", v);
+        this.$set(this.updatedApplication, 'parentEmail', v);
       },
     },
     parentAddress: {
@@ -94,7 +94,7 @@ export default {
         return this.application.parentAddress;
       },
       set(v) {
-        this.$set(this.updatedApplication, "parentAddress", v);
+        this.$set(this.updatedApplication, 'parentAddress', v);
       },
     },
   },
@@ -111,14 +111,14 @@ export default {
     birthdayMenu() {
       const { picker } = this.$refs;
       // if (val)
-      picker.activePicker = "YEAR";
+      picker.activePicker = 'YEAR';
       setTimeout(() => {
-        picker.activePicker = "YEAR";
+        picker.activePicker = 'YEAR';
       }, 1000);
     },
   },
   methods: {
-    ...mapActions(["getApplication", "updateApplication"]),
+    ...mapActions(['getApplication', 'updateApplication']),
 
     saveApplication() {
       this.saved = true;
@@ -132,7 +132,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     if (Object.keys(this.updatedApplication).length > 0 && !this.saved) {
-      const answer = window.confirm("Do you really want to leave? You have unsaved changes.");
+      const answer = window.confirm('Do you really want to leave? You have unsaved changes.');
       if (answer) {
         next();
       } else {

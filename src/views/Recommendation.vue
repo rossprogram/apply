@@ -4,15 +4,15 @@
       <v-row
         ><v-col
           ><v-card>
-            <v-card-title>Recommendation Letter</v-card-title>
+            <v-card-title>Recommendation letter</v-card-title>
             <v-card-subtitle
               >Arrange for a mathematics teacher who knows you well to provide a recommendation
               letter. After you share your teacher's email with us, instructions will be sent to
               that address, asking your teacher to submit the letter directly to us. You may return
               to this page later to check the status of your letter. Applicants are allowed to
               submit more than one letter of recommendation, if different information will be
-              provided in those additional letters. <strong>Instructions:.</strong> Enter the
-              recommender's email address, then click the &ldquo;Plus Sign&rdquo; at the right. The
+              provided in those additional letters. <strong>Instructions:</strong> Enter the
+              recommender's email address, then click the &ldquo;plus sign&rdquo; on the right. The
               Ross system will then send an automated message to that address.</v-card-subtitle
             >
             <v-list-item
@@ -52,8 +52,8 @@
             <v-list-item two-line>
               <v-list-item-content>
                 <v-list-item-title>
-                  <v-text-field v-model="email" label="Recommender email address" />
-                </v-list-item-title>
+                <v-text-field v-model="email" label="Recommender's email address" />
+              </v-list-item-title>
                 <v-list-item-subtitle></v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action @click="inviteRecommender(email)">
@@ -70,29 +70,29 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["recommendations"]),
+    ...mapState(['recommendations']),
   },
 
   data() {
     return {
-      email: "",
+      email: '',
       key: 1,
     };
   },
   methods: {
-    ...mapActions(["getRecommendations", "addRecommendation", "alertError"]),
+    ...mapActions(['getRecommendations', 'addRecommendation', 'alertError']),
 
     inviteRecommender(address) {
-      if (address === "") {
-        this.alertError("You must provide an email address.");
+      if (address === '') {
+        this.alertError('You must provide an email address.');
         return false;
       }
 
-      this.email = "";
+      this.email = '';
 
       return this.addRecommendation(address);
     },

@@ -7,7 +7,7 @@
             <v-card-title>Make credit card payment</v-card-title>
             <v-card-subtitle
               >You may pay the Program Fees to the Ross Mathematics Foundation. Your remaining
-              balance is ${{ ((700000 - this.totalPaid) / 100).toFixed(2) }}.</v-card-subtitle
+              balance is ${{ ((750000 - this.totalPaid) / 100).toFixed(2) }}.</v-card-subtitle
             >
             <v-card-text>
               <v-layout wrap>
@@ -89,9 +89,9 @@
                   <v-list-item-title
                     >Total paid: ${{ (this.totalPaid / 100).toFixed(2) }}</v-list-item-title
                   >
-                  <v-list-item-subtitle v-if="this.totalPaid <= 700000"
+                  <v-list-item-subtitle v-if="this.totalPaid <= 750000"
                     >Outstanding balance: ${{
-                      ((700000 - this.totalPaid) / 100).toFixed(2)
+                      ((750000 - this.totalPaid) / 100).toFixed(2)
                     }}</v-list-item-subtitle
                   >
                 </v-list-item-content>
@@ -105,21 +105,21 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import VStripeCard from "v-stripe-elements/lib/VStripeCard";
-import userService from "../services/user";
+import { mapActions, mapState } from 'vuex';
+import VStripeCard from 'v-stripe-elements/lib/VStripeCard';
+import userService from '../services/user';
 
 const stripe = window.Stripe(process.env.VUE_APP_STRIPE_API_KEY);
 
 export default {
   computed: {
-    ...mapState(["offer", "payments"]),
+    ...mapState(['offer', 'payments']),
 
     totalPaid: {
       get() {
         return this.payments
-          .filter((payment) => payment.succeeded)
-          .map((payment) => payment.amount)
+          .filter(payment => payment.succeeded)
+          .map(payment => payment.amount)
           .reduce((a, b) => a + b, 0);
       },
     },
@@ -130,21 +130,21 @@ export default {
       stripeKey: process.env.VUE_APP_STRIPE_API_KEY,
       key: 1,
       source: undefined,
-      name: "",
+      name: '',
       amount: 0,
       processing: false,
-      message: "",
+      message: '',
     };
   },
   methods: {
-    ...mapActions(["getPayments"]),
+    ...mapActions(['getPayments']),
 
     pay() {
       const cents = Math.floor(this.amount * 100);
 
       const details = {
         amount: cents,
-        description: "Web payment",
+        description: 'Web payment',
       };
 
       this.processing = true;
@@ -169,10 +169,10 @@ export default {
               if (result.error) {
                 // Show error to your customer (e.g., insufficient funds)
                 this.message = result.error.message;
-              } else if (result.paymentIntent.status === "succeeded") {
-                this.message = "Payment processing.";
+              } else if (result.paymentIntent.status === 'succeeded') {
+                this.message = 'Payment processing.';
               } else {
-                this.message = "Unknown payment status.";
+                this.message = 'Unknown payment status.';
               }
             });
 
@@ -180,7 +180,7 @@ export default {
         })
         .catch(() => {
           this.processing = false;
-          this.message = "Error processing payment.";
+          this.message = 'Error processing payment.';
         });
     },
   },

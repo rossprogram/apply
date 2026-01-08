@@ -12,21 +12,21 @@ export default {
     return {
       show: false,
       timeout: 2000,
-      text: "",
+      text: '',
     };
   },
   created() {
     this.$store.watch(
-      (state) => state.snackbar.snack,
+      state => state.snackbar.snack,
       () => {
         const msg = this.$store.state.snackbar.snack;
-        if (msg !== "") {
+        if (msg !== '') {
           this.show = true;
           this.text = this.$store.state.snackbar.snack;
           this.timeout = 6000;
-          this.$store.commit("setSnack", "");
+          this.$store.commit('setSnack', '');
         }
-      }
+      },
     );
   },
 };

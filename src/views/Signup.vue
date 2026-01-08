@@ -10,11 +10,11 @@
             <p>You can also use this form if you have forgotten your password.</p>
             <p>
               If you have already created an account and received your credentials,
-              <router-link to="/login">proceed to login</router-link>.
+              <router-link to="/login">proceed to log in</router-link>.
             </p>
             <v-form ref="form">
               <v-text-field
-                label="Enter your e-mail address"
+                label="Enter your email address"
                 v-model="email"
                 :rules="emailRules"
                 :loading="emailSending"
@@ -22,7 +22,7 @@
               ></v-text-field>
               <div class="my-2">
                 <v-btn :disabled="emailSending" class="mr-4" @click="submit" color="primary"
-                  >Get Password</v-btn
+                  >Get password</v-btn
                 >
                 <v-progress-circular
                   v-if="emailSending"
@@ -50,18 +50,18 @@
 </template>
 
 <script>
-import userService from "../services/user";
+import userService from '../services/user';
 
 export default {
   data() {
     return {
-      email: "",
+      email: '',
       emailSent: false,
-      errorMessage: "",
+      errorMessage: '',
       emailSending: false,
       emailRules: [
-        (v) => !!v || "An e-mail is required",
-        (v) => /.+@.+/.test(v) || "The provided e-mail must be valid",
+        v => !!v || 'An email is required',
+        v => /.+@.+/.test(v) || 'The provided email must be valid',
       ],
     };
   },
@@ -76,7 +76,7 @@ export default {
           .then(() => {
             this.emailSent = true;
             this.emailSending = false;
-            this.errorMessage = "";
+            this.errorMessage = '';
           })
           .catch((err) => {
             this.emailSending = false;

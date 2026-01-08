@@ -76,14 +76,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import Snackbar from "./components/Snackbar.vue";
+import { mapState } from 'vuex';
+import Snackbar from './components/Snackbar.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   computed: {
-    ...mapState(["profile"]),
-    ...mapState(["application"]),
+    ...mapState(['profile']),
+    ...mapState(['application']),
   },
 
   components: {
@@ -94,101 +94,101 @@ export default {
       drawer: true,
       jcItems: [
         {
-          title: "Instructions",
-          icon: "grading",
-          to: "/apply/",
+          title: 'Instructions',
+          icon: 'grading',
+          to: '/apply/',
         },
         {
-          title: "Background",
-          icon: "person",
-          to: "/apply/background",
+          title: 'Background',
+          icon: 'person',
+          to: '/apply/background',
         },
         {
-          title: "Parent Information",
-          icon: "supervisor_account",
-          to: "/apply/parent",
+          title: 'Parent Information',
+          icon: 'supervisor_account',
+          to: '/apply/parent',
         },
         {
-          title: "Transcript",
-          icon: "school",
-          to: "/apply/transcript",
+          title: 'Transcript',
+          icon: 'school',
+          to: '/apply/transcript',
         },
         {
-          title: "JC Essays",
-          icon: "message",
-          to: "/apply/jc-essays",
+          title: 'JC Essays',
+          icon: 'message',
+          to: '/apply/jc-essays',
         },
         {
-          title: "Video",
-          icon: "videocam",
-          to: "/apply/video",
+          title: 'Video Essay',
+          icon: 'videocam',
+          to: '/apply/video',
         },
         {
-          title: "Attachments",
-          icon: "attachment",
-          to: "/apply/attachments",
+          title: 'Attachments',
+          icon: 'attachment',
+          to: '/apply/attachments',
         },
         {
-          title: "Submit",
-          icon: "done",
-          to: "/apply/submit",
+          title: 'Submit',
+          icon: 'done',
+          to: '/apply/submit',
         },
       ],
       items: [
         {
-          title: "Instructions",
-          icon: "grading",
-          to: "/apply/",
+          title: 'Instructions',
+          icon: 'grading',
+          to: '/apply/',
         },
         {
-          title: "Background",
-          icon: "person",
-          to: "/apply/background",
+          title: 'Background',
+          icon: 'person',
+          to: '/apply/background',
         },
         {
-          title: "Parent Information",
-          icon: "supervisor_account",
-          to: "/apply/parent",
+          title: 'Parent Information',
+          icon: 'supervisor_account',
+          to: '/apply/parent',
         },
         {
-          title: "Personal Statement",
-          icon: "face",
-          to: "/apply/statement",
+          title: 'Personal Statement',
+          icon: 'face',
+          to: '/apply/statement',
         },
         {
-          title: "Short Essays",
-          icon: "message",
-          to: "/apply/essays",
+          title: 'Short Essays',
+          icon: 'message',
+          to: '/apply/essays',
         },
         {
-          title: "Video",
-          icon: "videocam",
-          to: "/apply/video",
+          title: 'Video Essay',
+          icon: 'videocam',
+          to: '/apply/video',
         },
         {
-          title: "Solutions",
-          icon: "assignment",
-          to: "/apply/solutions",
+          title: 'Solutions',
+          icon: 'assignment',
+          to: '/apply/solutions',
         },
         {
-          title: "Transcript",
-          icon: "school",
-          to: "/apply/transcript",
+          title: 'Transcript',
+          icon: 'school',
+          to: '/apply/transcript',
         },
         {
-          title: "Recommendation",
-          icon: "mail",
-          to: "/apply/recommendation",
+          title: 'Recommendation',
+          icon: 'mail',
+          to: '/apply/recommendation',
         },
         {
-          title: "Attachments",
-          icon: "attachment",
-          to: "/apply/attachments",
+          title: 'Attachments',
+          icon: 'attachment',
+          to: '/apply/attachments',
         },
         {
-          title: "Submit",
-          icon: "done",
-          to: "/apply/submit",
+          title: 'Submit',
+          icon: 'done',
+          to: '/apply/submit',
         },
       ],
       publicPath: process.env.BASE_URL,
@@ -197,7 +197,7 @@ export default {
 
   methods: {
     logout() {
-      this.$store.dispatch("logout");
+      this.$store.dispatch('logout');
     },
   },
 };

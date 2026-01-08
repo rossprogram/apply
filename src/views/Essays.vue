@@ -18,9 +18,9 @@
                 <li>Tell us about some mathematics that you’ve worked on and enjoyed.</li>
               </ul>
               All responses are welcome! This isn’t a test for coming up with something
-              &ldquo;impressive&rdquo; or for you to try and figure out what math we’re
+              &ldquo;impressive&rdquo; or for you to try to figure out what math we’re
               &ldquo;looking for&rdquo; &mdash; we really want to hear about mathematics that you
-              like and find interesting.) Coming to Ross is a 6-week endeavor. What makes you want
+              like and find interesting. Coming to Ross is a 6-week endeavor. What makes you want
               to come to Ross and do math for 6 weeks? What do you hope to get out of
               Ross?</v-card-subtitle
             >
@@ -80,7 +80,7 @@
             <v-card-subtitle>
               Collaborating and working together mathematically is an important aspect of Ross.
               <strong
-                >Describe a project or otherwise that you have collaborated with others on
+                >Describe a project or other activity that you have collaborated with others on
                 (mathematical or otherwise).</strong
               >
               What norms, practices, and values made the collaboration effective? How will you
@@ -112,7 +112,7 @@
               Ross students often come from a myriad of personal backgrounds, with many rich and
               varied life experiences.
               <strong
-                >How have your personal background and experiences have shaped your academic and/or
+                >How have your personal background and experiences shaped your academic and/or
                 mathematical journey?</strong
               >
             </v-card-subtitle>
@@ -186,7 +186,7 @@
           ><v-card>
             <v-card-title>Future goals</v-card-title>
             <v-card-subtitle
-              ><strong>What do you plan to major in at college?</strong> What are your career goals?
+              ><strong>What do you plan to major in during college?</strong> What are your career goals?
               Do you feel &ldquo;driven&rdquo; toward one type of work? (Like an academic career in
               math, astronomy, or economics? Or a career in finance? etc.) Or will you take a
               variety of courses in college and see what areas seem most
@@ -248,17 +248,16 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["application"]),
-    ...mapState(["attachments"]),
+    ...mapState(['application']),
+    ...mapState(['attachments']),
 
     essayAttachments: {
       get() {
-        if (this.attachments)
-          return Object.values(this.attachments).filter((a) => a.label === "essay");
+        if (this.attachments) return Object.values(this.attachments).filter(a => a.label === 'essay');
         return [];
       },
     },
@@ -268,7 +267,7 @@ export default {
         return this.application.introduction;
       },
       set(v) {
-        this.$set(this.updatedApplication, "introduction", v);
+        this.$set(this.updatedApplication, 'introduction', v);
       },
     },
     passion: {
@@ -276,7 +275,7 @@ export default {
         return this.application.passion;
       },
       set(v) {
-        this.$set(this.updatedApplication, "passion", v);
+        this.$set(this.updatedApplication, 'passion', v);
       },
     },
     community: {
@@ -284,7 +283,7 @@ export default {
         return this.application.community;
       },
       set(v) {
-        this.$set(this.updatedApplication, "community", v);
+        this.$set(this.updatedApplication, 'community', v);
       },
     },
     collaboration: {
@@ -292,7 +291,7 @@ export default {
         return this.application.collaboration;
       },
       set(v) {
-        this.$set(this.updatedApplication, "collaboration", v);
+        this.$set(this.updatedApplication, 'collaboration', v);
       },
     },
     previousExperience: {
@@ -300,7 +299,7 @@ export default {
         return this.application.previousExperience;
       },
       set(v) {
-        this.$set(this.updatedApplication, "previousExperience", v);
+        this.$set(this.updatedApplication, 'previousExperience', v);
       },
     },
     referral: {
@@ -308,7 +307,7 @@ export default {
         return this.application.referral;
       },
       set(v) {
-        this.$set(this.updatedApplication, "referral", v);
+        this.$set(this.updatedApplication, 'referral', v);
       },
     },
     otherPrograms: {
@@ -316,7 +315,7 @@ export default {
         return this.application.otherPrograms;
       },
       set(v) {
-        this.$set(this.updatedApplication, "otherPrograms", v);
+        this.$set(this.updatedApplication, 'otherPrograms', v);
       },
     },
     intendedMajor: {
@@ -324,7 +323,7 @@ export default {
         return this.application.intendedMajor;
       },
       set(v) {
-        this.$set(this.updatedApplication, "intendedMajor", v);
+        this.$set(this.updatedApplication, 'intendedMajor', v);
       },
     },
     otherInformation: {
@@ -332,7 +331,7 @@ export default {
         return this.application.otherInformation;
       },
       set(v) {
-        this.$set(this.updatedApplication, "otherInformation", v);
+        this.$set(this.updatedApplication, 'otherInformation', v);
       },
     },
   },
@@ -346,15 +345,15 @@ export default {
   },
   methods: {
     ...mapActions([
-      "getApplication",
-      "updateApplication",
-      "getAttachments",
-      "removeAttachment",
-      "addAttachment",
+      'getApplication',
+      'updateApplication',
+      'getAttachments',
+      'removeAttachment',
+      'addAttachment',
     ]),
 
     upload() {
-      this.addAttachment({ file: this.file, label: "essay" });
+      this.addAttachment({ file: this.file, label: 'essay' });
     },
 
     remove(id) {
@@ -369,7 +368,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     if (Object.keys(this.updatedApplication).length > 0 && !this.saved) {
-      const answer = window.confirm("Do you really want to leave? You have unsaved changes.");
+      const answer = window.confirm('Do you really want to leave? You have unsaved changes.');
       if (answer) {
         next();
       } else {

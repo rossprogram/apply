@@ -6,21 +6,21 @@
           ><v-card>
             <v-card-title>Solutions</v-card-title>
             <v-card-subtitle
-              >Work on the 2025 Application Problems which you can find on January 8, 2025 at
+              >Work on the 2026 Application Problems, available January 8, 2026, at
               <a href="https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf"
                 >https://raw.githubusercontent.com/rossprogram/rossprogram.github.io/master/students/application-problems.pdf</a
-              >. <strong>There are four problems.</strong> Upload your carefully written solutions to those <strong>four</strong> problems.
+              >. <strong>There are three problems.</strong> Upload your carefully written solutions to those <strong>three</strong> problems.
               <ul>
                 <li>The solution to each problem must be uploaded as a separate PDF.</li>
                 <li>
-                  Use the PDF file format. If your solution file is in some other fomat, please
+                  Use the PDF file format. If your solution file is in some other format, please
                   transform it to a PDF, check that the converted file is readable, and then upload
                   that PDF.
                 </li>
                 <li>
                   We welcome solutions that have been prepared with LaTeX or some similar
                   typesetting program that produces PDFs. It is OK to type up your work using a word
-                  processor (like Microsoft Word), and then converting that file to a PDF. Please
+                  processor (like Microsoft Word), and then convert that file to a PDF. Please
                   verify that the mathematical symbols you use are readable.
                 </li>
                 <li>
@@ -33,7 +33,7 @@
               </ul>
               <p>
                 The Admissions Committee is not looking for quick answers written in minimal space,
-                but rather for readable mathematical expositions that includes evidence of your
+                but rather for readable mathematical expositions that include evidence of your
                 explorations, conjectures, and proofs.
               </p></v-card-subtitle
             >
@@ -91,17 +91,17 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["attachments"]),
+    ...mapState(['attachments']),
 
     solutionAttachments: {
       get() {
         if (this.attachments) {
           return Object.values(this.attachments)
-            .filter((a) => a.label && a.label.match(/^solution[0-9]+$/))
+            .filter(a => a.label && a.label.match(/^solution[0-9]+$/))
             .sort((a, b) => (a.label < b.label ? -1 : 1));
         }
         return [];
@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       problem: null,
-      problemCount: 4,
+      problemCount: 3,
       key: 1,
       file: null,
     };
@@ -127,14 +127,14 @@ export default {
     birthdayMenu() {
       const { picker } = this.$refs;
       // if (val)
-      picker.activePicker = "YEAR";
+      picker.activePicker = 'YEAR';
       setTimeout(() => {
-        picker.activePicker = "YEAR";
+        picker.activePicker = 'YEAR';
       }, 1000);
     },
   },
   methods: {
-    ...mapActions(["getAttachments", "removeAttachment", "addAttachment"]),
+    ...mapActions(['getAttachments', 'removeAttachment', 'addAttachment']),
 
     upload() {
       this.addAttachment({ file: this.file, label: `solution${this.problem}` });

@@ -87,7 +87,7 @@
             <v-card-title>Collaboration</v-card-title>
             <v-card-subtitle>
               Collaborating and working together mathematically is an important aspect of Ross.
-              <strong>Describe a time at Ross where you collaborated with others.</strong> What
+              <strong>Describe a time at Ross when you collaborated with others.</strong> What
               norms, practices, and values made the collaboration effective? How will you practice
               collaboration at Ross to make Ross a welcoming learning environment for everyone?
             </v-card-subtitle>
@@ -113,7 +113,7 @@
           ><v-card>
             <v-card-title>Future goals</v-card-title>
             <v-card-subtitle
-              ><strong>What do you plan to major in at college?</strong> What are your career goals?
+              ><strong>What do you plan to major in during college?</strong> What are your career goals?
               Do you feel &ldquo;driven&rdquo; toward one type of work? (Like an academic career in
               math, astronomy, or economics? Or a career in finance? etc.) Or will you take a
               variety of courses in college and see what areas seem most
@@ -175,18 +175,18 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["application"]),
+    ...mapState(['application']),
 
     previousExperience: {
       get() {
         return this.application.previousExperience;
       },
       set(v) {
-        this.$set(this.updatedApplication, "previousExperience", v);
+        this.$set(this.updatedApplication, 'previousExperience', v);
       },
     },
     mostInterestingRoss: {
@@ -194,7 +194,7 @@ export default {
         return this.application.mostInterestingRoss;
       },
       set(v) {
-        this.$set(this.updatedApplication, "mostInterestingRoss", v);
+        this.$set(this.updatedApplication, 'mostInterestingRoss', v);
       },
     },
     community: {
@@ -202,7 +202,7 @@ export default {
         return this.application.community;
       },
       set(v) {
-        this.$set(this.updatedApplication, "community", v);
+        this.$set(this.updatedApplication, 'community', v);
       },
     },
     collaboration: {
@@ -210,7 +210,7 @@ export default {
         return this.application.collaboration;
       },
       set(v) {
-        this.$set(this.updatedApplication, "collaboration", v);
+        this.$set(this.updatedApplication, 'collaboration', v);
       },
     },
     intendedMajor: {
@@ -218,7 +218,7 @@ export default {
         return this.application.intendedMajor;
       },
       set(v) {
-        this.$set(this.updatedApplication, "intendedMajor", v);
+        this.$set(this.updatedApplication, 'intendedMajor', v);
       },
     },
     otherInformation: {
@@ -226,7 +226,7 @@ export default {
         return this.application.otherInformation;
       },
       set(v) {
-        this.$set(this.updatedApplication, "otherInformation", v);
+        this.$set(this.updatedApplication, 'otherInformation', v);
       },
     },
   },
@@ -239,7 +239,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getApplication", "updateApplication"]),
+    ...mapActions(['getApplication', 'updateApplication']),
 
     saveApplication() {
       this.saved = true;
@@ -249,7 +249,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     if (Object.keys(this.updatedApplication).length > 0 && !this.saved) {
-      const answer = window.confirm("Do you really want to leave? You have unsaved changes.");
+      const answer = window.confirm('Do you really want to leave? You have unsaved changes.');
       if (answer) {
         next();
       } else {

@@ -8,7 +8,7 @@
           <template v-slot:label
             ><span
               >I was accepted and
-              <strong>I have attended the Ross Program in Summer 2024</strong> or in a previous
+              <strong>I have attended the Ross Program in Summer 2025</strong> or in a previous
               summer.</span
             ></template
           >
@@ -36,8 +36,8 @@
     <p class="my-4">
       The Admissions Committee will begin reading applications on March 16,
       {{ new Date().getFullYear() }}.
-      <b>Complete and submit your application before the end of March 15.</b>The Admissions Committee
-      might not read applications received after March 15. Admission decisions will be made in April, and will be emailed to applicants who submitted complete applications.
+      <b>Complete and submit your application by the end of March 8 in your local timezone.</b> The Admissions Committee
+      might not read applications received after that. Admission decisions will be made in April and emailed to applicants who submitted complete applications.
     </p>
     <p>
       If you have questions about the admissions process, please contact
@@ -58,18 +58,18 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["application"]),
+    ...mapState(['application']),
 
     juniorCounselor: {
       get() {
         return this.application.juniorCounselor;
       },
       set(v) {
-        this.$set(this.updatedApplication, "juniorCounselor", v);
+        this.$set(this.updatedApplication, 'juniorCounselor', v);
       },
     },
   },
@@ -85,7 +85,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getApplication", "updateApplication"]),
+    ...mapActions(['getApplication', 'updateApplication']),
 
     saveApplication() {
       this.saved = true;
@@ -95,7 +95,7 @@ export default {
 
   beforeRouteLeave(to, from, next) {
     if (Object.keys(this.updatedApplication).length > 0 && !this.saved) {
-      const answer = window.confirm("Do you really want to leave? You have unsaved changes.");
+      const answer = window.confirm('Do you really want to leave? You have unsaved changes.');
       if (answer) {
         next();
       } else {

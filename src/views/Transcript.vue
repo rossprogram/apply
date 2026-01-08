@@ -62,16 +62,16 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(["attachments"]),
+    ...mapState(['attachments']),
 
     transcriptAttachments: {
       get() {
         if (this.attachments) {
-          return Object.values(this.attachments).filter((a) => a.label === "transcript");
+          return Object.values(this.attachments).filter(a => a.label === 'transcript');
         }
         return [];
       },
@@ -86,10 +86,10 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getAttachments", "removeAttachment", "addAttachment"]),
+    ...mapActions(['getAttachments', 'removeAttachment', 'addAttachment']),
 
     upload() {
-      this.addAttachment({ file: this.file, label: "transcript" });
+      this.addAttachment({ file: this.file, label: 'transcript' });
     },
 
     remove(id) {

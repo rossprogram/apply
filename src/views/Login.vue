@@ -7,7 +7,7 @@
             <div>
               <v-form v-model="valid" ref="form">
                 <v-text-field
-                  label="Enter your e-mail address"
+                  label="Enter your email address"
                   v-model="email"
                   :rules="emailRules"
                   required
@@ -24,7 +24,7 @@
                 ></v-text-field>
                 <v-layout justify-space-between>
                   <v-btn @click="submit" color="primary" :disabled="!valid"> Login</v-btn>
-                  <router-link to="/signup">Forgot Password or Create Account</router-link>
+                  <router-link to="/signup">Forgot password or create an account</router-link>
                 </v-layout>
               </v-form>
             </div>
@@ -41,13 +41,13 @@ export default {
     return {
       valid: false,
       passwordHidden: true,
-      password: "",
-      email: "",
+      password: '',
+      email: '',
       emailRules: [
-        (v) => !!v || "An e-mail is required",
-        (v) => /.+@.+/.test(v) || "The provided e-mail must be valid",
+        v => !!v || 'An email is required',
+        v => /.+@.+/.test(v) || 'The provided email must be valid',
       ],
-      passwordRules: [(v) => !!v || "A password is required"],
+      passwordRules: [v => !!v || 'A password is required'],
     };
   },
 
@@ -56,7 +56,7 @@ export default {
       if (this.$refs.form.validate()) {
         const { email } = this;
         const { password } = this;
-        this.$store.dispatch("login", { email, password });
+        this.$store.dispatch('login', { email, password });
       }
     },
   },
