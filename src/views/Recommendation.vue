@@ -5,7 +5,10 @@
         ><v-col
           ><v-card>
             <v-card-title>Recommendation letter</v-card-title>
-            <v-card-subtitle v-if="!hasFullName"
+            <v-card-subtitle v-if="!applicationLoaded">
+              Checking your background information&hellip;
+            </v-card-subtitle>
+            <v-card-subtitle v-else-if="!hasFullName"
               >Before you can add a recommender, please fill out the background information with
               your full name on the Background page.</v-card-subtitle
             >
@@ -19,7 +22,7 @@
               recommender's email address, then click the &ldquo;plus sign&rdquo; on the right. The
               Ross system will then send an automated message to that address.</v-card-subtitle
             >
-            <template v-if="hasFullName">
+            <template v-if="applicationLoaded && hasFullName">
               <v-list-item
                 two-line
                 v-for="recommendation in recommendations"
@@ -91,6 +94,7 @@ export default {
 
   data() {
     return {
+      applicationLoaded: false,
       email: '',
       key: 1,
     };
@@ -99,6 +103,11 @@ export default {
     ...mapActions(['getApplication', 'getRecommendations', 'addRecommendation', 'alertError']),
 
     inviteRecommender(address) {
+      if (!this.applicationLoaded) {
+        this.alertError('Please wait while we load your background information.');
+        return false;
+      }
+
       if (!this.hasFullName) {
         this.alertError('Please complete your full name on the Background page first.');
         return false;
@@ -116,7 +125,9 @@ export default {
   },
 
   mounted() {
-    this.getApplication();
+    this.getApplication().finally(() => {
+      this.applicationLoaded = true;
+    });
     return this.getRecommendations();
   },
 };

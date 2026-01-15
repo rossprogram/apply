@@ -169,7 +169,7 @@ const store = new Vuex.Store({
     },
 
     getApplication({ dispatch, commit }) {
-      userService.getApplication('me').then(
+      return userService.getApplication('me').then(
         (response) => {
           if (response.status === 200) {
             commit('setApplication', response.data);
