@@ -227,7 +227,7 @@
                   <v-text-field
                     class="my-4"
                     prepend-icon="school"
-                    label="Current school"
+                    label="Full name of your current school"
                     v-model="schoolName"
                     hint="The name of the school you are presently attending"
                   ></v-text-field> </v-flex
@@ -242,6 +242,38 @@
                     hint="The full mailing address of the school you are presently attending. Be sure to include the city, state, country, etc."
                   ></v-textarea> </v-flex
               ></v-layout>
+              <v-layout wrap>
+                <v-flex xs12 md12>
+                  <v-text-field
+                    class="my-4"
+                    prepend-icon="school"
+                    label="School NCES ID (if your school has one)"
+                    v-model="schoolNcesId"
+                  ></v-text-field> </v-flex
+              ></v-layout>
+              <v-layout wrap>
+                <v-flex xs12 md12>
+                  <div class="caption">
+                    Find your school's NCES ID:
+                    <a
+                      href="https://nces.ed.gov/surveys/pss/privateschoolsearch/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      private schools
+                    </a>
+                    and
+                    <a
+                      href="https://nces.ed.gov/ccd/schoolsearch/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      public schools
+                    </a>
+                    .
+                  </div>
+                </v-flex>
+              </v-layout>
             </v-card-text> </v-card></v-col
       ></v-row>
 
@@ -582,6 +614,14 @@ export default {
       },
       set(v) {
         this.$set(this.updatedApplication, 'schoolAddress', v);
+      },
+    },
+    schoolNcesId: {
+      get() {
+        return this.application.schoolNcesId;
+      },
+      set(v) {
+        this.$set(this.updatedApplication, 'schoolNcesId', v);
       },
     },
     address: {
