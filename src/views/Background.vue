@@ -254,23 +254,19 @@
               <v-layout wrap>
                 <v-flex xs12 md12>
                   <div class="caption">
-                    Find your school's NCES ID:
+                    For schools in the US, find your school's NCES ID:
                     <a
                       href="https://nces.ed.gov/surveys/pss/privateschoolsearch/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      private schools
-                    </a>
-                    and
+                      private schools</a> and
                     <a
                       href="https://nces.ed.gov/ccd/schoolsearch/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      public schools
-                    </a>
-                    .
+                      public schools</a>.
                   </div>
                 </v-flex>
               </v-layout>
