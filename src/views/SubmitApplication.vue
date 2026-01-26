@@ -61,7 +61,7 @@
             </p>
             <p>
               <strong>Warning:</strong> For full consideration of your application, the last
-              submission must happen before the March 15 deadline. Applications that are submitted
+              submission must happen before the deadline. Applications that are submitted
               after the deadline will not be reviewed as carefully as those
               submitted earlier. If you make changes in your file after the deadline, please alert the
               Committee by email at

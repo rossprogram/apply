@@ -34,9 +34,9 @@
     </p>
 
     <p class="my-4">
-      The Admissions Committee will begin reading applications on March 16,
-      {{ new Date().getFullYear() }}.
-      <b>Complete and submit your application by the end of March 8 in your local timezone.</b> The Admissions Committee
+      <b>Complete and submit your application by the end of March 8,
+      {{ new Date().getFullYear() }},
+      in your local timezone.</b> The Admissions Committee
       might not read applications received after that. Admission decisions will be made in April and emailed to applicants who submitted complete applications.
     </p>
     <p>
