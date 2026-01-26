@@ -10,7 +10,10 @@ const store = new Vuex.Store({
   state: {
     version,
     profile: null,
-    application: {},
+    application: {
+      firstName: '',
+      lastName: '',
+    },
     offer: {},
     recommendations: {},
     attachments: {},
