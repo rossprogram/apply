@@ -1253,6 +1253,10 @@ export default {
           name: 'Korea (the Republic of)',
         },
         {
+          alpha2: 'XK',
+          name: 'Kosovo (Republic of Kosovo)',
+        },
+        {
           alpha2: 'KW',
           name: 'Kuwait',
         },
