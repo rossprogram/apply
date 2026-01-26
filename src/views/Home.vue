@@ -8,7 +8,7 @@
         <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a> for assistance.
       </p>
 
-      <p><strong>The 2026 application window opens January 15, 2026.</strong> Applications are due March 8, 2026. We expect admissions decisions to be finalized by mid-April.</p>
+      <p><strong>The 2026 application is now open.</strong> Applications are due March 8, 2026. We expect admissions decisions to be finalized by mid-April.</p>
 
       <p v-if="!profile">
         The first step is to <router-link to="/signup">sign up for an account</router-link> by
