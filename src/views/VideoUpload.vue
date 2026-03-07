@@ -62,12 +62,21 @@
                   </v-btn>
                 </div>
                 <div class="mt-3">
-                  <v-btn color="primary" @click="startRecording" :disabled="recording || uploading">
+                  <v-btn color="primary" @click="startRecording" :disabled="recording || uploading || isStartingRecording">
                     Start recording
                   </v-btn>
-                  <v-btn color="error" @click="stopRecording" :disabled="!recording">
+                  <v-btn color="error" @click="stopRecording" :disabled="!recording || isRecordingTooShort">
                     Stop recording
                   </v-btn>
+                  <span v-if="recording" class="recording-timer ml-3" :class="{ 'recording-timer--warning': recordingTimeRemaining <= 60 }">
+                    {{ formattedRecordingTime }} / {{ formattedMaxTime }}
+                  </span>
+                </div>
+                <div v-if="recording && isRecordingTooShort" class="mt-2 text-caption grey--text">
+                  Minimum recording length: {{ MIN_RECORDING_SECONDS }} seconds
+                </div>
+                <div v-if="recording && recordingTimeRemaining <= 60" class="mt-2 text-caption error--text">
+                  Recording will automatically stop in {{ recordingTimeRemaining }} seconds
                 </div>
                 <v-progress-linear
                   v-if="uploading"
@@ -140,6 +149,8 @@
 import userService from '../services/user';
 
 const PART_SIZE = 5 * 1024 * 1024;
+const MAX_RECORDING_SECONDS = 30 * 60; // 30 minutes
+const MIN_RECORDING_SECONDS = 10; // 10 seconds
 
 function pickSupportedMimeType() {
   if (!window.MediaRecorder) return '';
@@ -191,12 +202,38 @@ export default {
       selectedVideoInput: '',
       audioLevel: 0,
       deviceChangeHandler: null,
+      recordingStartTime: null,
+      recordingElapsed: 0,
+      recordingTimer: null,
+      totalBytesUploaded: 0,
+      totalBytesToUpload: 0,
+      videoUrlRefreshTimer: null,
+      isStartingRecording: false,
+      beforeUnloadHandler: null,
     };
   },
 
   computed: {
     hasStream() {
       return !!this.mediaStream;
+    },
+    formattedRecordingTime() {
+      const minutes = Math.floor(this.recordingElapsed / 60);
+      const seconds = this.recordingElapsed % 60;
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    },
+    formattedMaxTime() {
+      const minutes = Math.floor(MAX_RECORDING_SECONDS / 60);
+      return `${minutes}:00`;
+    },
+    recordingTimeRemaining() {
+      return MAX_RECORDING_SECONDS - this.recordingElapsed;
+    },
+    isRecordingTooShort() {
+      return this.recordingElapsed < MIN_RECORDING_SECONDS;
+    },
+    MIN_RECORDING_SECONDS() {
+      return MIN_RECORDING_SECONDS;
     },
   },
 
@@ -219,6 +256,7 @@ export default {
       this.successMessage = '';
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         this.error = 'Your browser does not support webcam recording.';
+        console.error('[VideoUpload] Browser does not support getUserMedia');
         return;
       }
       try {
@@ -231,13 +269,70 @@ export default {
             ? { deviceId: { exact: this.selectedAudioInput } }
             : true,
         };
+        console.log('[VideoUpload] Requesting media with constraints:', constraints);
         this.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+
+        // Validate that we have active tracks
+        const videoTracks = this.mediaStream.getVideoTracks();
+        const audioTracks = this.mediaStream.getAudioTracks();
+        console.log('[VideoUpload] Got stream with video tracks:', videoTracks.length, 'audio tracks:', audioTracks.length);
+
+        if (videoTracks.length === 0 || videoTracks[0].readyState !== 'live') {
+          console.error('[VideoUpload] No active video track');
+          this.error = 'Camera not available. Please check your camera connection.';
+          this.stopStream();
+          return;
+        }
+        if (audioTracks.length === 0 || audioTracks[0].readyState !== 'live') {
+          console.error('[VideoUpload] No active audio track');
+          this.error = 'Microphone not available. Please check your microphone connection.';
+          this.stopStream();
+          return;
+        }
+
+        // Use $nextTick to ensure the video element ref is available
+        await this.$nextTick();
         const videoEl = this.$refs.liveVideo;
-        if (videoEl) videoEl.srcObject = this.mediaStream;
+        if (videoEl) {
+          videoEl.srcObject = this.mediaStream;
+          console.log('[VideoUpload] Attached stream to video element');
+        } else {
+          console.error('[VideoUpload] Video element ref not available');
+          this.error = 'Unable to display camera preview. Please refresh the page.';
+          this.stopStream();
+          return;
+        }
+
         await this.loadDevices();
-        this.setupAudioMeter();
+        await this.setupAudioMeter();
       } catch (err) {
-        this.error = 'Unable to access your camera and microphone.';
+        console.error('[VideoUpload] Error enabling camera:', err.name, err.message);
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          this.error = 'Camera/microphone access denied. Please allow access in your browser settings and refresh.';
+        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+          this.error = 'No camera or microphone found. Please connect a device and try again.';
+        } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+          this.error = 'Camera or microphone is in use by another application. Please close other apps and try again.';
+        } else if (err.name === 'OverconstrainedError') {
+          // Selected device no longer available, try again with defaults
+          console.warn('[VideoUpload] Device constraint failed, retrying with defaults');
+          this.selectedVideoInput = '';
+          this.selectedAudioInput = '';
+          try {
+            this.mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            await this.$nextTick();
+            const videoEl = this.$refs.liveVideo;
+            if (videoEl) videoEl.srcObject = this.mediaStream;
+            await this.loadDevices();
+            await this.setupAudioMeter();
+            return;
+          } catch (retryErr) {
+            console.error('[VideoUpload] Retry also failed:', retryErr.name, retryErr.message);
+            this.error = 'Unable to access your camera and microphone.';
+          }
+        } else {
+          this.error = 'Unable to access your camera and microphone.';
+        }
       }
     },
 
@@ -260,11 +355,16 @@ export default {
     },
 
     async loadDevices() {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+        console.warn('[VideoUpload] enumerateDevices not supported');
+        return;
+      }
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const audioInputs = devices.filter(device => device.kind === 'audioinput');
         const videoInputs = devices.filter(device => device.kind === 'videoinput');
+        console.log('[VideoUpload] Found devices - cameras:', videoInputs.length, 'microphones:', audioInputs.length);
+
         this.audioInputs = audioInputs.map((device, index) => ({
           deviceId: device.deviceId,
           label: device.label || `Microphone ${index + 1}`,
@@ -290,17 +390,36 @@ export default {
             || '';
         }
       } catch (err) {
-        // Ignore device enumeration errors.
+        console.error('[VideoUpload] Error enumerating devices:', err.message);
       }
     },
 
-    setupAudioMeter() {
+    async setupAudioMeter() {
       this.teardownAudioMeter();
-      if (!this.mediaStream) return;
+      if (!this.mediaStream) {
+        console.warn('[VideoUpload] Cannot setup audio meter: no media stream');
+        return;
+      }
       const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
+      if (!AudioContext) {
+        console.warn('[VideoUpload] AudioContext not supported');
+        return;
+      }
       try {
         this.audioContext = new AudioContext();
+
+        // Handle suspended AudioContext (common when created without user interaction)
+        if (this.audioContext.state === 'suspended') {
+          console.log('[VideoUpload] AudioContext suspended, attempting to resume');
+          try {
+            await this.audioContext.resume();
+            console.log('[VideoUpload] AudioContext resumed successfully');
+          } catch (resumeErr) {
+            console.warn('[VideoUpload] Could not resume AudioContext:', resumeErr.message);
+            // Continue anyway - it may resume on user interaction later
+          }
+        }
+
         const source = this.audioContext.createMediaStreamSource(this.mediaStream);
         this.audioAnalyser = this.audioContext.createAnalyser();
         this.audioAnalyser.fftSize = 512;
@@ -312,6 +431,12 @@ export default {
         }
         const updateMeter = () => {
           if (!this.audioAnalyser) return;
+
+          // Try to resume AudioContext if still suspended (will work after user interaction)
+          if (this.audioContext && this.audioContext.state === 'suspended') {
+            this.audioContext.resume().catch(() => {});
+          }
+
           let sumSquares = 0;
           if (this.audioFloatDataArray) {
             this.audioAnalyser.getFloatTimeDomainData(this.audioFloatDataArray);
@@ -336,7 +461,9 @@ export default {
         };
         updateMeter();
         this.audioMeterTimer = setInterval(updateMeter, 60);
+        console.log('[VideoUpload] Audio meter setup complete');
       } catch (err) {
+        console.error('[VideoUpload] Error setting up audio meter:', err.message);
         this.audioLevel = 0;
       }
     },
@@ -362,62 +489,102 @@ export default {
     },
 
     async startRecording() {
-      if (this.recording) return;
-      if (!this.mediaStream) {
-        await this.enableCamera();
-      }
-      if (!this.mediaStream) return;
-      this.error = '';
-      this.successMessage = '';
-      this.recordedChunks = [];
-      this.recordedBlob = null;
-      if (this.recordedUrl) {
-        URL.revokeObjectURL(this.recordedUrl);
-        this.recordedUrl = '';
-      }
-      const mimeType = pickSupportedMimeType();
-      this.recordingMimeType = mimeType;
-      const contentType = mimeType || 'video/webm';
-      this.uploadContentType = contentType;
+      if (this.recording || this.isStartingRecording) return;
+      this.isStartingRecording = true;
+
       try {
-        this.mediaRecorder = new MediaRecorder(
-          this.mediaStream,
-          mimeType ? { mimeType } : undefined,
-        );
-      } catch (err) {
-        this.error = 'Recording is not supported in this browser.';
-        return;
-      }
-      try {
-        await this.beginMultipartUpload();
-      } catch (err) {
-        this.error = 'Unable to start the upload. Please try again.';
-        return;
-      }
-      this.mediaRecorder.ondataavailable = (event) => {
-        if (event.data && event.data.size > 0) {
-          this.recordedChunks.push(event.data);
-          this.pendingChunks.push(event.data);
-          this.pendingSize += event.data.size;
-          this.flushPendingChunks(false);
+        if (!this.mediaStream) {
+          await this.enableCamera();
         }
-      };
-      this.mediaRecorder.onstop = async () => {
-        this.recording = false;
-        if (!this.recordedChunks.length) {
-          this.error = 'Recording failed. Please try again.';
-          await this.abortMultipartUpload();
+        if (!this.mediaStream) {
+          this.isStartingRecording = false;
           return;
         }
-        const blob = new Blob(this.recordedChunks, {
-          type: this.recordingMimeType || 'video/webm',
-        });
-        this.recordedBlob = blob;
-        this.recordedUrl = URL.createObjectURL(blob);
-        await this.finalizeMultipartUpload();
-      };
-      this.recording = true;
-      this.mediaRecorder.start(1000);
+        this.error = '';
+        this.successMessage = '';
+        this.recordedChunks = [];
+        this.recordedBlob = null;
+        this.cleanupRecordedUrl();
+
+        const mimeType = pickSupportedMimeType();
+        this.recordingMimeType = mimeType;
+        const contentType = mimeType || 'video/webm';
+        this.uploadContentType = contentType;
+        try {
+          this.mediaRecorder = new MediaRecorder(
+            this.mediaStream,
+            mimeType ? { mimeType } : undefined,
+          );
+        } catch (err) {
+          this.error = 'Recording is not supported in this browser.';
+          this.isStartingRecording = false;
+          return;
+        }
+        try {
+          await this.beginMultipartUpload();
+        } catch (err) {
+          this.error = 'Unable to start the upload. Please try again.';
+          this.isStartingRecording = false;
+          return;
+        }
+
+        // Handle recorder errors
+        this.mediaRecorder.onerror = (event) => {
+          console.error('[VideoUpload] MediaRecorder error:', event.error);
+          this.error = 'Recording error occurred. Please try again.';
+          this.stopRecordingTimer();
+          this.recording = false;
+          this.abortMultipartUpload();
+        };
+
+        this.mediaRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size > 0) {
+            this.recordedChunks.push(event.data);
+            this.pendingChunks.push(event.data);
+            this.pendingSize += event.data.size;
+            this.totalBytesToUpload += event.data.size;
+            this.flushPendingChunks(false);
+          }
+        };
+
+        this.mediaRecorder.onstop = async () => {
+          this.stopRecordingTimer();
+          this.recording = false;
+          this.removeTrackEndedListeners();
+
+          if (this.recordingElapsed < MIN_RECORDING_SECONDS) {
+            this.error = `Recording too short. Minimum length is ${MIN_RECORDING_SECONDS} seconds.`;
+            await this.abortMultipartUpload();
+            return;
+          }
+
+          if (!this.recordedChunks.length) {
+            this.error = 'Recording failed. Please try again.';
+            await this.abortMultipartUpload();
+            return;
+          }
+          const blob = new Blob(this.recordedChunks, {
+            type: this.recordingMimeType || 'video/webm',
+          });
+          this.recordedBlob = blob;
+          await this.finalizeMultipartUpload();
+        };
+
+        // Listen for track ended events (camera/mic disconnected)
+        this.setupTrackEndedListeners();
+
+        // Setup beforeunload protection
+        this.setupBeforeUnloadProtection();
+
+        // Start recording timer
+        this.startRecordingTimer();
+
+        this.recording = true;
+        this.mediaRecorder.start(1000);
+        console.log('[VideoUpload] Recording started');
+      } finally {
+        this.isStartingRecording = false;
+      }
     },
 
     stopRecording() {
@@ -425,13 +592,78 @@ export default {
       this.mediaRecorder.stop();
     },
 
-    discardRecording() {
+    startRecordingTimer() {
+      this.recordingStartTime = Date.now();
+      this.recordingElapsed = 0;
+      this.recordingTimer = setInterval(() => {
+        this.recordingElapsed = Math.floor((Date.now() - this.recordingStartTime) / 1000);
+        // Auto-stop at max length
+        if (this.recordingElapsed >= MAX_RECORDING_SECONDS) {
+          console.log('[VideoUpload] Max recording length reached, stopping');
+          this.stopRecording();
+        }
+      }, 1000);
+    },
+
+    stopRecordingTimer() {
+      if (this.recordingTimer) {
+        clearInterval(this.recordingTimer);
+        this.recordingTimer = null;
+      }
+    },
+
+    setupTrackEndedListeners() {
+      if (!this.mediaStream) return;
+      const tracks = this.mediaStream.getTracks();
+      tracks.forEach((track) => {
+        track.onended = () => {
+          console.error('[VideoUpload] Track ended unexpectedly:', track.kind);
+          if (this.recording) {
+            this.error = `${track.kind === 'video' ? 'Camera' : 'Microphone'} was disconnected. Recording stopped.`;
+            this.stopRecording();
+          }
+        };
+      });
+    },
+
+    removeTrackEndedListeners() {
+      if (!this.mediaStream) return;
+      const tracks = this.mediaStream.getTracks();
+      tracks.forEach((track) => {
+        track.onended = null;
+      });
+    },
+
+    setupBeforeUnloadProtection() {
+      this.beforeUnloadHandler = (event) => {
+        if (this.recording || this.uploading) {
+          event.preventDefault();
+          event.returnValue = 'You have a recording in progress. Are you sure you want to leave?';
+          return event.returnValue;
+        }
+        return undefined;
+      };
+      window.addEventListener('beforeunload', this.beforeUnloadHandler);
+    },
+
+    removeBeforeUnloadProtection() {
+      if (this.beforeUnloadHandler) {
+        window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+        this.beforeUnloadHandler = null;
+      }
+    },
+
+    cleanupRecordedUrl() {
       if (this.recordedUrl) {
         URL.revokeObjectURL(this.recordedUrl);
+        this.recordedUrl = '';
       }
-      this.recordedChunks = [];
       this.recordedBlob = null;
-      this.recordedUrl = '';
+    },
+
+    discardRecording() {
+      this.cleanupRecordedUrl();
+      this.recordedChunks = [];
       this.successMessage = '';
     },
 
@@ -444,6 +676,8 @@ export default {
       this.nextPartNumber = 1;
       this.pendingChunks = [];
       this.pendingSize = 0;
+      this.totalBytesUploaded = 0;
+      this.totalBytesToUpload = 0;
 
       const createResponse = await userService.createVideoMultipart(
         'me',
@@ -495,6 +729,7 @@ export default {
 
     async uploadPart(blob) {
       if (this.uploadFailed) return;
+      const blobSize = blob.size;
       try {
         const partNumber = this.nextPartNumber;
         const partResponse = await userService.createVideoPartUrl('me', {
@@ -522,7 +757,18 @@ export default {
 
         this.uploadParts.push({ PartNumber: partNumber, ETag: eTag });
         this.nextPartNumber += 1;
+
+        // Update progress
+        this.totalBytesUploaded += blobSize;
+        if (this.totalBytesToUpload > 0) {
+          this.uploadProgress = Math.min(
+            99,
+            Math.round((this.totalBytesUploaded / this.totalBytesToUpload) * 100),
+          );
+        }
+        console.log(`[VideoUpload] Uploaded part ${partNumber}, progress: ${this.uploadProgress}%`);
       } catch (err) {
+        console.error('[VideoUpload] Failed to upload part:', err.message);
         this.uploadFailed = true;
         this.error = 'Unable to upload your video. Please try again.';
         await this.abortMultipartUpload();
@@ -534,15 +780,21 @@ export default {
       try {
         await this.uploadChain;
         if (this.uploadFailed) return;
+
+        // Sort parts by PartNumber to ensure correct order for S3
+        const sortedParts = [...this.uploadParts].sort((a, b) => a.PartNumber - b.PartNumber);
+
         await userService.completeVideoMultipart('me', {
           uploadId: this.uploadId,
           key: this.uploadKey,
-          parts: this.uploadParts,
+          parts: sortedParts,
         });
         this.uploadProgress = 100;
         this.successMessage = 'Video uploaded successfully.';
+        this.removeBeforeUnloadProtection();
         await this.refreshExistingVideo();
       } catch (err) {
+        console.error('[VideoUpload] Failed to finalize upload:', err.message);
         this.error = 'Unable to upload your video. Please try again.';
         await this.abortMultipartUpload();
       } finally {
@@ -561,6 +813,7 @@ export default {
         // Ignore abort errors.
       } finally {
         this.uploading = false;
+        this.removeBeforeUnloadProtection();
       }
     },
 
@@ -570,6 +823,8 @@ export default {
         if (response.status === 200 && response.data && response.data.url) {
           this.existingVideoUrl = response.data.url;
           this.$store.commit('setVideoExists', true);
+          // Set up periodic refresh to prevent URL expiration (every 10 minutes)
+          this.scheduleVideoUrlRefresh();
         }
       } catch (err) {
         if (err.response && err.response.status === 404) {
@@ -581,12 +836,28 @@ export default {
         }
       }
     },
+
+    scheduleVideoUrlRefresh() {
+      // Clear any existing timer
+      if (this.videoUrlRefreshTimer) {
+        clearTimeout(this.videoUrlRefreshTimer);
+      }
+      // Refresh URL every 10 minutes to prevent expiration
+      this.videoUrlRefreshTimer = setTimeout(() => {
+        if (this.existingVideoUrl) {
+          console.log('[VideoUpload] Refreshing video URL to prevent expiration');
+          this.refreshExistingVideo();
+        }
+      }, 10 * 60 * 1000);
+    },
   },
 
-  mounted() {
+  async mounted() {
     this.refreshExistingVideo();
-    this.enableCamera();
-    this.loadDevices();
+    // Load devices first (will have limited info without stream)
+    await this.loadDevices();
+    // Then enable camera - this will call loadDevices again with full info
+    await this.enableCamera();
     if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
       this.deviceChangeHandler = () => this.loadDevices();
       navigator.mediaDevices.addEventListener('devicechange', this.deviceChangeHandler);
@@ -595,8 +866,13 @@ export default {
 
   beforeDestroy() {
     this.disableCamera();
-    if (this.recordedUrl) {
-      URL.revokeObjectURL(this.recordedUrl);
+    this.cleanupRecordedUrl();
+    this.stopRecordingTimer();
+    this.removeBeforeUnloadProtection();
+    this.removeTrackEndedListeners();
+    if (this.videoUrlRefreshTimer) {
+      clearTimeout(this.videoUrlRefreshTimer);
+      this.videoUrlRefreshTimer = null;
     }
     if (navigator.mediaDevices && navigator.mediaDevices.removeEventListener) {
       navigator.mediaDevices.removeEventListener('devicechange', this.deviceChangeHandler);
@@ -666,5 +942,22 @@ export default {
 
 .video-instructions__prompt-body {
   color: #424242;
+}
+
+.recording-timer {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #d32f2f;
+  vertical-align: middle;
+}
+
+.recording-timer--warning {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 </style>
