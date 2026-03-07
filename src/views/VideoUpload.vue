@@ -9,7 +9,18 @@
             are not accepted.
           </v-card-subtitle>
           <v-card-text>
-            <v-alert v-if="error" type="error" dense>{{ error }}</v-alert>
+            <v-alert v-if="error" type="error" dense class="mb-3">
+              {{ error }}
+              <template v-slot:append>
+                <v-btn text small @click="retryInitialization">Retry</v-btn>
+              </template>
+            </v-alert>
+            <v-alert v-if="!hasStream && !error && videoInputs.length === 0" type="warning" dense class="mb-3">
+              No camera detected. Please ensure your camera is connected and browser permissions are granted.
+              <template v-slot:append>
+                <v-btn text small @click="retryInitialization">Retry</v-btn>
+              </template>
+            </v-alert>
             <v-alert v-if="successMessage" type="success" dense>{{ successMessage }}</v-alert>
             <v-row>
               <v-col cols="12" md="7">
@@ -355,15 +366,28 @@ export default {
     },
 
     async loadDevices() {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+      if (!navigator.mediaDevices) {
+        console.error('[VideoUpload] navigator.mediaDevices is not available');
+        this.error = 'Camera access is blocked. This may be caused by a browser extension. Try disabling extensions or use Incognito mode.';
+        return;
+      }
+      if (!navigator.mediaDevices.enumerateDevices) {
         console.warn('[VideoUpload] enumerateDevices not supported');
+        this.error = 'Your browser does not support device enumeration.';
         return;
       }
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
+        console.log('[VideoUpload] Raw devices from enumerateDevices:', devices);
+
         const audioInputs = devices.filter(device => device.kind === 'audioinput');
         const videoInputs = devices.filter(device => device.kind === 'videoinput');
         console.log('[VideoUpload] Found devices - cameras:', videoInputs.length, 'microphones:', audioInputs.length);
+
+        if (videoInputs.length === 0 && audioInputs.length === 0) {
+          console.warn('[VideoUpload] No camera or microphone devices found');
+          // Don't set error here as enableCamera will provide a better message
+        }
 
         this.audioInputs = audioInputs.map((device, index) => ({
           deviceId: device.deviceId,
@@ -390,7 +414,8 @@ export default {
             || '';
         }
       } catch (err) {
-        console.error('[VideoUpload] Error enumerating devices:', err.message);
+        console.error('[VideoUpload] Error enumerating devices:', err);
+        this.error = `Unable to list camera/microphone devices: ${err.message}. A browser extension may be blocking access.`;
       }
     },
 
@@ -661,6 +686,21 @@ export default {
       this.recordedBlob = null;
     },
 
+    async retryInitialization() {
+      this.error = '';
+      this.successMessage = '';
+      console.log('[VideoUpload] Retrying initialization...');
+
+      // Check mediaDevices availability again
+      if (!navigator.mediaDevices) {
+        this.error = 'Camera access is still blocked. Please disable browser extensions that may be blocking camera access, then refresh the page.';
+        return;
+      }
+
+      await this.loadDevices();
+      await this.enableCamera();
+    },
+
     discardRecording() {
       this.cleanupRecordedUrl();
       this.recordedChunks = [];
@@ -853,14 +893,26 @@ export default {
   },
 
   async mounted() {
-    this.refreshExistingVideo();
-    // Load devices first (will have limited info without stream)
-    await this.loadDevices();
-    // Then enable camera - this will call loadDevices again with full info
-    await this.enableCamera();
-    if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
-      this.deviceChangeHandler = () => this.loadDevices();
-      navigator.mediaDevices.addEventListener('devicechange', this.deviceChangeHandler);
+    // Check for mediaDevices support first and show clear error if blocked
+    if (!navigator.mediaDevices) {
+      console.error('[VideoUpload] navigator.mediaDevices is not available');
+      this.error = 'Camera access is blocked. This may be caused by a browser extension (e.g., privacy/security extensions). Try disabling extensions or use Incognito mode.';
+      return;
+    }
+
+    try {
+      this.refreshExistingVideo();
+      // Load devices first (will have limited info without stream)
+      await this.loadDevices();
+      // Then enable camera - this will call loadDevices again with full info
+      await this.enableCamera();
+      if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+        this.deviceChangeHandler = () => this.loadDevices();
+        navigator.mediaDevices.addEventListener('devicechange', this.deviceChangeHandler);
+      }
+    } catch (err) {
+      console.error('[VideoUpload] Error during initialization:', err);
+      this.error = `Failed to initialize camera: ${err.message}. Try disabling browser extensions or use Incognito mode.`;
     }
   },
 
