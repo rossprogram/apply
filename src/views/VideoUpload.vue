@@ -943,11 +943,17 @@ export default {
         // Sort parts by PartNumber to ensure correct order for S3
         const sortedParts = [...this.uploadParts].sort((a, b) => a.PartNumber - b.PartNumber);
 
-        await userService.completeVideoMultipart('me', {
-          uploadId: this.uploadId,
-          key: this.uploadKey,
-          parts: sortedParts,
-        });
+        await retryWithBackoff(
+          async () => {
+            await userService.completeVideoMultipart('me', {
+              uploadId: this.uploadId,
+              key: this.uploadKey,
+              parts: sortedParts,
+            });
+          },
+          UPLOAD_RETRY_ATTEMPTS,
+          INITIAL_RETRY_DELAY_MS,
+        );
         this.uploadProgress = 100;
         this.successMessage = 'Video uploaded successfully.';
         this.removeBeforeUnloadProtection();
