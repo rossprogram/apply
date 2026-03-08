@@ -3,10 +3,10 @@
   "version": "1.6.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "vue-cli-service s3-deploy"
+    "deploy": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service s3-deploy"
   },
   "dependencies": {
     "@vue/cli": "^4.1.1",

@@ -146,8 +146,32 @@
             This is the video currently on file. Record a new one above to replace it.
           </v-card-subtitle>
           <v-card-text>
-            <div class="video-frame">
-              <video :src="existingVideoUrl" controls playsinline></video>
+            <v-alert v-if="videoPlaybackError" type="error" dense class="mb-3">
+              {{ videoPlaybackError }}
+              <template v-slot:append>
+                <v-btn text small @click="retryVideoPlayback">Retry</v-btn>
+              </template>
+            </v-alert>
+            <div class="video-frame video-frame--playback">
+              <div v-if="videoLoading" class="video-loading">
+                <v-progress-circular indeterminate color="primary" size="48"></v-progress-circular>
+                <div class="video-loading__text">Loading video...</div>
+              </div>
+              <div v-if="videoBuffering && !videoLoading" class="video-buffering">
+                <v-progress-circular indeterminate color="white" size="32"></v-progress-circular>
+              </div>
+              <video
+                ref="existingVideo"
+                :src="existingVideoUrl"
+                controls
+                playsinline
+                @loadstart="onVideoLoadStart"
+                @canplay="onVideoCanPlay"
+                @waiting="onVideoWaiting"
+                @playing="onVideoPlaying"
+                @error="onVideoError"
+                @stalled="onVideoStalled"
+              ></video>
             </div>
           </v-card-text>
         </v-card>
@@ -162,6 +186,48 @@ import userService from '../services/user';
 const PART_SIZE = 5 * 1024 * 1024;
 const MAX_RECORDING_SECONDS = 30 * 60; // 30 minutes
 const MIN_RECORDING_SECONDS = 10; // 10 seconds
+const UPLOAD_RETRY_ATTEMPTS = 3;
+const UPLOAD_TIMEOUT_MS = 60000; // 60 seconds per part
+const INITIAL_RETRY_DELAY_MS = 1000; // 1 second initial delay
+
+function fetchWithTimeout(url, options, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+      reject(new Error('Upload timed out'));
+    }, timeoutMs);
+
+    fetch(url, { ...options, signal: controller.signal })
+      .then((response) => {
+        clearTimeout(timeoutId);
+        resolve(response);
+      })
+      .catch((err) => {
+        clearTimeout(timeoutId);
+        reject(err);
+      });
+  });
+}
+
+async function retryWithBackoff(fn, maxAttempts, initialDelayMs) {
+  let lastError;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      return await fn(attempt);
+    } catch (err) {
+      lastError = err;
+      if (attempt < maxAttempts) {
+        const delayMs = initialDelayMs * (2 ** (attempt - 1));
+        console.log(`[VideoUpload] Retry attempt ${attempt}/${maxAttempts} failed, waiting ${delayMs}ms before retry`);
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((resolve) => { setTimeout(resolve, delayMs); });
+      }
+    }
+  }
+  throw lastError;
+}
 
 function pickSupportedMimeType() {
   if (!window.MediaRecorder) return '';
@@ -176,6 +242,8 @@ function pickSupportedMimeType() {
   }
   return '';
 }
+
+console.log('[VideoUpload] Component script loaded, navigator.mediaDevices =', typeof navigator !== 'undefined' ? navigator.mediaDevices : 'navigator undefined');
 
 export default {
   data() {
@@ -221,6 +289,10 @@ export default {
       videoUrlRefreshTimer: null,
       isStartingRecording: false,
       beforeUnloadHandler: null,
+      videoLoading: false,
+      videoBuffering: false,
+      videoPlaybackError: '',
+      videoErrorRetryCount: 0,
     };
   },
 
@@ -281,7 +353,14 @@ export default {
             : true,
         };
         console.log('[VideoUpload] Requesting media with constraints:', constraints);
-        this.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+        // Add timeout to detect if getUserMedia hangs
+        const mediaTimeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('getUserMedia timed out after 10 seconds')), 10000);
+        });
+        this.mediaStream = await Promise.race([
+          navigator.mediaDevices.getUserMedia(constraints),
+          mediaTimeoutPromise,
+        ]);
 
         // Validate that we have active tracks
         const videoTracks = this.mediaStream.getVideoTracks();
@@ -377,7 +456,15 @@ export default {
         return;
       }
       try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
+        console.log('[VideoUpload] Calling enumerateDevices()...');
+        // Add timeout to detect if enumerateDevices hangs (blocked by extension)
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('enumerateDevices timed out after 5 seconds')), 5000);
+        });
+        const devices = await Promise.race([
+          navigator.mediaDevices.enumerateDevices(),
+          timeoutPromise,
+        ]);
         console.log('[VideoUpload] Raw devices from enumerateDevices:', devices);
 
         const audioInputs = devices.filter(device => device.kind === 'audioinput');
@@ -415,7 +502,11 @@ export default {
         }
       } catch (err) {
         console.error('[VideoUpload] Error enumerating devices:', err);
-        this.error = `Unable to list camera/microphone devices: ${err.message}. A browser extension may be blocking access.`;
+        if (err.message && err.message.includes('timed out')) {
+          this.error = 'Camera access is being blocked by a browser extension. Please disable privacy/security extensions (like Privacy Badger, uBlock Origin, etc.) or use Incognito mode.';
+        } else {
+          this.error = `Unable to list camera/microphone devices: ${err.message}. A browser extension may be blocking access.`;
+        }
       }
     },
 
@@ -637,17 +728,20 @@ export default {
       }
     },
 
+    handleTrackEnded(event) {
+      const track = event.target;
+      console.error('[VideoUpload] Track ended unexpectedly:', track.kind);
+      if (this.recording) {
+        this.error = `${track.kind === 'video' ? 'Camera' : 'Microphone'} was disconnected. Recording stopped.`;
+        this.stopRecording();
+      }
+    },
+
     setupTrackEndedListeners() {
       if (!this.mediaStream) return;
       const tracks = this.mediaStream.getTracks();
       tracks.forEach((track) => {
-        track.onended = () => {
-          console.error('[VideoUpload] Track ended unexpectedly:', track.kind);
-          if (this.recording) {
-            this.error = `${track.kind === 'video' ? 'Camera' : 'Microphone'} was disconnected. Recording stopped.`;
-            this.stopRecording();
-          }
-        };
+        track.addEventListener('ended', this.handleTrackEnded);
       });
     },
 
@@ -655,16 +749,18 @@ export default {
       if (!this.mediaStream) return;
       const tracks = this.mediaStream.getTracks();
       tracks.forEach((track) => {
-        track.onended = null;
+        track.removeEventListener('ended', this.handleTrackEnded);
       });
     },
 
     setupBeforeUnloadProtection() {
-      this.beforeUnloadHandler = (event) => {
+      this.beforeUnloadHandler = (e) => {
         if (this.recording || this.uploading) {
-          event.preventDefault();
-          event.returnValue = 'You have a recording in progress. Are you sure you want to leave?';
-          return event.returnValue;
+          const message = 'You have a recording in progress. Are you sure you want to leave?';
+          e.preventDefault();
+          // eslint-disable-next-line no-param-reassign
+          e.returnValue = message;
+          return message;
         }
         return undefined;
       };
@@ -770,33 +866,50 @@ export default {
     async uploadPart(blob) {
       if (this.uploadFailed) return;
       const blobSize = blob.size;
+      const partNumber = this.nextPartNumber;
+      this.nextPartNumber += 1;
+
       try {
-        const partNumber = this.nextPartNumber;
-        const partResponse = await userService.createVideoPartUrl('me', {
-          uploadId: this.uploadId,
-          key: this.uploadKey,
-          partNumber,
-        });
+        const result = await retryWithBackoff(
+          async (attempt) => {
+            if (attempt > 1) {
+              console.log(`[VideoUpload] Retrying part ${partNumber}, attempt ${attempt}/${UPLOAD_RETRY_ATTEMPTS}`);
+            }
 
-        const uploadResponse = await fetch(partResponse.data.url, {
-          method: 'PUT',
-          body: blob,
-          headers: {
-            'Content-Type': this.uploadContentType || 'video/webm',
+            const partResponse = await userService.createVideoPartUrl('me', {
+              uploadId: this.uploadId,
+              key: this.uploadKey,
+              partNumber,
+            });
+
+            const uploadResponse = await fetchWithTimeout(
+              partResponse.data.url,
+              {
+                method: 'PUT',
+                body: blob,
+                headers: {
+                  'Content-Type': this.uploadContentType || 'video/webm',
+                },
+              },
+              UPLOAD_TIMEOUT_MS,
+            );
+
+            if (!uploadResponse.ok) {
+              throw new Error(`Upload failed with status ${uploadResponse.status}`);
+            }
+
+            const eTag = uploadResponse.headers.get('ETag') || uploadResponse.headers.get('etag');
+            if (!eTag) {
+              throw new Error('Upload failed to return an ETag.');
+            }
+
+            return { partNumber, eTag };
           },
-        });
+          UPLOAD_RETRY_ATTEMPTS,
+          INITIAL_RETRY_DELAY_MS,
+        );
 
-        if (!uploadResponse.ok) {
-          throw new Error('Upload failed.');
-        }
-
-        const eTag = uploadResponse.headers.get('ETag') || uploadResponse.headers.get('etag');
-        if (!eTag) {
-          throw new Error('Upload failed to return an ETag.');
-        }
-
-        this.uploadParts.push({ PartNumber: partNumber, ETag: eTag });
-        this.nextPartNumber += 1;
+        this.uploadParts.push({ PartNumber: result.partNumber, ETag: result.eTag });
 
         // Update progress
         this.totalBytesUploaded += blobSize;
@@ -808,9 +921,15 @@ export default {
         }
         console.log(`[VideoUpload] Uploaded part ${partNumber}, progress: ${this.uploadProgress}%`);
       } catch (err) {
-        console.error('[VideoUpload] Failed to upload part:', err.message);
+        console.error(`[VideoUpload] Failed to upload part ${partNumber} after ${UPLOAD_RETRY_ATTEMPTS} attempts:`, err.message);
         this.uploadFailed = true;
-        this.error = 'Unable to upload your video. Please try again.';
+        if (err.message.includes('timed out')) {
+          this.error = 'Upload timed out. Please check your internet connection and try again.';
+        } else if (err.name === 'AbortError') {
+          this.error = 'Upload was interrupted. Please check your connection and try again.';
+        } else {
+          this.error = 'Unable to upload your video. Please check your connection and try again.';
+        }
         await this.abortMultipartUpload();
       }
     },
@@ -890,9 +1009,108 @@ export default {
         }
       }, 10 * 60 * 1000);
     },
+
+    onVideoLoadStart() {
+      this.videoLoading = true;
+      this.videoPlaybackError = '';
+      console.log('[VideoUpload] Video load started');
+    },
+
+    onVideoCanPlay() {
+      this.videoLoading = false;
+      this.videoBuffering = false;
+      this.videoErrorRetryCount = 0;
+      console.log('[VideoUpload] Video can play');
+    },
+
+    onVideoWaiting() {
+      this.videoBuffering = true;
+      console.log('[VideoUpload] Video buffering');
+    },
+
+    onVideoPlaying() {
+      this.videoBuffering = false;
+      this.videoLoading = false;
+    },
+
+    onVideoStalled() {
+      console.log('[VideoUpload] Video stalled');
+      this.videoBuffering = true;
+    },
+
+    onVideoError(event) {
+      this.videoLoading = false;
+      this.videoBuffering = false;
+      const video = event.target;
+      const { error } = video;
+
+      console.error('[VideoUpload] Video playback error:', error);
+
+      let errorMessage = 'Unable to play video.';
+      if (error) {
+        switch (error.code) {
+          case MediaError.MEDIA_ERR_ABORTED:
+            errorMessage = 'Video playback was aborted.';
+            break;
+          case MediaError.MEDIA_ERR_NETWORK:
+            errorMessage = 'A network error occurred while loading the video. Please check your connection.';
+            break;
+          case MediaError.MEDIA_ERR_DECODE:
+            errorMessage = 'Video could not be decoded. The file may be corrupted.';
+            break;
+          case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            errorMessage = 'Video format not supported or the video link has expired.';
+            break;
+          default:
+            errorMessage = 'An error occurred while playing the video.';
+        }
+      }
+
+      this.videoPlaybackError = errorMessage;
+
+      // Auto-retry for network errors (up to 3 times)
+      if (error && error.code === MediaError.MEDIA_ERR_NETWORK && this.videoErrorRetryCount < 3) {
+        this.videoErrorRetryCount += 1;
+        const delay = 1000 * this.videoErrorRetryCount;
+        console.log(`[VideoUpload] Auto-retrying video load in ${delay}ms (attempt ${this.videoErrorRetryCount}/3)`);
+        setTimeout(() => {
+          this.retryVideoPlayback();
+        }, delay);
+      }
+    },
+
+    async retryVideoPlayback() {
+      this.videoPlaybackError = '';
+      this.videoLoading = true;
+
+      // Refresh the presigned URL in case it expired
+      try {
+        await this.refreshExistingVideo();
+        // Force reload the video element
+        await this.$nextTick();
+        const videoEl = this.$refs.existingVideo;
+        if (videoEl) {
+          videoEl.load();
+        }
+      } catch (err) {
+        console.error('[VideoUpload] Failed to retry video playback:', err);
+        this.videoPlaybackError = 'Failed to reload video. Please try again.';
+        this.videoLoading = false;
+      }
+    },
+  },
+
+  created() {
+    console.log('[VideoUpload] created() hook running');
+    // Bind event handler so 'this' works correctly
+    this.handleTrackEnded = this.handleTrackEnded.bind(this);
   },
 
   async mounted() {
+    console.log('[VideoUpload] mounted() hook starting');
+    console.log('[VideoUpload] navigator.mediaDevices =', navigator.mediaDevices);
+    console.log('[VideoUpload] document.visibilityState =', document.visibilityState);
+
     // Check for mediaDevices support first and show clear error if blocked
     if (!navigator.mediaDevices) {
       console.error('[VideoUpload] navigator.mediaDevices is not available');
@@ -900,11 +1118,25 @@ export default {
       return;
     }
 
+    // Wait for page to be visible before initializing media
+    if (document.visibilityState !== 'visible') {
+      console.log('[VideoUpload] Page not visible, waiting...');
+      await new Promise((resolve) => {
+        const handleVisibility = () => {
+          if (document.visibilityState === 'visible') {
+            document.removeEventListener('visibilitychange', handleVisibility);
+            resolve();
+          }
+        };
+        document.addEventListener('visibilitychange', handleVisibility);
+      });
+      console.log('[VideoUpload] Page now visible, continuing initialization');
+    }
+
     try {
       this.refreshExistingVideo();
-      // Load devices first (will have limited info without stream)
-      await this.loadDevices();
-      // Then enable camera - this will call loadDevices again with full info
+      // Call getUserMedia FIRST to get permission, then enumerate devices
+      // (some browsers hang on enumerateDevices until permission is granted)
       await this.enableCamera();
       if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
         this.deviceChangeHandler = () => this.loadDevices();
@@ -1011,5 +1243,41 @@ export default {
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
+}
+
+.video-frame--playback {
+  position: relative;
+}
+
+.video-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.video-loading__text {
+  color: white;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.video-buffering {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 16px;
+  border-radius: 50%;
 }
 </style>
