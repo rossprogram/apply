@@ -89,14 +89,30 @@
                 <div v-if="recording && recordingTimeRemaining <= 60" class="mt-2 text-caption error--text">
                   Recording will automatically stop in {{ recordingTimeRemaining }} seconds
                 </div>
-                <v-progress-linear
-                  v-if="uploading"
-                  class="mt-3"
-                  :value="uploadProgress"
-                  :indeterminate="recording"
-                  height="6"
-                  color="primary"
-                ></v-progress-linear>
+                <div v-if="uploading" class="upload-status mt-3">
+                  <v-alert
+                    type="info"
+                    dense
+                    outlined
+                    class="mb-2"
+                  >
+                    <strong>Uploading video — please do not leave this page.</strong>
+                  </v-alert>
+                  <v-progress-linear
+                    :value="uploadProgress"
+                    :indeterminate="recording"
+                    height="20"
+                    color="primary"
+                    striped
+                  >
+                    <template v-slot:default>
+                      <span class="upload-progress-text">{{ uploadProgress }}%</span>
+                    </template>
+                  </v-progress-linear>
+                  <div class="upload-status__details mt-1">
+                    {{ formattedBytesUploaded }} / {{ formattedBytesToUpload }} uploaded
+                  </div>
+                </div>
               </v-col>
               <v-col cols="12" md="5">
                 <div class="video-instructions">
@@ -186,9 +202,9 @@ import userService from '../services/user';
 const PART_SIZE = 5 * 1024 * 1024;
 const MAX_RECORDING_SECONDS = 30 * 60; // 30 minutes
 const MIN_RECORDING_SECONDS = 10; // 10 seconds
-const UPLOAD_RETRY_ATTEMPTS = 3;
-const UPLOAD_TIMEOUT_MS = 60000; // 60 seconds per part
-const INITIAL_RETRY_DELAY_MS = 1000; // 1 second initial delay
+const UPLOAD_RETRY_ATTEMPTS = 6;
+const UPLOAD_TIMEOUT_MS = 180000; // 180 seconds per part
+const INITIAL_RETRY_DELAY_MS = 2000; // 2 second initial delay
 
 function fetchWithTimeout(url, options, timeoutMs) {
   return new Promise((resolve, reject) => {
@@ -219,7 +235,10 @@ async function retryWithBackoff(fn, maxAttempts, initialDelayMs) {
     } catch (err) {
       lastError = err;
       if (attempt < maxAttempts) {
-        const delayMs = initialDelayMs * (2 ** (attempt - 1));
+        // Exponential backoff with jitter (±25%) to prevent thundering herd
+        const baseDelay = initialDelayMs * (2 ** (attempt - 1));
+        const jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);
+        const delayMs = Math.round(baseDelay + jitter);
         console.log(`[VideoUpload] Retry attempt ${attempt}/${maxAttempts} failed, waiting ${delayMs}ms before retry`);
         // eslint-disable-next-line no-await-in-loop
         await new Promise((resolve) => { setTimeout(resolve, delayMs); });
@@ -318,6 +337,12 @@ export default {
     MIN_RECORDING_SECONDS() {
       return MIN_RECORDING_SECONDS;
     },
+    formattedBytesUploaded() {
+      return this.formatBytes(this.totalBytesUploaded);
+    },
+    formattedBytesToUpload() {
+      return this.formatBytes(this.totalBytesToUpload);
+    },
   },
 
   watch: {
@@ -334,6 +359,15 @@ export default {
   },
 
   methods: {
+    formatBytes(bytes) {
+      if (bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      const value = bytes / (k ** i);
+      return `${value.toFixed(1)} ${sizes[i]}`;
+    },
+
     async enableCamera() {
       this.error = '';
       this.successMessage = '';
@@ -629,7 +663,11 @@ export default {
         try {
           this.mediaRecorder = new MediaRecorder(
             this.mediaStream,
-            mimeType ? { mimeType } : undefined,
+            {
+              mimeType: mimeType || undefined,
+              videoBitsPerSecond: 500000, // 500 Kbps - sufficient for talking-head video
+              audioBitsPerSecond: 64000, // 64 Kbps - sufficient for voice
+            },
           );
         } catch (err) {
           this.error = 'Recording is not supported in this browser.';
@@ -1285,5 +1323,24 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   padding: 16px;
   border-radius: 50%;
+}
+
+.upload-status {
+  background: #f5f5f5;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.upload-progress-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.upload-status__details {
+  font-size: 0.85rem;
+  color: #616161;
+  text-align: center;
 }
 </style>

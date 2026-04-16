@@ -8,7 +8,7 @@
         <a href="mailto:ross@rossprogram.org">ross@rossprogram.org</a> for assistance.
       </p>
 
-      <p><strong>The 2026 application is now open.</strong> Applications are due March 8, 2026. We expect admissions decisions to be finalized by mid-April.</p>
+      <p>Admissions decisions for 2026 have been completed.</p>
 
       <p v-if="!profile">
         The first step is to <router-link to="/signup">sign up for an account</router-link> by
@@ -24,11 +24,9 @@
 
       <p><v-btn v-if="profile" to="/apply" color="primary">Update your application</v-btn></p>
 
-<!--
-<p v-if="offer && offer.offer == 'accept'"><v-btn v-if="profile" to="/status" color="primary">Provide travel information</v-btn></p>
-<p v-else><v-btn v-if="profile" to="/status" color="primary">View status</v-btn></p>
+<p v-if="offer && offer.offer == 'accept'"><v-btn v-if="profile" to="/status" color="primary">Respond to the offer</v-btn></p>
+<p v-else><v-btn v-if="profile" to="/status" color="primary">View your status</v-btn></p>
 <p v-if="offer && offer.offer == 'accept'"><v-btn v-if="profile" to="/fees" color="primary">Pay course fees</v-btn></p>
--->
 
     </v-flex>
   </v-container>

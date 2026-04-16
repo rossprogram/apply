@@ -218,7 +218,7 @@
       <p>
         Please let us know whether you accept a spot in the in-person 2026 Ross Program. An email
         will be sent in <strong>early May</strong> requesting additional information, a parental approval form,
-        and instructions for payment and scholarship requests.
+        and instructions for payment.
       </p>
 
       <hr />
